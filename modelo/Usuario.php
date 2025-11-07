@@ -144,7 +144,7 @@ class Usuario{
         return $arregloUsuario;
     }
 
-    /** funcion que me permite insertar un vehiculo
+    /** funcion que me permite insertar un usuario
      * @return bool
      */
     public function insertar(){
@@ -157,16 +157,16 @@ class Usuario{
                 $agrega=true;
             }
             else {
-                $this->setMensaje("usuario->listar: " . $base->getError());
+                $this->setMensaje("usuario->insertar: " . $base->getError());
             } 	
         }
         else {
-            $this->setMensaje("usuario->listar: " . $base->getError());
+            $this->setMensaje("usuario->insertar: " . $base->getError());
         }
         return $agrega;   
     }
 
-    /** Funcion que me permite modificar un vehiculo
+    /** Funcion que me permite modificar un usuario
      * @return bool
      */
     public function modificar(){
@@ -189,14 +189,13 @@ class Usuario{
         return $modifica;
     }
 
-    /** funcion que me permite eliminar un vehiculo
-     * @param int $idVisita
+    /** funcion que me permite eliminar un usuario
      * @return bool
      */
     public function eliminar(){
         $base=new BaseDatos();
         $elimina=false;
-        $consulta="DELETE FROM auto WHERE id_usuario='".$this->getId_usuario()."';";
+        $consulta="DELETE FROM usuario WHERE id_usuario=".$this->getId_usuario().";";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $elimina=true;
