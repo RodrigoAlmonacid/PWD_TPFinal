@@ -3,9 +3,14 @@ include_once('Usuario.php');
 include_once('Rol.php');
 class UsuarioRol{
     //atributos
+<<<<<<< HEAD
     private $colUsuario; //referencia a Usuario
     private $colRol; //refrencia a Rol
     private Usuario $objUsuario; //cuando tengo un solo objeto
+=======
+    private $colUsuario; //coleccion de usuarios
+    private $colRol; //coleccion de roles
+>>>>>>> 515eb58e5134bfdb7c8528637573ddd32863f49e
     private $mensaje;
 
     //constructor
@@ -85,6 +90,7 @@ class UsuarioRol{
                     $row=$base->Registro();
                     if($row){
                         $respuesta=true;
+<<<<<<< HEAD
                         if($params['idrol']){
                             $arregloUsuario=[];
                             do{
@@ -103,6 +109,17 @@ class UsuarioRol{
                             }while($row = $base->Registro());
                             $arreglo['rol']=$arregloRol;
                         } 
+=======
+                        if()
+                        do{ //Continuar arreglando según la consulta  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+                        $objUsuario=new Usuario();
+                        $objUsuario->setId_usuario($row['id_usuario']);
+                        $objUsuario->setNom_usuario($row['nom_usuario']);
+                        $objUsuario->setEmail_usuario($row['email_usuario']);
+                        $objUsuario->setDesHabilitado_usuario($row['desHabilitado_usuario']);  
+                        array_push($arregloUsuario, $objUsuario);
+                    }while($row = $base->Registro()); 
+>>>>>>> 515eb58e5134bfdb7c8528637573ddd32863f49e
                     }
                 }
                 else {
