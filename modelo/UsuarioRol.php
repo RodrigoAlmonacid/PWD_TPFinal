@@ -3,8 +3,8 @@ include_once('Usuario.php');
 include_once('Rol.php');
 class UsuarioRol{
     //atributos
-    private $colUsuario; //referencia a Usuario
-    private $colRol; //refrencia a Rol
+    private $colUsuario; //coleccion de usuarios
+    private $colRol; //coleccion de roles
     private $mensaje;
 
     //constructor
@@ -71,6 +71,7 @@ class UsuarioRol{
                     $row=$base->Registro();
                     if($row){
                         $respuesta=true;
+                        if()
                         do{ //Continuar arreglando según la consulta  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                         $objUsuario=new Usuario();
                         $objUsuario->setId_usuario($row['id_usuario']);
