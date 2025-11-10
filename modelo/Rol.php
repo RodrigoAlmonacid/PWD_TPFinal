@@ -52,15 +52,15 @@ class Rol{
     //buscar un rol por id
     public function buscar($id){
         $base=new BaseDatos();
-        $consulta="SELECT * FROM rol WHERE id_rol=".$id.";";
+        $consulta="SELECT * FROM rol WHERE idrol=".$id.";";
         $respuesta=false;
         if($base->Iniciar()){
             if($base->Ejecutar($consulta)){
                 $row=$base->Registro();
                 if($row){
                     $respuesta=true;
-                    $this->setId_rol($row['id_rol']);
-                    $this->setDescripcion_rol($row['descripcion_rol']);  
+                    $this->setId_rol($row['idrol']);
+                    $this->setDescripcion_rol($row['rodescripcion']);  
                 }
             }
             else {
@@ -86,8 +86,8 @@ class Rol{
                 if($row){
                     do{
                         $objRol=new Rol();
-                        $objRol->setId_rol($row['id_rol']);
-                        $objRol->setDescripcion_rol($row['descripcion_rol']);  
+                        $objRol->setId_rol($row['idrol']);
+                        $objRol->setDescripcion_rol($row['rodescripcion']);  
                         array_push($arregloRol, $objRol);
                     }while($row = $base->Registro());
                 }
@@ -108,7 +108,7 @@ class Rol{
     public function insertar(){
         $agrega=false;
         $base=new BaseDatos();
-        $consulta="INSERT INTO rol (descripcion_rol) VALUES";
+        $consulta="INSERT INTO rol (rodescripcion) VALUES";
         $consulta.="('".$this->getDescripcion_rol()."');";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
@@ -131,7 +131,7 @@ class Rol{
         $base=new BaseDatos();
         $modifica=false;
         $consulta="UPDATE rol SET ";
-        $consulta.="descripcion_rol='".$this->getDescripcion_rol();
+        $consulta.="rodescripcion='".$this->getDescripcion_rol();
         $consulta.="' WHERE id_rol=".$this->getId_rol().";";        
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
@@ -153,7 +153,7 @@ class Rol{
     public function eliminar(){
         $base=new BaseDatos();
         $elimina=false;
-        $consulta="DELETE FROM rol WHERE id_rol=".$this->getId_rol().";";
+        $consulta="DELETE FROM rol WHERE idrol=".$this->getId_rol().";";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $elimina=true;

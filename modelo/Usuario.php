@@ -90,17 +90,17 @@ class Usuario{
     //buscar un usuario por id
     public function buscar($id){
         $base=new BaseDatos();
-        $consulta="SELECT * FROM usuario WHERE id_usuario=".$id.";";
+        $consulta="SELECT * FROM usuario WHERE idusuario=".$id.";";
         $respuesta=false;
         if($base->Iniciar()){
             if($base->Ejecutar($consulta)){
                 $row=$base->Registro();
                 if($row){
                     $respuesta=true;
-                    $this->setId_usuario($row['id_usuario']);
-                    $this->setNom_usuario($row['nom_usuario']);
-                    $this->setEmail_usuario($row['email_usuario']);
-                    $this->setDesHabilitado_usuario($row['desHabilitado_usuario']);    
+                    $this->setId_usuario($row['idusuario']);
+                    $this->setNom_usuario($row['usnombre']);
+                    $this->setEmail_usuario($row['usmail']);
+                    $this->setDesHabilitado_usuario($row['usdeshabilitado']);    
                 }
             }
             else {
@@ -126,10 +126,10 @@ class Usuario{
                 if($row){
                     do{
                         $objUsuario=new Usuario();
-                        $objUsuario->setId_usuario($row['id_usuario']);
-                        $objUsuario->setNom_usuario($row['nom_usuario']);
-                        $objUsuario->setEmail_usuario($row['email_usuario']);
-                        $objUsuario->setDesHabilitado_usuario($row['desHabilitado_usuario']);  
+                        $objUsuario->setId_usuario($row['idusuario']);
+                        $objUsuario->setNom_usuario($row['usnombre']);
+                        $objUsuario->setEmail_usuario($row['usmail']);
+                        $objUsuario->setDesHabilitado_usuario($row['usdesHabilitado']);  
                         array_push($arregloUsuario, $objUsuario);
                     }while($row = $base->Registro());
                 }
@@ -150,7 +150,7 @@ class Usuario{
     public function insertar(){
         $agrega=false;
         $base=new BaseDatos();
-        $consulta="INSERT INTO usuario (nom_usuario, pass_usuario, email_usuario, desHabilitado_usuario) VALUES";
+        $consulta="INSERT INTO usuario (usnombre, uspass, usmail, usdesHabilitado) VALUES";
         $consulta.="('".$this->getNom_usuario()."', '".$this->getPass_usuario()."', '".$this->getEmail_usuario()."', '".$this->getDesHabilitado_usuario()."');";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
@@ -173,8 +173,8 @@ class Usuario{
         $base=new BaseDatos();
         $modifica=false;
         $consulta="UPDATE usuario SET ";
-        $consulta.="nom_usuario='".$this->getNom_usuario()."', email_usuario='".$this->getEmail_usuario()."', desHabilitado_usuario='".$this->getDesHabilitado_usuario();
-        $consulta.="' WHERE id_usuario=".$this->getId_usuario().";";        
+        $consulta.="usnombre='".$this->getNom_usuario()."', usmail='".$this->getEmail_usuario()."', usdesHabilitado='".$this->getDesHabilitado_usuario();
+        $consulta.="' WHERE idusuario=".$this->getId_usuario().";";        
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
             $modifica=true;
@@ -195,7 +195,7 @@ class Usuario{
     public function eliminar(){
         $base=new BaseDatos();
         $elimina=false;
-        $consulta="DELETE FROM usuario WHERE id_usuario=".$this->getId_usuario().";";
+        $consulta="DELETE FROM usuario WHERE idusuario=".$this->getId_usuario().";";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $elimina=true;

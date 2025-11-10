@@ -3,8 +3,8 @@ include_once('Rol.php');
 include_once('Usuario.php');
 include_once('UsuarioRol.php');
 //prueba clase usuario
-$objUsuario=new Usuario();
-// ->> Insert <<-
+//$objUsuario=new Usuario();
+/* ->> Insert <<-
 $objUsuario->cargar('Almonacid', 'almonacid@gmail.com', 'pass');
 $insertar=$objUsuario->insertar();
 if($insertar){
@@ -13,7 +13,7 @@ if($insertar){
 else{
     echo $objUsuario->getMensaje()."\n";
 }
-//
+*/
 /* ->> buscar <<-
 $buscar=$objUsuario->buscar(1);
 if($buscar){
@@ -36,7 +36,7 @@ else{
     echo $objUsuario->getMensaje()."\n";
 }
 */
-// ->> listar <<-
+/* ->> listar <<-
 $array=$objUsuario->listar();
 $cantidad=count($array);
 if($cantidad>0){
@@ -48,8 +48,27 @@ if($cantidad>0){
 else{
     echo $objUsuario->getMensaje()."\n";
 }
-//
+*/
 /* ->> eliminar <<-
 
 */
+
+$objUsuarioRol=new UsuarioRol();
+$objUsuarioRol->cargar(3, 1);
+$inserta=$objUsuarioRol->insertar();
+/*if($inserta){
+    echo "Inserta\n";
+}
+else{
+    echo $objUsuarioRol->getMensaje()."\n";
+}*/
+$p=[
+    'idusuario'=>1,
+    'idrol'=>null
+];
+$arreglo=$objUsuarioRol->buscar($p);
+echo "Usuario encontrado: ".$arreglo['usuario']."\nRoles: ";
+foreach($arreglo['rol'] as $rol){
+    echo $rol;
+}
 ?>
