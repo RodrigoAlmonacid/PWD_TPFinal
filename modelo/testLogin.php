@@ -2,6 +2,7 @@
 include_once('Rol.php');
 include_once('Usuario.php');
 include_once('UsuarioRol.php');
+include_once('Menu.php');
 //prueba clase usuario
 //$objUsuario=new Usuario();
 /* ->> Insert <<-
@@ -53,16 +54,16 @@ else{
 
 */
 
-$objUsuarioRol=new UsuarioRol();
-$objUsuarioRol->cargar(3, 1);
-$inserta=$objUsuarioRol->insertar();
+//$objUsuarioRol=new UsuarioRol();
+//$objUsuarioRol->cargar(3, 1);
+//$inserta=$objUsuarioRol->insertar();
 /*if($inserta){
     echo "Inserta\n";
 }
 else{
     echo $objUsuarioRol->getMensaje()."\n";
 }*/
-$p=[
+/*$p=[
     'idusuario'=>1,
     'idrol'=>null
 ];
@@ -71,4 +72,11 @@ echo "Usuario encontrado: ".$arreglo['usuario']."\nRoles: ";
 foreach($arreglo['rol'] as $rol){
     echo $rol;
 }
+*/
+//$lista=$objUsuarioRol->listar();
+//print_r($lista);
+$objMenu=new Menu();
+//$objMenu->cargar('Prueba', 'menu de prueba', "null");
+//$inserta=$objMenu->insertar();
+print_r($objMenu->listar());
 ?>

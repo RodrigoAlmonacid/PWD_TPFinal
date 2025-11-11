@@ -3,37 +3,31 @@ include_once('Usuario.php');
 include_once('Rol.php');
 class UsuarioRol{
     //atributos
-<<<<<<< HEAD
-    private $colUsuario; //referencia a Usuario
-    private $colRol; //refrencia a Rol
-    private Usuario $objUsuario; //cuando tengo un solo objeto
-=======
-    private $colUsuario; //coleccion de usuarios
-    private $colRol; //coleccion de roles
->>>>>>> 515eb58e5134bfdb7c8528637573ddd32863f49e
+    private Usuario $objUsuario; //referencia a un objeto usuario
+    private Rol $objRol; //referencia a un objeto rol
     private $mensaje;
 
     //constructor
     public function __construct()
     {
-        $this->colUsuario=null;
-        $this->colRol=null;
+        $this->objUsuario=new Usuario();
+        $this->objRol=new Rol();
         $this->mensaje="";
     }
 
     //métodos de acceso
-    public function getColUsuario(){
-        return $this->colUsuario;
+    public function getObjUsuario(){
+        return $this->objUsuario;
     }
-    public function setColUsuario($arreglo){
-        $this->colUsuario=$arreglo;
+    public function setobjUsuario($objeto){
+        $this->objUsuario=$objeto;
     }
 
-    public function getColRol(){
-        return $this->colRol;
+    public function getobjRol(){
+        return $this->objRol;
     }
-    public function setColRol($arreglo){
-        $this->colRol=$arreglo;
+    public function setObjRol($rol){
+        $this->objRol=$rol;
     }
 
     public function getMensaje(){
@@ -46,20 +40,19 @@ class UsuarioRol{
     //metodo toString
     public function __toString()
     {
-        $arregloUsuario=$this->getColUsuario();
-        $arregloRol=$this->getColRol();
-        //ver como recorrer los arreglos sin perder la relación
-        return $arregloUsuario;
+        $usuarioRol="Usuario: ".$this->getObjUsuario()."\n";
+        $usuarioRol.="Rol: ".$this->getobjRol()."\n";
+        return $usuarioRol;
     }
 
     //cargar los objetos rol
-    public function cargar($idrol, $idusuario){
+    public function cargar($idusuario, $idrol){
         $objRol=new Rol();
         $objRol->buscar($idrol);
-        $this->setColRol($objRol);
+        $this->setObjRol($objRol);
         $objUsuario=new Usuario();
         $objUsuario->buscar($idusuario);
-        $this->setColUsuario($objUsuario);
+        $this->setObjUsuario($objUsuario);
     }
 
     //buscar un roles por id usuario o por id rol, mando el parámetro correspondiente
@@ -90,7 +83,6 @@ class UsuarioRol{
                     $row=$base->Registro();
                     if($row){
                         $respuesta=true;
-<<<<<<< HEAD
                         if($params['idrol']){
                             $arregloUsuario=[];
                             do{
@@ -109,17 +101,6 @@ class UsuarioRol{
                             }while($row = $base->Registro());
                             $arreglo['rol']=$arregloRol;
                         } 
-=======
-                        if()
-                        do{ //Continuar arreglando según la consulta  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-                        $objUsuario=new Usuario();
-                        $objUsuario->setId_usuario($row['id_usuario']);
-                        $objUsuario->setNom_usuario($row['nom_usuario']);
-                        $objUsuario->setEmail_usuario($row['email_usuario']);
-                        $objUsuario->setDesHabilitado_usuario($row['desHabilitado_usuario']);  
-                        array_push($arregloUsuario, $objUsuario);
-                    }while($row = $base->Registro()); 
->>>>>>> 515eb58e5134bfdb7c8528637573ddd32863f49e
                     }
                 }
                 else {
@@ -132,22 +113,21 @@ class UsuarioRol{
         return $arreglo;
     }
 
-    /** funcion para listar todos los roles
+    /** funcion para listar todos los usuarios y sus roles
      * @return array
      * */
     public function listar(){
         $base=new BaseDatos();
-        $consulta="SELECT * FROM usuariorol;";
-        $arregloRol=[];
+        $consulta="SELECT * FROM usuariorol ORDER BY idusuario;";
+        $arregloUsuarioRol=[];
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $row=$base->Registro();
                 if($row){
                     do{
-                        $objRol=new Rol();
-                        $objRol->setId_rol($row['id_rol']);
-                        $objRol->setDescripcion_rol($row['descripcion_rol']);  
-                        array_push($arregloRol, $objRol);
+                        $objUsuarioRol=new UsuarioRol();
+                        $objUsuarioRol->cargar($row['idusuario'], $row['idrol']);  
+                        array_push($arregloUsuarioRol, $objUsuarioRol);
                     }while($row = $base->Registro());
                 }
             }
@@ -158,7 +138,7 @@ class UsuarioRol{
         else {
             $this->setMensaje("rol->listar: " . $base->getError());
         }
-        return $arregloRol;
+        return $arregloUsuarioRol;
     }
 
     /** funcion que me permite insertar un rol
@@ -167,8 +147,8 @@ class UsuarioRol{
     public function insertar(){
         $agrega=false;
         $base=new BaseDatos();
-        $objRol=$this->getColRol();
-        $objUsuario=$this->getColUsuario();
+        $objRol=$this->getObjRol();
+        $objUsuario=$this->getObjUsuario();
         $consulta="INSERT INTO usuariorol(idusuario, idrol) VALUES";
         $consulta.="(".$objUsuario->getId_usuario().", ".$objRol->getId_rol().");";
         if($base->iniciar()){
@@ -190,8 +170,8 @@ class UsuarioRol{
      */
     public function modificar(){
         $base=new BaseDatos();
-        $objRol=$this->getColRol();
-        $objUsuario=$this->getColUsuario();
+        $objRol=$this->getObjRol();
+        $objUsuario=$this->getObjUsuario();
         $modifica=false;
         $consulta="UPDATE usuariorol SET ";
         $consulta.="idrol=".$objRol->getId_rol();
@@ -217,8 +197,8 @@ class UsuarioRol{
     public function eliminar(){
         $base=new BaseDatos();
         $elimina=false;
-        $objRol=$this->getColRol();
-        $objUsuario=$this->getColUsuario();
+        $objRol=$this->getObjRol();
+        $objUsuario=$this->getObjUsuario();
         $consulta="DELETE FROM usuariorol WHERE idrol=".$objRol->getId_rol()." AND idusuario=".$objUsuario->getId_usuario().";";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
