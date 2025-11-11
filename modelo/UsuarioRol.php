@@ -104,11 +104,11 @@ class UsuarioRol{
                     }
                 }
                 else {
-                    $this->setMensaje("rol->buscar: " . $base->getError());
+                    $this->setMensaje("usuariorol->buscar: " . $base->getError());
                 }
             }
             else {
-                $this->setMensaje("rol->buscar: " . $base->getError());
+                $this->setMensaje("usuariorol->buscar: " . $base->getError());
             }
         return $arreglo;
     }
@@ -132,11 +132,11 @@ class UsuarioRol{
                 }
             }
             else {
-                $this->setMensaje("rol->listar: " . $base->getError());
+                $this->setMensaje("usuariorol->listar: " . $base->getError());
             }
         }
         else {
-            $this->setMensaje("rol->listar: " . $base->getError());
+            $this->setMensaje("uauariorol->listar: " . $base->getError());
         }
         return $arregloUsuarioRol;
     }
@@ -156,11 +156,11 @@ class UsuarioRol{
                 $agrega=true;
             }
             else {
-                $this->setMensaje("rol->insertar: " . $base->getError());
+                $this->setMensaje("usuariorol->insertar: " . $base->getError());
             } 	
         }
         else {
-            $this->setMensaje("rol->insertar: " . $base->getError());
+            $this->setMensaje("uauriorol->insertar: " . $base->getError());
         }
         return $agrega;   
     }
@@ -182,11 +182,11 @@ class UsuarioRol{
             $modifica=true;
             }
             else {
-                $this->setMensaje("rol->modificar: " . $base->getError());
+                $this->setMensaje("usuariorol->modificar: " . $base->getError());
             }
         }
         else {
-            $this->setMensaje("rol->modificar: " . $base->getError());
+            $this->setMensaje("usuariorol->modificar: " . $base->getError());
         }
         return $modifica;
     }
@@ -205,11 +205,11 @@ class UsuarioRol{
                 $elimina=true;
             }
             else {
-                $this->setMensaje("usuario->eliminar: " . $base->getError());
+                $this->setMensaje("usuariorol->eliminar: " . $base->getError());
             } 	
         }
         else {
-            $this->setMensaje("usuario->eliminar: " . $base->getError());
+            $this->setMensaje("usuariorol->eliminar: " . $base->getError());
         }
         return $elimina;
     }
