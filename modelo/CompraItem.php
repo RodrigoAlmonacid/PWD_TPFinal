@@ -64,101 +64,74 @@ class CompraItem{
         $compraItem="Cantidad de productos: ".$this->getCantidad()."\n";
         return $compraItem;
     }
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    //cargar los objetos rol y menu
-    public function cargar($idCompra, $idrol){
-        $objRol=new Rol();
-        $objRol->buscar($idrol);
-        $this->setObjRol($objRol);
+
+    //cargar los objetos compra y producto, y la cantidad de ese producto
+    public function cargar($idCompra, $idProducto, $cantidad){
+        $objProducto=new Producto();
+        $objProducto->buscar($idProducto);
+        $this->setObjProducto($objProducto);
         $objCompra=new Compra();
         $objCompra->buscar($idCompra);
         $this->setObjCompra($objCompra);
+        $this->setCantidad($cantidad);
     }
 
-    //buscar un roles por id Menu o por id rol, mando el parámetro correspondiente
-    public function buscar($params){
-        $where = "TRUE";
+    //buscar detalle de un item
+    public function buscar($id){
         $respuesta=false;
-        $arreglo=[
-            'rol'=>"",
-            'menu'=>"",
-            'respuesta'=>$respuesta
-        ];
-        if ($params['idmenu']){
-            $where .= " AND idmenu = ". $params['idmenu'];
-            $objMenu=new Menu();
-            $objMenu->buscar($params['idmenu']);
-            $arreglo['menu']=$objMenu;
-        };
-        if ($params['idrol']){
-            $where .= " AND idrol = ". $params['idrol'];
-            $objRol=new Rol();
-            $objRol->buscar($params['idrol']);
-            $arreglo['rol']=$objRol;
-        };
         $base=new BaseDatos();
-        $consulta="SELECT * FROM menurol WHERE $where;";
+        $consulta="SELECT * FROM compraitem WHERE idcompraitem=".$id.";";
             if($base->Iniciar()){
                 if($base->Ejecutar($consulta)){
                     $row=$base->Registro();
                     if($row){
                         $respuesta=true;
-                        if($params['idrol']){
-                            $arregloMenu=[];
-                            do{
-                                $objMenu=new Menu();
-                                $objMenu->buscar($row['idmenu']);  
-                                array_push($arregloMenu, $objMenu);
-                            }while($row = $base->Registro());
-                            $arreglo['menu']=$arregloMenu;
+                        $this->setIdCompraItem($row['idcompraitem']);
+                        $objProducto=new Producto();
+                        $objProducto->buscar($row['idprodudcto']);
+                        $this->setObjProducto($objProducto);
+                        $this->setCantidad($row['cantidad']);
+                        $objCompra=new Compra();
+                        $objCompra->buscar($row['idcompra']);
+                        $this->setObjCompra($objCompra);
                         }
-                        if($params['idmenu']){
-                            $arregloRol=[];
-                            do{
-                                $objRol=new Rol();
-                                $objRol->buscar($row['idrol']);  
-                                array_push($arregloRol, $objRol);
-                            }while($row = $base->Registro());
-                            $arreglo['rol']=$arregloRol;
-                        } 
                     }
-                }
-                else {
-                    $this->setMensaje("menurol->buscar: " . $base->getError());
+                else{
+                    $this->setMensaje("compraItem->buscar: " . $base->getError());
                 }
             }
             else {
-                $this->setMensaje("menurol->buscar: " . $base->getError());
+                $this->setMensaje("compraItem->buscar: " . $base->getError());
             }
-        return $arreglo;
+        return $respuesta;
     }
 
-    /** funcion para listar todos los Menus y sus roles
+    /** funcion para listar todos productos comprados
      * @return array
      * */
     public function listar(){
         $base=new BaseDatos();
-        $consulta="SELECT * FROM menurol ORDER BY idrol;";
-        $arregloMenuRol=[];
+        $consulta="SELECT * FROM compraitem;";
+        $arregloCompraItem=[];
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $row=$base->Registro();
                 if($row){
                     do{
-                        $objMenuRol=new MenuRol();
-                        $objMenuRol->cargar($row['idmenu'], $row['idrol']);  
-                        array_push($arregloMenuRol, $objMenuRol);
+                        $objCompraItem=new CompraItem();
+                        $objCompraItem->buscar($row['idcompraitem']);  
+                        array_push($arregloCompraItem, $objCompraItem);
                     }while($row = $base->Registro());
                 }
             }
             else {
-                $this->setMensaje("menurol->listar: " . $base->getError());
+                $this->setMensaje("compraItem->listar: " . $base->getError());
             }
         }
         else {
-            $this->setMensaje("menurol->listar: " . $base->getError());
+            $this->setMensaje("compraItem->listar: " . $base->getError());
         }
-        return $arregloMenuRol;
+        return $arregloCompraItem;
     }
 
     /** funcion que me permite insertar un menurol
