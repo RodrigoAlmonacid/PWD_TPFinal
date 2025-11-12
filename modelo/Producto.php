@@ -7,6 +7,7 @@ class Producto
     private $stockProd;
     private $mensaje;
     private $detallesProd;
+    private $imgProd;
 
     public function __construct()
     {
@@ -15,6 +16,7 @@ class Producto
         $this->stockProd = "";
         $this->mensaje = "";
         $this->detallesProd = "";
+        $this->imgProd = "";
     }
 
     //Metodos de acceso Get
@@ -41,6 +43,11 @@ class Producto
     public function getDetallesProd()
     {
         return $this->detallesProd;
+    }
+
+     public function getImgProd()
+    {
+        return $this->imgProd;
     }
 
     //Metodos de acceso Set
@@ -70,17 +77,31 @@ class Producto
         $this->detallesProd = $detallesProd;
     }
 
+    public function setImgProd($imgProducto)
+    {
+        $this->imgProd = $imgProducto;
+    }
+
+    public function __toString()
+    {
+        return "Producto [ID: " . $this->getIdProducto() .
+           ", Nombre: " . $this->getNomProducto() .
+           ", Stock: " . $this->getStockProducto() .
+           ", Detalles: " . $this->getDetallesProd() .
+           ", Imagen: " . $this->getImgProd() . "]";
+    }
 
     //Metodos
 
     //Cargar Producto
 
-    public function cargar($idProducto, $nomProducto, $detallesProd, $stockProducto)
+    public function cargar($idProducto, $nomProducto, $detallesProd, $stockProducto, $imgProd)
     {
         $this->setIdProducto($idProducto);
         $this->setNomProducto($nomProducto);
         $this->setDetallesProd($detallesProd);
         $this->setStockProducto($stockProducto);
+        $this->setImgProd($imgProd);
     }
 
     //Buscar un producto por id
@@ -99,6 +120,7 @@ class Producto
                     $this->setNomProducto($row['pronombre']);
                     $this->setDetallesProd($row['prodetalle']);
                     $this->setStockProducto($row['procantstock']);
+                    $this->setImgProd($row['proimagen']);
                 }
             } else {
                 $this->setMensaje("producto->buscar: " . $base->getError());
@@ -126,6 +148,7 @@ class Producto
                         $objProd->setNomProducto($row['pronombre']);
                         $objProd->setDetallesProd($row['prodetalle']);
                         $objProd->setStockProducto($row['procantstock']);
+                        $objProd->setImgProd(['proimagen']);
                         array_push($arregloProducto, $objProd);
                     } while ($row = $base->Registro());
                 }
@@ -144,8 +167,8 @@ class Producto
     {
         $agrega = false;
         $base = new BaseDatos();
-        $consulta = "INSERT INTO producto (idproducto, pronombre, prodetalle, procantstock) VALUES";
-        $consulta .= "('" . $this->getIdProducto() . "', '" . $this->getNomProducto() . "', '" . $this->getDetallesProd() . "', '" . $this->getStockProducto() . "');";
+        $consulta = "INSERT INTO producto (pronombre, prodetalle, procantstock, proimagen) VALUES";
+        $consulta .= "('" . $this->getNomProducto() . "', '" . $this->getDetallesProd() . "', '" . $this->getStockProducto() . "', '" . $this->getImgProd() . "');";
         if ($base->iniciar()) {
             if ($base->Ejecutar($consulta)) {
                 $agrega = true;
@@ -166,7 +189,7 @@ class Producto
         $base = new BaseDatos();
         $modifica = false;
         $consulta = "UPDATE producto SET ";
-        $consulta .= "pronombre='" . $this->getNomProducto() . "', prodetalle='" . $this->getStockProducto() . "', procantstock='" . $this->getStockProducto();
+        $consulta .= "pronombre='" . $this->getNomProducto() . "', prodetalle='" . $this->getDetallesProd() . "', procantstock='" . $this->getStockProducto() . "', proimagen='" . $this->getImgProd();
         $consulta .= "' WHERE idproducto=" . $this->getIdProducto() . ";";
         if ($base->iniciar()) {
             if ($base->Ejecutar($consulta)) {
