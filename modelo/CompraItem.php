@@ -134,26 +134,26 @@ class CompraItem{
         return $arregloCompraItem;
     }
 
-    /** funcion que me permite insertar un menurol
+    /** funcion que me permite insertar un registro
      * @return bool
      */
     public function insertar(){
         $agrega=false;
         $base=new BaseDatos();
-        $objRol=$this->getObjRol();
-        $objMenu=$this->getObjMenu();
-        $consulta="INSERT INTO Menurol(idMenu, idrol) VALUES";
-        $consulta.="(".$objMenu->getIdMenu().", ".$objRol->getId_rol().");";
+        $objProducto=$this->getobjProducto();
+        $objCompra=$this->getObjCompra();
+        $consulta="INSERT INTO compraitem(idproducto, idcompra, cicantidad) VALUES";
+        $consulta.="(".$objProducto->getIdProducto().", ".$objCompra->getIdCompra().", ".$this->getCantidad().");";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $agrega=true;
             }
             else {
-                $this->setMensaje("menurol->insertar: " . $base->getError());
+                $this->setMensaje("copraitem->insertar: " . $base->getError());
             } 	
         }
         else {
-            $this->setMensaje("menurol->insertar: " . $base->getError());
+            $this->setMensaje("compraitem->insertar: " . $base->getError());
         }
         return $agrega;   
     }
@@ -163,12 +163,12 @@ class CompraItem{
      */
     public function modificar(){
         $base=new BaseDatos();
-        $objRol=$this->getObjRol();
-        $objMenu=$this->getObjMenu();
+        $objProducto=$this->getobjProducto();
+        $objCompra=$this->getObjCompra();
         $modifica=false;
-        $consulta="UPDATE menurol SET ";
-        $consulta.="idrol=".$objRol->getId_rol();
-        $consulta.=" AND idmenu=".$objMenu->getIdMenu();
+        $consulta="UPDATE compraitem SET ";
+        $consulta.="idcompra=".$objCompra->getIdCompra();
+        $consulta.=" AND idproducto=".$objCompra->getIdCompra();
         $consulta.=" WHERE idmenu=".$objMenu->getIdMenu().";";        
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){

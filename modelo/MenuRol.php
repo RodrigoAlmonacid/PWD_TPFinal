@@ -149,7 +149,7 @@ class MenuRol{
         $base=new BaseDatos();
         $objRol=$this->getObjRol();
         $objMenu=$this->getObjMenu();
-        $consulta="INSERT INTO Menurol(idMenu, idrol) VALUES";
+        $consulta="INSERT INTO menurol(idmenu, idrol) VALUES";
         $consulta.="(".$objMenu->getIdMenu().", ".$objRol->getId_rol().");";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
