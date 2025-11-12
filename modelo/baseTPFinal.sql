@@ -134,6 +134,8 @@ CREATE TABLE `producto` (
   `procantstock` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+ALTER TABLE producto ADD proimagen VARCHAR(255) NULL;
+ALTER TABLE producto MODIFY pronombre VARCHAR(100) NOT NULL;
 -- --------------------------------------------------------
 
 --
