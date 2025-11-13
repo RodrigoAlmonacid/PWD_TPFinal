@@ -60,11 +60,11 @@ class CompraEstadoTipo{
         $this->setCetDescripcion($descripcion);
     }
 
-    //buscar un roles por id usuario o por id rol, mando el parámetro correspondiente
+    //buscar una compra estado por id
     public function buscar($id){
         $respuesta=false;
         $base=new BaseDatos();
-        $consulta="SELECT * FROM compra WHERE idcompra=".$id.";";
+        $consulta="SELECT * FROM compraestadotipo WHERE idcompraestadotipo=".$id.";";
             if($base->Iniciar()){
                 if($base->Ejecutar($consulta)){
                     $row=$base->Registro();
