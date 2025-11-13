@@ -1,4 +1,5 @@
 <?php
+include_once('conector/conector.php');
 include_once('Menu.php');
 include_once('Rol.php');
 class MenuRol{

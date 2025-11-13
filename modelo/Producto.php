@@ -1,5 +1,5 @@
 <?php
-
+include_once('conector/conector.php');
 class Producto
 {
     private $idProducto;

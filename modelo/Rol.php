@@ -1,4 +1,5 @@
 <?php
+include_once('conector/conector.php');
 class Rol{
     //atributos
     private $id_rol;
