@@ -1,5 +1,5 @@
 <?php
-include_once('../Conector.php');
+include_once('conector/conector.php');
 class CompraEstadoTipo{
     //atributos
     private $idCompraEstadoTipo;
@@ -68,21 +68,18 @@ class CompraEstadoTipo{
             if($base->Iniciar()){
                 if($base->Ejecutar($consulta)){
                     $row=$base->Registro();
-                    if($row){
-                        $respuesta=true;
-                        $objUsuario=new Usuario();
-                        $objUsuario->buscar($row['idusuario']);  
-                        $this->setIdCompra($row['idcompra']);
-                        $this->setFecha($row['cofecha']);
-                        $this->setobjUsuario($objUsuario);
+                    if($row){ 
+                        $this->setIdCompraEstadoTipo($id);
+                        $this->setCetDescripcion($row['cetdescripcion']);
+                        $this->setCetDetalle($row['cetdetalle']);
                     }
                 }
                 else {
-                    $this->setMensaje("compra->buscar: " . $base->getError());
+                    $this->setMensaje("compraestadotipo->buscar: " . $base->getError());
                 }
             }
             else {
-                $this->setMensaje("compra->buscar: " . $base->getError());
+                $this->setMensaje("compraestadotipo->buscar: " . $base->getError());
             }
         return $respuesta;
     }
@@ -92,94 +89,93 @@ class CompraEstadoTipo{
      * */
     public function listar(){
         $base=new BaseDatos();
-        $consulta="SELECT * FROM compra;";
-        $arregloCompras=[];
+        $consulta="SELECT * FROM compraestadotipo;";
+        $arregloComprasET=[];
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $row=$base->Registro();
                 if($row){
                     do{
-                        $objCompra=new Compra();
-                        $objCompra->cargar($row['idusuario']);  
-                        array_push($arregloCompras, $objCompra);
+                        $objCompraET=new CompraEstadoTipo();
+                        $objCompraET->buscar($row['idcompraestadotipo']);  
+                        array_push($arregloComprasET, $objCompraET);
                     }while($row = $base->Registro());
                 }
             }
             else {
-                $this->setMensaje("usuariorol->listar: " . $base->getError());
+                $this->setMensaje("compraestadotipo->listar: " . $base->getError());
             }
         }
         else {
-            $this->setMensaje("uauariorol->listar: " . $base->getError());
+            $this->setMensaje("compraestadotipo->listar: " . $base->getError());
         }
-        return $arregloCompras;
+        return $arregloComprasET;
     }
 
-    /** funcion que me permite insertar una compra
+    /** funcion que me permite insertar una compra ET
      * @return bool
      */
     public function insertar(){
         $agrega=false;
         $base=new BaseDatos();
-        $objUsuario=$this->getObjUsuario();
-        $consulta="INSERT INTO compra(cofecha, idusuario) VALUES";
-        $consulta.="('".$this->getFecha()."', ".$objUsuario->getId_usuario().");";
+        $consulta="INSERT INTO compraestadotipo(cetdescripcion, cetdetalle) VALUES";
+        $consulta.="('".$this->getCetDescripcion()."', '".$this->getCetDetalle()."');";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $agrega=true;
             }
             else {
-                $this->setMensaje("compra->insertar: " . $base->getError());
+                $this->setMensaje("compraestadotipo->insertar: " . $base->getError());
             } 	
         }
         else {
-            $this->setMensaje("compra->insertar: " . $base->getError());
+            $this->setMensaje("compraestadotipo->insertar: " . $base->getError());
         }
         return $agrega;   
     }
 
-    /** Funcion que me permite modificar una compra
+    /** Funcion que me permite modificar una compra ET
      * @return bool
      */
     public function modificar(){
         $base=new BaseDatos();
-        $objUsuario=$this->getObjUsuario();
         $modifica=false;
-        $consulta="UPDATE compra SET ";
-        $consulta.="idusuario=".$objUsuario->getId_usuario();
-        $consulta.=" AND cofecha=".$this->getFecha();
-        $consulta.=" WHERE idcompra=".$this->getIdCompra().";";        
+        $consulta="UPDATE compraestadotipo SET ";
+        $consulta.="idcompraestadotipo=".$this->getIdCompraEstadoTipo();
+        $consulta.=", cetdetalle=".$this->getCetDetalle();
+        $consulta.=", cetdescripcion='".$this->getCetDescripcion();
+        $consulta.="' WHERE idcompraestadotipo=".$this->getIdCompraEstadoTipo().";";        
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
             $modifica=true;
             }
             else {
-                $this->setMensaje("compra->modificar: " . $base->getError());
+                $this->setMensaje("compraestadotipo->modificar: " . $base->getError());
             }
         }
         else {
-            $this->setMensaje("compra->modificar: " . $base->getError());
+            $this->setMensaje("compraestadotipo->modificar: " . $base->getError());
         }
         return $modifica;
     }
 
-    /** funcion que me permite eliminar un rol
+    /** funcion que me permite eliminar una compra ET
      * @return bool
      */
     public function eliminar(){
         $base=new BaseDatos();
         $elimina=false;
-        $consulta="DELETE FROM compra WHERE idcompra=".$this->getIdCompra().";";
+        $consulta="DELETE FROM compraestadotipo WHERE idcompraestadotipo=".$this->getIdCompraEstadoTipo().";";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $elimina=true;
             }
             else {
-                $this->setMensaje("compra->eliminar: " . $base->getError());
+                $this->setMensaje("compraestadotipo->eliminar: " . $base->getError());
             } 	
         }
         else {
-            $this->setMensaje("compra->eliminar: " . $base->getError());
+            $this->setMensaje("compraestadotipo->eliminar: " . $base->getError());
         }
         return $elimina;
     }

@@ -126,8 +126,9 @@ class MenuRol{
                 $row=$base->Registro();
                 if($row){
                     do{
+                        $params=['idmenu'=>$row['idmenu'], 'idrol'=>$row['idrol']];
                         $objMenuRol=new MenuRol();
-                        $objMenuRol->cargar($row['idmenu'], $row['idrol']);  
+                        $objMenuRol->buscar($params);  
                         array_push($arregloMenuRol, $objMenuRol);
                     }while($row = $base->Registro());
                 }

@@ -1,4 +1,5 @@
 <?php
+include_once('conector/conector.php');
 include_once('Compra.php');
 include_once('Producto.php');
 class CompraItem{

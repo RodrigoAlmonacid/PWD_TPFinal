@@ -77,7 +77,7 @@ class Compra{
                         $objUsuario->buscar($row['idusuario']);  
                         $this->setIdCompra($row['idcompra']);
                         $this->setFecha($row['cofecha']);
-                        $this->setobjUsuario($objUsuario);
+                        $this->setObjUsuario($objUsuario);
                     }
                 }
                 else {
@@ -103,7 +103,7 @@ class Compra{
                 if($row){
                     do{
                         $objCompra=new Compra();
-                        $objCompra->cargar($row['idusuario']);  
+                        $objCompra->buscar($row['idcompra']);  
                         array_push($arregloCompras, $objCompra);
                     }while($row = $base->Registro());
                 }
