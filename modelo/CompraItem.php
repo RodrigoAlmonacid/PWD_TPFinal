@@ -158,7 +158,7 @@ class CompraItem{
         return $agrega;   
     }
 
-    /** Funcion que me permite modificar un rol dentro de un Menu
+    /** Funcion que me permite modificar una compraitem
      * @return bool
      */
     public function modificar(){
@@ -168,41 +168,40 @@ class CompraItem{
         $modifica=false;
         $consulta="UPDATE compraitem SET ";
         $consulta.="idcompra=".$objCompra->getIdCompra();
-        $consulta.=" AND idproducto=".$objCompra->getIdCompra();
-        $consulta.=" WHERE idmenu=".$objMenu->getIdMenu().";";        
+        $consulta.=", idproducto=".$objCompra->getIdCompra();
+        $consulta.=", cantidad=".$this->getCantidad();
+        $consulta.=" WHERE idcompraitem=".$this->getIdCompraItem().";";        
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
             $modifica=true;
             }
             else {
-                $this->setMensaje("mrnurol->modificar: " . $base->getError());
+                $this->setMensaje("compraitem->modificar: " . $base->getError());
             }
         }
         else {
-            $this->setMensaje("mrnurol->modificar: " . $base->getError());
+            $this->setMensaje("compraitem->modificar: " . $base->getError());
         }
         return $modifica;
     }
 
-    /** funcion que me permite eliminar un rol
+    /** funcion que me permite eliminar un compraitem
      * @return bool
      */
     public function eliminar(){
         $base=new BaseDatos();
         $elimina=false;
-        $objRol=$this->getObjRol();
-        $objMenu=$this->getObjMenu();
-        $consulta="DELETE FROM menurol WHERE idrol=".$objRol->getId_rol()." AND idmenu=".$objMenu->getIdMenu().";";
+        $consulta="DELETE FROM compraitem WHERE idcompraitem=".$this->getIdCompraItem().";";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $elimina=true;
             }
             else {
-                $this->setMensaje("menurol->eliminar: " . $base->getError());
+                $this->setMensaje("compraitem->eliminar: " . $base->getError());
             } 	
         }
         else {
-            $this->setMensaje("menurol->eliminar: " . $base->getError());
+            $this->setMensaje("compraitem->eliminar: " . $base->getError());
         }
         return $elimina;
     }
