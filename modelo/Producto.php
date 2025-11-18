@@ -199,38 +199,31 @@ class Producto
     }
 
     //Insertar un producto
+
     public function insertar()
-    {
-        $agrega = false;
-        $base = new BaseDatos();
-        $deshabilitado = $this->getProDeshabilitado();
-        if ($deshabilitado === null || $deshabilitado === "") {
-            $valDeshabilitado = 0;
-        } else {
-            $valDeshabilitado = $deshabilitado;
-        }
-
-        $consulta = "INSERT INTO producto (pronombre, prodetalle, procantstock, proimagen, proprecio, prodeshabilitado) VALUES";
-        $consulta .= "('" . $this->getNomProducto() . "', ";
-        $consulta .= "'" . $this->getDetallesProd() . "', ";
-        $consulta .= $this->getStockProducto() . ", ";
-        $consulta .= "'" . $this->getImgProd() . "', ";
-        $consulta .= $this->getProPrecio() . ", ";
-        $consulta .= $valDeshabilitado . ");";
-
-        if ($base->iniciar()) {
-            $idGenerado = $base->Ejecutar($consulta);
-            if ($idGenerado > 0) {
-                $agrega = true;
-                $this->setIdProducto($idGenerado);
-            } else {
-                $this->setMensaje("producto->insertar: " . $base->getError());
-            }
+{
+    $agrega = false;
+    $base = new BaseDatos();
+    $deshabilitado = (int)$this->getProDeshabilitado(); 
+    $consulta = "INSERT INTO producto (pronombre, prodetalle, procantstock, proimagen, proprecio, prodeshabilitado) VALUES";
+    $consulta .= "('" . $this->getNomProducto() . "', ";
+    $consulta .= "'" . $this->getDetallesProd() . "', ";
+    $consulta .= $this->getStockProducto() . ", "; 
+    $consulta .= "'" . $this->getImgProd() . "', ";
+    $consulta .= $this->getProPrecio() . ", ";
+    $consulta .= $deshabilitado . ");";
+    
+    if ($base->iniciar()) {
+        if ($base->Ejecutar($consulta)) {
+            $agrega = true; 
         } else {
             $this->setMensaje("producto->insertar: " . $base->getError());
         }
-        return $agrega;
+    } else {
+        $this->setMensaje("producto->insertar: " . $base->getError());
     }
+    return $agrega;
+}
 
 
     //Modificar un producto 
@@ -241,7 +234,6 @@ class Producto
         $modifica = false;
         $consulta = "UPDATE producto SET ";
         $consulta .= "pronombre='" . $this->getNomProducto() . "', prodetalle='" . $this->getDetallesProd() . "', procantstock=" . $this->getStockProducto() . ", proimagen='" . $this->getImgProd();
-        $consulta .= "', proprecio=" . $this->getProPrecio() . ", prodeshabilitado=" . $this->getProDeshabilitado() . " WHERE idproducto=" . $this->getIdProducto() . ";";
         $consulta .= "', proprecio=" . $this->getProPrecio() . ", prodeshabilitado=" . $this->getProDeshabilitado() . " WHERE idproducto=" . $this->getIdProducto() . ";";
         if ($base->iniciar()) {
             if ($base->Ejecutar($consulta)) {
@@ -276,3 +268,7 @@ class Producto
         return $elimina;
     }
 }
+
+    }
+}
+
