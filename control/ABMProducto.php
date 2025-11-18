@@ -2,19 +2,20 @@
 
 class ABMProducto
 {
-    //Agregar mas validaciones//
     //crea un objeto producto
     private function cargar($param)
     {
         $objProducto = null;
-        if (array_key_exists('pronombre', $param) && array_key_exists('prodetalle', $param) && array_key_exists('procantstock', $param) && array_key_exists('proimagen', $param)) {
+        if (array_key_exists('pronombre', $param) && array_key_exists('prodetalle', $param) && array_key_exists('procantstock', $param) && array_key_exists('proimagen', $param) && array_key_exists('proprecio', $param) && array_key_exists('prodeshabilitado', $param)) {
             $objProducto = new Producto();
             $objProducto->cargar(
                 $param['idproducto'] ?? null,
                 $param['pronombre'],
                 $param['prodetalle'],
                 $param['procantstock'],
-                $param['proimagen']
+                $param['proimagen'],
+                $param['proprecio'],
+                $param['prodeshabilitado']
             );
         }
         return $objProducto;
@@ -35,7 +36,7 @@ class ABMProducto
     private function seteadosCamposClaves($param)
     {
         $respuesta = false;
-        if (isset($param['idproducto'])) {
+        if (!empty($param['idproducto'])) {
             $respuesta = true;
         }
 
@@ -70,6 +71,12 @@ class ABMProducto
                 if (isset($param['proimagen'])) {
                     $objProducto->setImgProd($param['proimagen']);
                 }
+                if(isset($param['proprecio'])) {
+                    $objProducto->setProPrecio($param['proprecio']);
+                }
+                if(isset($param['prodeshabilitado'])) {
+                    $objProducto->setProDeshabilitado($param['prodeshabilitado']);
+                }
 
                 $respuesta = $objProducto->modificar();
             }
@@ -89,4 +96,24 @@ class ABMProducto
         }
         return $respuesta;
     }
+
+
+public function buscar($param){
+    $where = " true "; 
+    if ($param != NULL){
+        if  (isset($param['idproducto']))
+            $where.=" and idproducto =".$param['idproducto'];
+        if  (isset($param['pronombre']))
+            $where.=" and pronombre ='" . $param['pronombre'] . "'";
+
+        if  (isset($param['prodeshabilitado']))
+            $where.=" and prodeshabilitado =".$param['prodeshabilitado'];
+    }
+    $objProducto = new Producto();
+    $arreglo = $objProducto->listar($where); 
+    
+    return $arreglo; 
 }
+
+}
+
