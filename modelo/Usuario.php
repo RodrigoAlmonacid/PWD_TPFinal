@@ -129,7 +129,7 @@ class Usuario{
                         $objUsuario->setId_usuario($row['idusuario']);
                         $objUsuario->setNom_usuario($row['usnombre']);
                         $objUsuario->setEmail_usuario($row['usmail']);
-                        $objUsuario->setDesHabilitado_usuario($row['usdesHabilitado']);  
+                        $objUsuario->setDesHabilitado_usuario($row['usdeshabilitado']);  
                         array_push($arregloUsuario, $objUsuario);
                     }while($row = $base->Registro());
                 }

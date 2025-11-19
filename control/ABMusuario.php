@@ -1,22 +1,20 @@
 <?php
-
 class ABMUsuario
 {
     //carga un objeto usuario
     private function cargar($param)
     {
-        $objUsuario = null;
+        //$objUsuario = null;
+        $objUsuario = new Usuario();
 
         if (isset($param['usnombre']) && isset($param['uspass']) && isset($param['usmail'])) {
 
-            $objUsuario = new Usuario();
+            //$objUsuario = new Usuario();
 
             $objUsuario->cargar(
-                $param['idusuario'] ?? null,
                 $param['usnombre'],
-                $param['uspass'],
                 $param['usmail'],
-                $param['usdeshabilitado'] ?? 0
+                $param['uspass']
             );
         }
         return $objUsuario;
@@ -45,8 +43,6 @@ class ABMUsuario
     public function alta($param)
     {
         $respuesta = false;
-        $param['idusuario'] = null;
-
         $objUsuario = $this->cargar($param);
 
         if ($objUsuario != null) {
@@ -95,8 +91,8 @@ class ABMUsuario
     }
 
     //buscar usuario
-    public function buscar($param)
-    {
+    public function buscar() //$param
+    {/*
         $where = " true ";
         if ($param != NULL) {
             if (isset($param['idusuario']))
@@ -108,10 +104,11 @@ class ABMUsuario
             if (isset($param['usdeshabilitado'])) {
                 $where .= " and usdeshabilitado =" . $param['usdeshabilitado'];
             }
-        }
+        }*/
 
         $objUsuario = new Usuario();
-        $arreglo = $objUsuario->listar($where);
+        $arreglo = $objUsuario->listar();
         return $arreglo;
     }
 }
+?>
