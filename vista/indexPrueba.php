@@ -64,7 +64,7 @@
             if (row){
                 $('#dlg').dialog('open').dialog('center').dialog('setTitle','Editar usuario');
                 $('#fm').form('load',row);
-                url = 'update_user.php?id='+row.id;
+                url = 'accionUsuario.php?operacion=actualizar?id='+row.idusuario;
             }
         }
         function saveUser(){

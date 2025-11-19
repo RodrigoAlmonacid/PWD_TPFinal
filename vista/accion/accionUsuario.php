@@ -34,8 +34,8 @@ if ($operacion == 'guardar') {
     // Mapear los datos del formulario (igual que en 'guardar')
     $param_abm = array(
         'idusuario' => $datos['idusuario'],
-        'usnombre' => $datos['firstname'] . ' ' . $datos['lastname'],
-        'usmail' => $datos['email'],
+        'usnombre' => $datos['unnombre'],
+        'usmail' => $datos['usmail'],
         // Para la contraseña, debes manejar la lógica de si se envía o no.
     );
 

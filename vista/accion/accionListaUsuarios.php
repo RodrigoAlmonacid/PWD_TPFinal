@@ -19,12 +19,14 @@ $datosParaGrid = array();
 if (count($arregloUsuarios) > 0) {
     foreach ($arregloUsuarios as $objUsuario) {
         $estado = $objUsuario->getDesHabilitado_usuario();
-        
+        if($estado==null){
+            $estado="Habilitado";
+        }
         $datosParaGrid[] = array(
             'idusuario' => $objUsuario->getId_usuario(),
             'usnombre' => $objUsuario->getNom_usuario(),
             'usmail' => $objUsuario->getEmail_usuario(),
-            'habilita' => $estado // Creamos un campo 'habilita' para la columna de tu tabla
+            'usdeshabilitado' => $estado // Creamos un campo 'habilita' para la columna de tu tabla
         );
     }
 }
