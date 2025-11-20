@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Argentina/Buenos_Aires');
 class ABMUsuario
 {
     //carga un objeto usuario
@@ -67,10 +68,13 @@ class ABMUsuario
                 if (isset($param['uspass']) && $param['uspass'] != "") {
                     $objUsuario->setPass_usuario($param['uspass']);
                 }
-                if (isset($param['usdeshabilitado'])) {
-                    $objUsuario->setDesHabilitado_usuario($param['usdeshabilitado']);
+                if (isset($param['usdeshabilitado']) && $param['usdeshabilitado']==1) {
+                    $objUsuario->setDesHabilitado_usuario("null");
                 }
-
+                elseif (isset($param['usdeshabilitado']) && $param['usdeshabilitado']==0) {
+                    $date=date('Y-m-d H:i:s');
+                    $objUsuario->setDesHabilitado_usuario($date);
+                }
                 $respuesta = $objUsuario->modificar();
             }
         }

@@ -10,6 +10,8 @@
     <?php
         include_once('../control/ABMusuario.php');
         $objUsuario=new ABMUsuario();
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
+        $date=date('Y-m-d H:i:s');
     ?>
 </head>
 <body>
@@ -29,22 +31,30 @@
         </thead>
     </table>
     <div id="toolbar">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">Nuevo usuario</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Editar usuario</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Deshabilitar usuario</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">Nuevo</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Editar</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Eliminar</a>
     </div>
     
     <div id="dlg" class="easyui-dialog" style="width:400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
         <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
             <h3>Usuario</h3>
             <div style="margin-bottom:10px">
-                <input name="usnombre" class="easyui-textbox" required="true" label="Nombre y apellido:" style="width:100%">
+                <input id="usnombre" name="usnombre" class="easyui-textbox" required="true" label="Nombre y apellido:" style="width:100%">
             </div>
             <div style="margin-bottom:10px">
-                <input name="usmail" class="easyui-textbox" required="true" validType="email" label="Email:" style="width:100%">
+                <input id="usmail" name="usmail" class="easyui-textbox" required="true" validType="email" label="Email:" style="width:100%">
             </div>
             <div style="margin-bottom:10px">
-                <input name="uspass" class="easyui-textbox" required="true" label="Contraseña" style="width:100%">
+                <div id="div-input" style="margin-bottom:10px;">
+                    <input id="input-edit" name="uspass" class="easyui-textbox" required="true" label="Contraseña" style="width:100%">
+                </div>
+                <div id="div-select" style="margin-bottom:10px;">
+                    <select id="select-edit" name="usdeshabilitado" class="easyui-combobox" label="Estado" labelPosition="top" required style="width:100%">
+                        <option value="1">Habilitado</option>
+                        <option value="0">Deshabilitado</option>
+                    </select>
+                </div>
             </div>
         </form>
     </div>
@@ -55,16 +65,43 @@
     <script type="text/javascript">
         var url;
         function newUser(){
+            const selectDivId='#div-select';
+            const inputDivId='#div-input';
+            //Ocultar (Visibilidad):
+            $(selectDivId).hide(); 
+            //Deshabilitar (Funcionalidad):
+            $('#select-edit').prop('disabled', true);
+            $('#select-edit').textbox('options').required = false;
+            //Mostrar (Visibilidad):
+            $(inputDivId).show();   
+            $('#input-edit').prop('disabled', false);
+            $('#input-edit').textbox('options').required = true; 
+            // 2. Deshabilitar el componente (lo excluye del envío y la validación)
+            $('#select-edit').textbox('disable'); 
+            //Habilitar (Funcionalidad):
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','Nuevo usuario');
             $('#fm').form('clear');
             url = 'accion/accionUsuario.php?operacion=guardar';
         }
         function editUser(){
+            const selectDivId='#div-select';
+            const inputDivId='#div-input';
+            //Ocultar (Visibilidad):
+            $(inputDivId).hide();
+            //Deshabilitar (Funcionalidad):
+            $('#input-edit').prop('disabled', true);
+            $('#input-edit').textbox('options') .required = false;
+            //Mostrar (Visibilidad):
+            $(selectDivId).show();   
+            //Habilitar (Funcionalidad):
+            $('#select-edit').textbox('enable');
+            $('#select-edit').prop('disabled', false);
             var row = $('#dg').datagrid('getSelected');
+            console.log(row)
             if (row){
                 $('#dlg').dialog('open').dialog('center').dialog('setTitle','Editar usuario');
                 $('#fm').form('load',row);
-                url = 'accionUsuario.php?operacion=actualizar?id='+row.idusuario;
+                url = 'accion/accionUsuario.php?operacion=actualizar&id='+row.idusuario;
             }
         }
         function saveUser(){

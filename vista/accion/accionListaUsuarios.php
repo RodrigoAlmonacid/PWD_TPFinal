@@ -22,6 +22,9 @@ if (count($arregloUsuarios) > 0) {
         if($estado==null){
             $estado="Habilitado";
         }
+        else{
+            $estado="Deshabilitado";
+        }
         $datosParaGrid[] = array(
             'idusuario' => $objUsuario->getId_usuario(),
             'usnombre' => $objUsuario->getNom_usuario(),
