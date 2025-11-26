@@ -1,8 +1,8 @@
 <?php
 // Incluir el ABM. El ABMUsuario ya se encarga de incluir Usuario.php
 // IMPORTANTE: Ajusta estas rutas si tu estructura de carpetas es diferente.
-require_once('../../control/ABMUsuario.php'); 
-require_once('../../modelo/Usuario.php'); 
+require_once('../../control/ABMusuario.php');
+require_once('../../modelo/Usuario.php');
 
 // 1. Instanciar el ABM
 $abmUsuario = new ABMUsuario();

@@ -16,7 +16,7 @@ if ($operacion == 'guardar') {
     // Debes mapear los datos del formulario a los nombres que tu ABM espera:
     $param_abm = array(
         'usnombre' => $datos['usnombre'], 
-        'uspass' => $datos['uspass'], 
+        'uspass' => md5($datos['uspass']), //guardo el hash con md5
         'usmail' => $datos['usmail'],
     );
     
@@ -35,9 +35,9 @@ if ($operacion == 'guardar') {
     $param_abm = array(
         'idusuario' => $datos['idusuario'],
         'usnombre' => $datos['usnombre'],
-        'usdeshabilitado' => $datos['usdeshabilitado'],
-        // Para la contraseña, debes manejar la lógica de si se envía o no.
+        'usdeshabilitado' => $datos['usdeshabilitado']
     );
+    echo $datos['usdeshabilitado'];
 
     if ($abmUsuario->modificar($param_abm)) {
         $respuesta = array('success' => true);
