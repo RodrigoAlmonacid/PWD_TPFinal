@@ -1,0 +1,18 @@
+/* --- Estilos Personalizados Mínimos --- */
+/* (Casi todo el layout y la responsividad viene de Bootstrap) */
+
+/* Color de acento de las pilas (un amarillo/naranja vibrante) */
+:root {
+    --bs-warning: #FFC300; /* Reemplaza el warning de Bootstrap con un amarillo más intenso si quieres */
+}
+
+/* Opcional: Asegurar que el fondo del body coincida con el tema */
+body {
+    background-color: var(--bs-light); /* o usa #f8f9fa de bootstrap */
+}
+
+/* Opcional: Estilo para imágenes dentro de las cards */
+.card-img-top {
+    height: 150px;
+    object-fit: contain; /* Asegura que la pila se vea completa sin cortar */
+}
