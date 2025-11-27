@@ -40,6 +40,7 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">Nuevo</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Editar</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Eliminar</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-man" plain="true" onclick="manageRoles()">Gestionar Roles</a>
     </div>
     
     <div id="dlg" class="easyui-dialog" style="width:400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
@@ -65,10 +66,40 @@
         </form>
     </div>
     </div>
+    <div id="dlg-roles" class="easyui-dialog" style="width:500px;height:400px;padding:10px"
+    data-options="closed:true,modal:true,title:'Gestionar Roles del Usuario'">
+    
+    <div style="margin-bottom:10px; display:flex; gap:5px;">
+        <select id="combo-roles" class="easyui-combobox" name="idrol" style="width:70%" 
+            data-options="
+                url:'accion/accionListarRoles.php', 
+                method:'get',
+                valueField:'idrol',
+                textField:'rodescripcion',
+                panelHeight:'auto',
+                label:'Asignar Rol:',
+                labelWidth:80
+            ">
+        </select>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-add" onclick="addRole()">Agregar</a>
+    </div>
+
+    <table id="dg-roles" class="easyui-datagrid" style="width:100%;height:280px"
+        data-options="singleSelect:true, rownumbers:true">
+        <thead>
+            <tr>
+                <th field="rodescripcion" width="70%">Rol</th>
+                <th field="action" width="30%" formatter="formatDeleteRole">Acción</th>
+            </tr>
+        </thead>
+    </table>
+    </div>
     <div id="dlg-buttons">
         <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">Guardar</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancelar</a>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
     <script type="text/javascript" src="js/adminUser.js"></script>
     </main>
    <?php

@@ -1,38 +1,147 @@
+<?php
+
+// Recuperamos los roles 
+$rolesUsuarioSimple = [];
+if ($objSession->activa()) {
+    $listaRolesObjetos = $objSession->getRol();
+    foreach ($listaRolesObjetos as $objRol) {
+        $rolesUsuarioSimple[] = $objRol->getDescripcion_rol();
+    }
+}
+// Preparamos el array JSON para el JavaScript
+$jsonRoles = json_encode($rolesUsuarioSimple);
+?>
+
 <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-            <div class="container-fluid">
-                <a class="navbar-brand text-warning fw-bold fs-4" href="<?= $ruta ?>/vista/index.php">
-                    <i class="bi bi-lightning-charge-fill me-2"></i>Ponete Las Pilas
-                </a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand text-warning fw-bold fs-4" href="<?= $ruta ?>/vista/index.php">
+                <i class="bi bi-lightning-charge-fill me-2"></i>Ponete Las Pilas
+            </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#categoryNav" aria-controls="categoryNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#categoryNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <div class="collapse navbar-collapse" id="categoryNav">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="<?= $ruta ?>/vista/index.php">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?= $ruta ?>/vista/productoAA.php">Pilas AA</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?= $ruta ?>/vista/productoAAA.php">Pilas AAA</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?= $ruta ?>/vista/pruductoEspeciales.php">Especiales</a></li>
-                        <li class="nav-item"><a class="nav-link text-warning fw-bold" href="#">Ofertas</a></li>
-                    </ul>
+            <div class="collapse navbar-collapse" id="categoryNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="<?= $ruta ?>/vista/index.php">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= $ruta ?>/vista/productoAA.php">Pilas AA</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= $ruta ?>/vista/productoAAA.php">Pilas AAA</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= $ruta ?>/vista/pruductoEspeciales.php">Especiales</a></li>
+                </ul>
 
-                    <div class="d-flex align-items-center">
-                        
-                        <button class="btn btn-outline-warning me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas">
-                            <i class="bi bi-cart-fill"></i> Carrito (<span id="cart-count">0</span>)
-                        </button>
-                        
-                        <a href="login.php" class="btn btn-primary me-2">
-                            <i class="bi bi-person-circle"></i> Iniciar Sesión
-                        </a>
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-outline-warning me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+                        <i class="bi bi-cart-fill"></i> <span class="d-none d-md-inline">Carrito</span> (<span id="cart-count">0</span>)
+                    </button>
+                    
+                    <?php if (!$objSession->activa()): ?>
+                    <a href="<?= $ruta ?>/vista/login.php" class="btn btn-primary me-2">
+                        <i class="bi bi-person-circle"></i> Ingresar
+                    </a>
+                    <?php endif; ?>
 
-                        <button id="admin-menu-toggle" class="btn btn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminOffcanvas" aria-controls="adminOffcanvas">
-                            <i class="bi bi-gear-fill"></i> Admin
-                        </button>
-                    </div>
+                    <button class="btn btn-warning me-2" type="button" id="admin-menu-toggle" style="display:none;" 
+                        data-bs-toggle="offcanvas" data-bs-target="#adminOffcanvas">
+                        <i class="bi bi-gear-fill"></i> Admin
+                    </button>
                 </div>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
+</header>
+
+<div class="offcanvas offcanvas-end bg-dark text-white" tabindex="-1" id="adminOffcanvas" aria-labelledby="adminOffcanvasLabel">
+    <div class="offcanvas-header border-bottom border-secondary">
+        <h5 class="offcanvas-title" id="adminOffcanvasLabel">
+            <i class="bi bi-person-workspace me-2 text-warning"></i> Panel de Control
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="mb-4 text-center">
+            <i class="bi bi-person-circle" style="font-size: 3rem;"></i>
+            <p class="mt-2 fw-bold text-warning">
+                <?php echo $objSession->activa() ? $_SESSION['usnombre'] : 'Invitado'; ?>
+            </p>
+            <p class="text-muted small">
+                <?php echo implode(", ", $rolesUsuarioSimple); ?>
+            </p>
+        </div>
+
+        <ul class="list-group list-group-flush rounded">
+            
+            <?php if (count($rolesUsuarioSimple) > 0): ?>
+            <li class="list-group-item bg-dark text-white border-secondary">
+                <a href="<?= $ruta ?>/vista/index.php" class="text-decoration-none text-light d-block">
+                    <i class="bi bi-speedometer2 me-2"></i> Inicio / Dashboard
+                </a>
+            </li>
+            <?php endif; ?>
+
+            <?php if (in_array('Root', $rolesUsuarioSimple)): ?>
+            <li class="list-group-item bg-dark text-white border-secondary">
+                <a href="<?= $ruta ?>/vista/adminUser.php" class="text-decoration-none text-warning d-block">
+                    <i class="bi bi-people-fill me-2"></i> Gestión de Usuarios (Root)
+                </a>
+            </li>
+            <li class="list-group-item bg-dark text-white border-secondary">
+                <a href="<?= $ruta ?>/vista/adminMenu.php" class="text-decoration-none text-warning d-block">
+                    <i class="bi bi-list-nested me-2"></i> Gestión de Menús (Root)
+                </a>
+            </li>
+            <?php endif; ?>
+
+            <?php if (in_array('Administrador', $rolesUsuarioSimple)): ?>
+            <li class="list-group-item bg-dark text-white border-secondary">
+                <a href="<?= $ruta ?>/vista/adminStock.php" class="text-decoration-none text-info d-block">
+                    <i class="bi bi-box-seam me-2"></i> Control de Stock
+                </a>
+            </li>
+            <li class="list-group-item bg-dark text-white border-secondary">
+                <a href="<?= $ruta ?>/vista/adminPrecios.php" class="text-decoration-none text-success d-block">
+                    <i class="bi bi-currency-dollar me-2"></i> Gestión de Precios
+                </a>
+            </li>
+            <?php endif; ?>
+            
+            <?php if (in_array('Cliente', $rolesUsuarioSimple)): ?>
+            <li class="list-group-item bg-dark text-white border-secondary">
+                <a href="<?= $ruta ?>/vista/misCompras.php" class="text-decoration-none text-primary d-block">
+                    <i class="bi bi-bag-check me-2"></i> Mis Pedidos
+                </a>
+            </li>
+            <?php endif; ?>
+
+        </ul>
+
+        <div class="mt-auto pt-5">
+            <a href="<?= $ruta ?>/vista/accion/cerrarSesion.php" class="btn btn-danger w-100">
+                <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Inyectamos el array de roles
+        const misRoles = <?php echo $jsonRoles; ?>;
+        
+        // Roles permitidos (los puse a manu))
+        const rolesDeAdmin = ['Root', 'Administrador', 'Cliente'];
+        
+        // Verificamos coincidencia
+        const esAdmin = misRoles.some(rol => rolesDeAdmin.includes(rol));
+        
+        const adminBtn = document.getElementById('admin-menu-toggle');
+        
+        // Lógica de visibilidad
+        if (esAdmin && adminBtn) {
+            adminBtn.style.display = 'block'; // Mostrar
+        } else if (adminBtn) {
+            adminBtn.style.display = 'none';  // Ocultar 
+        }
+    });
+</script>

@@ -182,7 +182,7 @@ class Usuario{
         } else {
             $consulta .= "', usdesHabilitado='".$fecha."'";
         }
-        $consulta.="' WHERE idusuario=".$this->getId_usuario().";";        
+        $consulta.=" WHERE idusuario=".$this->getId_usuario().";";        
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
             $modifica=true;

@@ -27,7 +27,6 @@
                             }
                             
                             if (isset($_GET['mensaje'])) {
-                                // Por si quieres mandar mensajes de éxito también (verde)
                                 echo "
                                 <div class='alert alert-success alert-dismissible fade show' role='alert'>
                                     <i class='bi bi-check-circle-fill me-2'></i> " . htmlspecialchars($_GET['mensaje']) . "
@@ -68,8 +67,8 @@
                                 </div>
 
                                 <div class="text-center mt-3">
-                                    <a href="/recuperar-contrasena" class="text-muted small me-3">¿Olvidaste tu contraseña?</a>
-                                    <a href="/registro" class="text-warning small fw-bold">Crear una cuenta</a>
+                                    <a href="#" class="text-muted small me-3">¿Olvidaste tu contraseña?</a> <!-- libreria de mails-->
+                                    <a href="#" class="text-warning small fw-bold">Crear una cuenta</a>
                                 </div>
 
                             </form>

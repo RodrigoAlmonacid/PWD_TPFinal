@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . '/../modelo/UsuarioRol.php';
 class ABMUsuarioRol {
     
     private function cargarObjetoWithKey($param){

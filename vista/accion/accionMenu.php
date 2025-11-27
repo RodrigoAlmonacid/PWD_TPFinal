@@ -1,9 +1,6 @@
 <?php
-// Incluye tu configuración principal
 require_once('../../control/ABMMenu.php');
 require_once('../../modelo/Menu.php');
-// Asegúrate de que cargue la clase ABMMenu (si el config no lo hace, descomenta la siguiente línea)
-// include_once '../../control/ABMMenu.php';
 
 $datos = $_REQUEST; // Captura tanto $_GET como $_POST
 $objAbmMenu = new ABMMenu();
@@ -12,22 +9,19 @@ $mensajeError = "";
 
 if (isset($datos['operacion'])) {
 
-    // --- PROCESAMIENTO DE DATOS PREVIO ---
     
-    // 1. Tratamiento del Padre (Si viene vacío o dice "null", es raíz)
+    //Tratamiento del Padre (Si viene vacío o dice "null", es raíz)
     if (isset($datos['idpadre'])) {
         if ($datos['idpadre'] == "" || $datos['idpadre'] == "null") {
             $datos['idpadre'] = null;
         }
     }
 
-    // 2. Tratamiento del Deshabilitado (Igual que en Usuario)
-    // Si viene del combo de EasyUI como texto:
     if (isset($datos['medeshabilitado'])) {
         if ($datos['medeshabilitado'] == 'Habilitado') {
-            $datos['medeshabilitado'] = null; // Se guardará como NULL
+            $datos['medeshabilitado'] = null; 
         } elseif ($datos['medeshabilitado'] == 'Deshabilitado') {
-            $datos['medeshabilitado'] = date('Y-m-d H:i:s'); // Se guarda la fecha actual
+            $datos['medeshabilitado'] = date('Y-m-d H:i:s'); 
         }
     }
 
@@ -42,7 +36,6 @@ if (isset($datos['operacion'])) {
     }
 
     if ($datos['operacion'] == 'modificacion') {
-        // Aseguramos que el ID venga en los datos
         if (!isset($datos['idmenu']) && isset($_GET['idmenu'])) {
             $datos['idmenu'] = $_GET['idmenu'];
         }
@@ -55,7 +48,7 @@ if (isset($datos['operacion'])) {
     }
 
     if ($datos['operacion'] == 'baja') {
-        // En baja solo necesitamos el ID
+
         if ($objAbmMenu->baja($datos)) {
             $respuesta = true;
         } else {

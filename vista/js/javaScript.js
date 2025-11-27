@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cartOffcanvas.show();
         });
     });
-
+/*
     // 2. Lógica de Roles (Manejo del botón de Admin con tu lógica PHP/JS)
     // El botón de Admin DEBE ser ocultado por defecto y solo mostrarse si hay un usuario logueado con rol de administrador.
     const adminToggleBtn = document.getElementById('admin-menu-toggle');
@@ -44,5 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Inicialmente oculto (tu CSS puede manejar esto o un script de PHP al inicio)
         adminToggleBtn.style.display = 'none'; 
     }
+*/
 });
 

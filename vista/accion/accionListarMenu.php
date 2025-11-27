@@ -1,8 +1,6 @@
 <?php
 require_once('../../control/ABMMenu.php');
 require_once('../../modelo/Menu.php');
-
-// Asegúrate de tener el control ABMMenu disponible
 $objMenu = new ABMMenu();
 
 // Buscamos todos los menús

@@ -1,5 +1,6 @@
 <?php
 include_once __DIR__ . '/ABMusuario.php';
+include_once __DIR__ . '/ABMUsuarioRol.php';
 class Session
 {
     public function __construct()
@@ -78,13 +79,32 @@ class Session
         return $listaRoles;
     }
 
-    //cierra la sesion
-    public function cerrar()
-    {
-        $resp = true;
-        session_destroy();
-        $_SESSION = array(); 
-        return $resp;
+   public function cerrar()
+{
+    // Asegura que la sesión esté iniciada
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
     }
+
+    // Vacía el array de sesión
+    $_SESSION = [];
+
+    // Elimina cookie de sesión si existe
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], 
+            $params["domain"],
+            $params["secure"], 
+            $params["httponly"]
+        );
+    }
+
+    // Destruye la sesión
+    session_destroy();
+
+    return true;
+}
+
 }
 ?>

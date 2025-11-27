@@ -79,4 +79,59 @@
                 });
             }
         }
+        var idUsuarioSeleccionado;
+
+function manageRoles() {
+    var row = $('#dg').datagrid('getSelected');
+    if (row) {
+        idUsuarioSeleccionado = row.idusuario;
+        $('#dlg-roles').dialog('open');
+        // Cargamos la grilla de roles de ESTE usuario
+        $('#dg-roles').datagrid({
+            url: 'accion/accionUsuarioRol.php?operacion=listar&idusuario=' + row.idusuario
+        });
+    } else {
+        $.messager.alert('Atención', 'Selecciona un usuario primero.', 'warning');
+    }
+}
+
+function addRole() {
+    var idRol = $('#combo-roles').combobox('getValue');
+    if (idRol) {
+        $.post('accion/accionUsuarioRol.php?operacion=alta', 
+            { idusuario: idUsuarioSeleccionado, idrol: idRol }, 
+            function(result) {
+                            console.log(result);
+                if (result.success) {
+                    $('#dg-roles').datagrid('reload'); // Recargamos la lista
+                    $.messager.show({title: 'Éxito', msg: 'Rol asignado correctamente'});
+                } else {
+                    $.messager.show({title: 'Error', msg: result.errorMsg});
+                }
+            }, 'json');
+    } else {
+        $.messager.alert('Error', 'Selecciona un rol de la lista.');
+    }
+}
+
+// Formateador para poner el botón de eliminar en la grilla
+function formatDeleteRole(val, row) {
+    return '<a href="javascript:void(0)" onclick="deleteRole('+row.idrol+')">Quitar</a>';
+}
+
+function deleteRole(idRol) {
+    $.messager.confirm('Confirmar', '¿Quitar este rol?', function(r) {
+        if (r) {
+            $.post('accion/accionUsuarioRol.php?operacion=baja', 
+                { idusuario: idUsuarioSeleccionado, idrol: idRol }, 
+                function(result) {
+                    if (result.success) {
+                        $('#dg-roles').datagrid('reload');
+                    } else {
+                        $.messager.show({title: 'Error', msg: result.errorMsg});
+                    }
+                }, 'json');
+        }
+    });
+}
     

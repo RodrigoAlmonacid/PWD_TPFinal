@@ -184,7 +184,7 @@ class Menu{
         } else {
             $consulta .= "', medeshabilitado='".$des."'";
         }
-        $consulta.="' WHERE idmenu=".$this->getIdMenu().";";        
+        $consulta.=" WHERE idmenu=".$this->getIdMenu().";";        
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
             $modifica=true;

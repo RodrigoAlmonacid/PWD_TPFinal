@@ -1,5 +1,4 @@
 <?php
-// IMPORTANTE: Ajusta estas rutas
 require_once('../../control/ABMusuario.php');
 require_once('../../modelo/Usuario.php'); 
 
@@ -8,30 +7,25 @@ $respuesta = array('success' => false, 'errorMsg' => 'Operación no reconocida.'
 
 // Obtener la operación a realizar
 $operacion = isset($_GET['operacion']) ? $_GET['operacion'] : '';
-$datos = $_POST; // Los datos del formulario o del post se envían aquí
+$datos = $_POST; 
 
 if ($operacion == 'guardar') {
-    // La función 'cargar' en ABMUsuario espera ciertos nombres de campos.
-    // El formulario de EasyUI envía 'firstname', 'lastname', 'email', etc.
-    // Debes mapear los datos del formulario a los nombres que tu ABM espera:
     $param_abm = array(
         'usnombre' => $datos['usnombre'], 
-        'uspass' => $datos['uspass'], //guardo el hash con md5
+        'uspass' => $datos['uspass'], 
         'usmail' => $datos['usmail'],
     );
     
     if ($abmUsuario->alta($param_abm)) {
         $respuesta = array('success' => true);
     } else {
-        // En un escenario real, aquí se usaría $abmUsuario->getMensajeError()
-        $respuesta['errorMsg'] = 'Fallo en la inserción (Revisar logs o clase ABM/Usuario).';
+        $respuesta['errorMsg'] = 'Fallo en la inserción (ABM/Usuario).';
     }
 
 } elseif ($operacion == 'actualizar') {
     // Para actualizar, necesitamos el 'idusuario' y los nuevos datos.
-    $datos['idusuario'] = $_GET['id']; // Obtenido del parámetro &id=...
-    
-    // Mapear los datos del formulario (igual que en 'guardar')
+    $datos['idusuario'] = $_GET['id'];
+
     $param_abm = array(
         'idusuario' => $datos['idusuario'],
         'usnombre' => $datos['usnombre'],
@@ -45,10 +39,9 @@ if ($operacion == 'guardar') {
     }
     
 } elseif ($operacion == 'eliminar') { 
-    // Para deshabilitar/baja lógica, que en tu ABM es el método 'estado' dentro de 'baja'.
+
     $param_abm = array(
-        'idusuario' => $datos['id'] // Obtenido del $.post
-    );
+        'idusuario' => $datos['id']);
 
     if ($abmUsuario->baja($param_abm)) {
         $respuesta = array('success' => true);
@@ -57,7 +50,7 @@ if ($operacion == 'guardar') {
     }
 }
 
-// 4. Enviar la respuesta en JSON
+//Enviar la respuesta en JSON
 header('Content-Type: application/json');
 echo json_encode($respuesta);
 ?>
