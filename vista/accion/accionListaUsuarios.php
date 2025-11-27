@@ -29,7 +29,7 @@ if (count($arregloUsuarios) > 0) {
             'idusuario' => $objUsuario->getId_usuario(),
             'usnombre' => $objUsuario->getNom_usuario(),
             'usmail' => $objUsuario->getEmail_usuario(),
-            'usdeshabilitado' => $estado // Creamos un campo 'habilita' para la columna de tu tabla
+            'usdeshabilitado' => $estado
         );
     }
 }

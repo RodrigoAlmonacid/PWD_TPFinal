@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Ejemplo: función que tu PHP llamaría después de un login exitoso
     window.updateAdminMenuVisibility = (userRole) => {
-        if (userRole === 'Super' || userRole === 'Stock' || userRole === 'Precio') {
+        if (userRole === 'SuperUsuario' || userRole === 'Stock' || userRole === 'Precio') {
              adminToggleBtn.style.display = 'block'; // Mostrar
              // Aquí también generarías dinámicamente los <li> del Offcanvas Admin
         } else {

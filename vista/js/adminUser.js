@@ -1,39 +1,30 @@
 
         var url;
         function newUser(){
-            const selectDivId='#div-select';
-            const inputDivId='#div-input';
-            //Ocultar (Visibilidad):
-            $(selectDivId).hide(); 
-            //Deshabilitar (Funcionalidad):
-            $('#select-edit').prop('disabled', true);
-            $('#select-edit').textbox('options').required = false;
-            //Mostrar (Visibilidad):
-            $(inputDivId).show();   
-            $('#input-edit').prop('disabled', false);
-            $('#input-edit').textbox('options').required = true; 
-            // 2. Deshabilitar el componente (lo excluye del envío y la validación)
-            $('#select-edit').textbox('disable'); 
-            //Habilitar (Funcionalidad):
+            const selectDivId=document.getElementById('div-select');
+            const inputDivId=document.getElementById('div-input');
+            //Ocultar/mostrar
+            $(selectDivId).hide();
+            $(inputDivId).show();  
+            //Deshabilitar/habilitar
+            $('#input-edit').textbox('enable'); 
+            $('#select-edit').combobox('disable');
+            //
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','Nuevo usuario');
             $('#fm').form('clear');
             url = 'accion/accionUsuario.php?operacion=guardar';
         }
         function editUser(){
-            const selectDivId='#div-select';
-            const inputDivId='#div-input';
-            //Ocultar (Visibilidad):
-            $(inputDivId).hide();
-            //Deshabilitar (Funcionalidad):
-            $('#input-edit').prop('disabled', true);
-            $('#input-edit').textbox('options') .required = false;
-            //Mostrar (Visibilidad):
-            $(selectDivId).show();   
-            //Habilitar (Funcionalidad):
-            $('#select-edit').textbox('enable');
-            $('#select-edit').prop('disabled', false);
+            const selectDivId=document.getElementById('div-select');
+            const inputDivId=document.getElementById('div-input');
+            //Ocultar/mostrar
+            $(selectDivId).show();
+            $(inputDivId).hide();  
+            //Deshabilitar/habilitar
+            $('#input-edit').textbox('disable'); 
+            $('#select-edit').combobox('enable');
+            //
             var row = $('#dg').datagrid('getSelected');
-            console.log(row)
             if (row){
                 $('#dlg').dialog('open').dialog('center').dialog('setTitle','Editar usuario');
                 $('#fm').form('load',row);
@@ -41,10 +32,18 @@
             }
         }
         function saveUser(){
+            console.log("entra al save");
             $('#fm').form('submit',{
                 url: url,
                 iframe: false,
                 onSubmit: function(){
+                    console.log("entra a validar");
+                    if ($(this).form('validate')){
+                        console.log("valida");
+                    }
+                    else {
+                        console.log("no valida");
+                    }
                     return $(this).form('validate');
                 },
                 success: function(result){
@@ -64,9 +63,9 @@
         function destroyUser(){
             var row = $('#dg').datagrid('getSelected');
             if (row){
-                $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
+                $.messager.confirm('Confirmación','¿Está seguro de eliminar al usuario? Acción irrebersible.',function(r){
                     if (r){
-                        $.post('destroy_user.php',{id:row.id},function(result){
+                        $.post('accion/accionUsuario.php?operacion=eliminar',{id:row.idusuario},function(result){
                             if (result.success){
                                 $('#dg').datagrid('reload');    // reload the user data
                             } else {

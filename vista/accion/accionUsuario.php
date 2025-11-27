@@ -16,7 +16,7 @@ if ($operacion == 'guardar') {
     // Debes mapear los datos del formulario a los nombres que tu ABM espera:
     $param_abm = array(
         'usnombre' => $datos['usnombre'], 
-        'uspass' => md5($datos['uspass']), //guardo el hash con md5
+        'uspass' => $datos['uspass'], //guardo el hash con md5
         'usmail' => $datos['usmail'],
     );
     
@@ -35,14 +35,13 @@ if ($operacion == 'guardar') {
     $param_abm = array(
         'idusuario' => $datos['idusuario'],
         'usnombre' => $datos['usnombre'],
+        'usmail' => $datos['usmail'],
         'usdeshabilitado' => $datos['usdeshabilitado']
     );
-    echo $datos['usdeshabilitado'];
-
     if ($abmUsuario->modificar($param_abm)) {
         $respuesta = array('success' => true);
     } else {
-        $respuesta['errorMsg'] = 'Fallo en la modificación (Revisar logs o clase ABM/Usuario).';
+        $respuesta['errorMsg'] = 'Fallo en la modificación (Revisar logs o clase ABM/Usuario). id:'.$param_abm['idusuario'];
     }
     
 } elseif ($operacion == 'eliminar') { 
@@ -50,7 +49,7 @@ if ($operacion == 'guardar') {
     $param_abm = array(
         'idusuario' => $datos['id'] // Obtenido del $.post
     );
-    
+
     if ($abmUsuario->baja($param_abm)) {
         $respuesta = array('success' => true);
     } else {

@@ -177,7 +177,13 @@ class Menu{
         $base=new BaseDatos();
         $modifica=false;
         $consulta="UPDATE menu SET ";
-        $consulta.="menombre='".$this->getMeNombre()."', medescripcion='".$this->getMeDescripcion()."', medeshabilitado='".$this->getMeDeshabilitado();
+        $consulta.="menombre='".$this->getMeNombre()."', medescripcion='".$this->getMeDescripcion();
+        $des = $this->getMeDeshabilitado();
+        if ($des === null || $des === "null" || $des === "Habilitado") {
+            $consulta .= "', medeshabilitado=NULL";
+        } else {
+            $consulta .= "', medeshabilitado='".$des."'";
+        }
         $consulta.="' WHERE idmenu=".$this->getIdMenu().";";        
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){

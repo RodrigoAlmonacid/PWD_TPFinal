@@ -16,8 +16,27 @@
                                 <i class="bi bi-person-fill me-2 text-warning"></i> Iniciar Sesión
                             </h2>
                             <p class="text-center text-muted mb-4">Accede a tu cuenta de "Ponete las pilas"</p>
-
-                            <form action="/login/authenticate" method="POST">
+                            <?php
+                            if (isset($_GET['error'])) {
+                                echo "
+                                <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                                    <i class='bi bi-exclamation-triangle-fill me-2'></i> " . htmlspecialchars($_GET['error']) . "
+                                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                </div>
+                                ";
+                            }
+                            
+                            if (isset($_GET['mensaje'])) {
+                                // Por si quieres mandar mensajes de éxito también (verde)
+                                echo "
+                                <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                                    <i class='bi bi-check-circle-fill me-2'></i> " . htmlspecialchars($_GET['mensaje']) . "
+                                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                </div>
+                                ";
+                            }
+                            ?>
+                            <form action="accion/verificarLogin.php" method="POST">
 
                                 <div class="mb-3">
                                     <label for="inputEmail" class="form-label">Email (Usuario)</label>
@@ -25,7 +44,7 @@
                                         type="email" 
                                         class="form-control" 
                                         id="inputEmail" 
-                                        name="email" 
+                                        name="usmail" 
                                         placeholder="ejemplo@dominio.com" 
                                         required
                                     >
@@ -37,7 +56,7 @@
                                         type="password" 
                                         class="form-control" 
                                         id="inputPassword" 
-                                        name="password" 
+                                        name="uspass" 
                                         required
                                     >
                                 </div>

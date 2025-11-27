@@ -116,29 +116,31 @@ class Usuario{
     /** funcion para listar todos los usuarios
      * @return array
      * */
-    public function listar(){
-        $base=new BaseDatos();
-        $consulta="SELECT * FROM usuario;";
-        $arregloUsuario=[];
-        if($base->iniciar()){
-            if($base->Ejecutar($consulta)){
-                $row=$base->Registro();
-                if($row){
-                    do{
-                        $objUsuario=new Usuario();
-                        $objUsuario->setId_usuario($row['idusuario']);
-                        $objUsuario->setNom_usuario($row['usnombre']);
-                        $objUsuario->setEmail_usuario($row['usmail']);
-                        $objUsuario->setDesHabilitado_usuario($row['usdeshabilitado']);  
-                        array_push($arregloUsuario, $objUsuario);
-                    }while($row = $base->Registro());
+    public function listar($parametro = ""){
+        $arregloUsuario = array();
+        $base = new BaseDatos();
+        $consulta = "SELECT * FROM usuario ";
+
+        if ($parametro != "") {
+            $consulta .= 'WHERE ' . $parametro;
+        }
+
+        if ($base->Iniciar()) {
+            if ($base->Ejecutar($consulta)) {
+                $arregloUsuario = array();
+                while ($row2 = $base->Registro()) {
+                    $objUsuario = new Usuario();
+                    $objUsuario->setId_usuario($row2['idusuario']);
+                    $objUsuario->setNom_usuario($row2['usnombre']);
+                    $objUsuario->setPass_usuario($row2['uspass']);
+                    $objUsuario->setEmail_usuario($row2['usmail']);
+                    $objUsuario->setDesHabilitado_usuario($row2['usdeshabilitado']);
+                    array_push($arregloUsuario, $objUsuario);
                 }
-            }
-            else {
+            } else {
                 $this->setMensaje("usuario->listar: " . $base->getError());
             }
-        }
-        else {
+        } else {
             $this->setMensaje("usuario->listar: " . $base->getError());
         }
         return $arregloUsuario;
@@ -173,7 +175,13 @@ class Usuario{
         $base=new BaseDatos();
         $modifica=false;
         $consulta="UPDATE usuario SET ";
-        $consulta.="usnombre='".$this->getNom_usuario()."', usmail='".$this->getEmail_usuario()."', usdesHabilitado='".$this->getDesHabilitado_usuario();
+        $consulta.="usnombre='".$this->getNom_usuario()."', usmail='".$this->getEmail_usuario();
+        $fecha=$this->getDesHabilitado_usuario();
+        if ($fecha == null || $fecha == "null") {
+            $consulta .= "', usdesHabilitado=NULL"; 
+        } else {
+            $consulta .= "', usdesHabilitado='".$fecha."'";
+        }
         $consulta.="' WHERE idusuario=".$this->getId_usuario().";";        
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){

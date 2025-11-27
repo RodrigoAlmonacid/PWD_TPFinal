@@ -9,6 +9,7 @@
     <?php
         include_once('ruta.php');
         $ruta=ruta();
+        include_once($ruta.'/control/Sesion.php');
     ?>
     <link rel="icon" href="<?=$ruta?>/vista/imagenes/logo.png" type="image/png">
     <link rel="stylesheet" href="<?php echo $ruta?>/vista/css/estilos.css">

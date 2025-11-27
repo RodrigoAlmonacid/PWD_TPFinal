@@ -57,8 +57,8 @@
                 </div>
                 <div id="div-select" style="margin-bottom:10px;">
                     <select id="select-edit" name="usdeshabilitado" class="easyui-combobox" label="Estado" labelPosition="top" required style="width:100%">
-                        <option value="1">Habilitado</option>
-                        <option value="0">Deshabilitado</option>
+                        <option value="Habilitado">Habilitado</option>
+                        <option value="Deshabilitado">Deshabilitado</option>
                     </select>
                 </div>
             </div>

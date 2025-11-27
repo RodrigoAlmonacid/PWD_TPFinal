@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . '/ABMusuario.php';
 class Session
 {
     public function __construct()
@@ -13,14 +14,18 @@ class Session
     {
         $resp = false;
         $objAbmUsuario = new ABMUsuario();
-        $param = ['usnombre' => $nombreUsuario];
+        
+        // 1. Buscamos el usuario por nombre
+        $param = ['usmail' => $nombreUsuario];
         $listaUsuarios = $objAbmUsuario->buscar($param);
         if (count($listaUsuarios) > 0) {
             $usuario = $listaUsuarios[0];
-            $estado = $usuario->getDesHabilitado_usuario();
-            
-            if ($estado === null || $estado == 0) {
-                if ($psw === $usuario->getPass_usuario()) {
+            // 2. Verificamos si está habilitado (null o fecha 0000...)
+            $fechaBaja = $usuario->getDesHabilitado_usuario();
+            $habilitado = ($fechaBaja === null);
+            if ($habilitado) {
+                // Comparamos el MD5 de lo que escribió el usuario contra el MD5 guardado en la BD
+                if (md5($psw) === $usuario->getPass_usuario()) {
                     
                     $_SESSION['idusuario'] = $usuario->getId_usuario();
                     $_SESSION['usnombre'] = $usuario->getNom_usuario();
