@@ -41,11 +41,12 @@ $jsonRoles = json_encode($rolesUsuarioSimple);
                         <i class="bi bi-person-circle"></i> Ingresar
                     </a>
                     <?php endif; ?>
-
-                    <button class="btn btn-warning me-2" type="button" id="admin-menu-toggle" style="display:none;" 
+                    <?php if ($objSession->activa()): ?>    
+                    <button class="btn btn-warning me-2" type="button" id="admin-menu-toggle" style="display:block;" 
                         data-bs-toggle="offcanvas" data-bs-target="#adminOffcanvas">
-                        <i class="bi bi-gear-fill"></i> Admin
+                        <i class="bi bi-gear-fill"></i> <?php echo $objSession->activa() ? $_SESSION['usnombre'] : 'Invitado'; ?>
                     </button>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -71,7 +72,20 @@ $jsonRoles = json_encode($rolesUsuarioSimple);
         </div>
 
         <ul class="list-group list-group-flush rounded">
-            
+        <!--    ejemplo del manejo del menú dinámico
+                        en el href pongo la ruta (la guardo en la descripcion  de la clase menu)
+                        al lado del botón pongo el nombre del menu
+                        trato de agregar una seccion para el icono (luego agrego alguno predeterminado para nuevos menus)
+        foreach($menues as $menu){
+                if($menu->menuHabilitado()){
+                <li class="list-group-item bg-dark text-white border-secondary">
+                    <a href="<?php  //echo $ruta  ?> /vista/index.php" class="text-decoration-none text-light d-block">
+                        <i class="bi bi-speedometer2 me-2"></i> $menu->nombre
+                    </a>
+                </li>    
+                }
+            }
+                    -->
             <?php if (count($rolesUsuarioSimple) > 0): ?>
             <li class="list-group-item bg-dark text-white border-secondary">
                 <a href="<?= $ruta ?>/vista/index.php" class="text-decoration-none text-light d-block">
@@ -93,20 +107,20 @@ $jsonRoles = json_encode($rolesUsuarioSimple);
             </li>
             <?php endif; ?>
 
-            <?php if (in_array('Administrador', $rolesUsuarioSimple)): ?>
+            <?php if (in_array('Administrador', $rolesUsuarioSimple) || in_array('Root', $rolesUsuarioSimple)): ?>
             <li class="list-group-item bg-dark text-white border-secondary">
                 <a href="<?= $ruta ?>/vista/adminStock.php" class="text-decoration-none text-info d-block">
                     <i class="bi bi-box-seam me-2"></i> Control de Stock
                 </a>
             </li>
             <li class="list-group-item bg-dark text-white border-secondary">
-                <a href="<?= $ruta ?>/vista/adminPrecios.php" class="text-decoration-none text-success d-block">
-                    <i class="bi bi-currency-dollar me-2"></i> Gestión de Precios
+                <a href="<?= $ruta ?>/vista/adminProductos.php" class="text-decoration-none text-success d-block">
+                    <i class="bi bi-currency-dollar me-2"></i> Gestión de Productos
                 </a>
             </li>
             <?php endif; ?>
             
-            <?php if (in_array('Cliente', $rolesUsuarioSimple)): ?>
+            <?php if (in_array('Cliente', $rolesUsuarioSimple) || in_array('Root', $rolesUsuarioSimple)): ?>
             <li class="list-group-item bg-dark text-white border-secondary">
                 <a href="<?= $ruta ?>/vista/misCompras.php" class="text-decoration-none text-primary d-block">
                     <i class="bi bi-bag-check me-2"></i> Mis Pedidos
@@ -128,8 +142,8 @@ $jsonRoles = json_encode($rolesUsuarioSimple);
     document.addEventListener("DOMContentLoaded", function() {
         // Inyectamos el array de roles
         const misRoles = <?php echo $jsonRoles; ?>;
-        
-        // Roles permitidos (los puse a manu))
+        console.log(misRoles);
+        // Roles permitidos (los puse a mano))
         const rolesDeAdmin = ['Root', 'Administrador', 'Cliente'];
         
         // Verificamos coincidencia
@@ -137,11 +151,6 @@ $jsonRoles = json_encode($rolesUsuarioSimple);
         
         const adminBtn = document.getElementById('admin-menu-toggle');
         
-        // Lógica de visibilidad
-        if (esAdmin && adminBtn) {
-            adminBtn.style.display = 'block'; // Mostrar
-        } else if (adminBtn) {
-            adminBtn.style.display = 'none';  // Ocultar 
-        }
+
     });
 </script>

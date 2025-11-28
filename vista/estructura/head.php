@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/color.css">
 
     <?php
+        include_once(__DIR__.'/configuracion.php');
         include_once('ruta.php');
         $ruta = ruta();
         // Incluimos Session acá para que esté disponible en todas partes

@@ -14,6 +14,7 @@ include_once('estructura/head.php');
     <script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
 
     <div class="container my-5">
+        <?php if (in_array('Root', $rolesUsuarioSimple)){ ?>
         <div class="table-responsive">
             <table id="tg" class="easyui-treegrid" title="Administración de Menús" style="width:100%;height:600px"
                 data-options="
@@ -83,6 +84,32 @@ include_once('estructura/head.php');
                 <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveMenu()" style="width:90px">Guardar</a>
                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancelar</a>
             </div>
+            <?php } 
+        else{ ?>
+            <div class="container d-flex justify-content-center align-items-center vh-100">
+                <div class="card shadow-lg p-3 mb-5 bg-body-tertiary rounded text-center" style="max-width: 500px; width: 100%;">
+                    <div class="card-body p-5">
+                        <div class="mb-4 text-danger">
+                            <i class="bi bi-shield-lock-fill" style="font-size: 4rem;"></i>
+                        </div>
+
+                        <h2 class="card-title fw-bold mb-3 text-secondary">Acceso Restringido</h2>
+
+                        <p class="card-text text-muted mb-4 fs-5">
+                            No posee los permisos necesarios para acceder al módulo de <strong>Administración de Usuarios</strong>.
+                        </p>
+
+                        <hr class="my-4">
+
+                        <p class="small text-secondary mb-3">Si cree que esto es un error, contacte al administrador.</p>
+
+                        <a href="index.php" class="btn btn-outline-danger w-100 rounded-pill">
+                            <i class="bi bi-arrow-left me-2"></i> Volver al Inicio
+                        </a>
+                    </div>
+                </div>
+            </div>
+    <?php  } ?>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
         </div>

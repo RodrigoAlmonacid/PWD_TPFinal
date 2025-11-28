@@ -8,6 +8,7 @@ class Menu{
     private $meDescripcion;
     private $idPadre;
     private $meDeshabilitado;
+    private $iconoBootstrap;
     private $mensaje;
 
     //constructor
@@ -19,6 +20,7 @@ class Menu{
         $this->idPadre="";
         $this->meDeshabilitado=date('Y-m-d H:i:s');
         $this->mensaje="";
+        $this->iconoBootstrap="";
     }
 
     //métodos de acceso
@@ -64,6 +66,13 @@ class Menu{
         $this->mensaje=$mensaje;
     }
 
+    public function getIconoBootstrap(){
+        return $this->iconoBootstrap;
+    }
+    public function setIconoBootstrap($iconoBootstrap){
+        $this->iconoBootstrap=$iconoBootstrap;
+    }
+
     //metodo toString
     public function __toString()
     {
@@ -76,16 +85,18 @@ class Menu{
             $menu.="Menú deshabilitado desde ".$deshabilitado."\n";
         }
         else{
-            $menu.="Menú habilitado";
+            $menu.="Menú habilitado\n";
         }
+        $menu.="Clase del icono de bootstrap: ".$this->getIconoBootstrap()."\n";
         return $menu;
     }
 
     //cargar menu
-    public function cargar($nombre, $descripcion, $idPadre){
+    public function cargar($nombre, $descripcion, $idPadre, $iconoBootstrap){
         $this->setMeNombre($nombre);
         $this->setMeDescripcion($descripcion);
         $this->setIdPadre($idPadre);
+        $this->setIconoBootstrap($iconoBootstrap);
     }
 
     //buscar un menu por id
@@ -102,7 +113,8 @@ class Menu{
                     $this->setMeNombre($row['menombre']);
                     $this->setMeDescripcion($row['medescripcion']);
                     $this->setIdPadre($row['idpadre']);
-                    $this->setMeDeshabilitado($row['medeshabilitado']);    
+                    $this->setMeDeshabilitado($row['medeshabilitado']);
+                    $this->setIconoBootstrap($row['iconoBootstrap']);    
                 }
             }
             else {
@@ -132,7 +144,8 @@ class Menu{
                         $objMenu->setMeNombre($row['menombre']);
                         $objMenu->setMeDescripcion($row['medescripcion']);
                         $objMenu->setIdPadre($row['idpadre']);
-                        $objMenu->setMeDeshabilitado($row['medeshabilitado']);  
+                        $objMenu->setMeDeshabilitado($row['medeshabilitado']);
+                        $objMenu->setIconoBootstrap($row['iconoBootstrap']);  
                         array_push($arregloMenu, $objMenu);
                     }while($row = $base->Registro());
                 }
@@ -153,9 +166,9 @@ class Menu{
     public function insertar(){
         $agrega=false;
         $base=new BaseDatos();
-        $consulta="INSERT INTO menu (menombre, medescripcion, idpadre, medeshabilitado) VALUES";
+        $consulta="INSERT INTO menu (menombre, medescripcion, idpadre, medeshabilitado, iconoBootstrap) VALUES";
         $nombre = $this->getMeNombre();
-        $consulta.="('$nombre', '".$this->getMeDescripcion()."', ".$this->getIdPadre().", '".$this->getMeDeshabilitado()."');";
+        $consulta.="('$nombre', '".$this->getMeDescripcion()."', ".$this->getIdPadre().", '".$this->getMeDeshabilitado().", '".$this->getIconoBootstrap()."');";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $agrega=true;

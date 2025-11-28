@@ -117,9 +117,9 @@ class UsuarioRol{
     /** funcion para listar todos los usuarios y sus roles
      * @return array
      * */
-    public function listar(){
+    public function listar($param){
         $base=new BaseDatos();
-        $consulta="SELECT * FROM usuariorol ORDER BY idusuario;";
+        $consulta="SELECT * FROM usuariorol WHERE $param ORDER BY idusuario;";
         $arregloUsuarioRol=[];
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
