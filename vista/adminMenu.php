@@ -30,7 +30,8 @@ include_once('estructura/head.php');
                 <thead>
                     <tr>
                         <th field="menombre" width="50">Nombre</th>
-                        <th field="medescripcion" width="50">Descripción</th>
+                        <th field="medescripcion" width="50">Ruta/redirección</th>
+                        <th field="iconoBootstrap" width="50">Icono Bootstrap</th>
                         <th field="idmenu" width="20">ID</th>
                         <th field="medeshabilitado" width="30">Estado</th>
                     </tr>
@@ -41,6 +42,7 @@ include_once('estructura/head.php');
                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newMenu()">Nuevo Menú</a>
                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editMenu()">Editar Menú</a>
                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyMenu()">Eliminar Menú</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-man" plain="true" onclick="manageRoles()">Gestionar Roles</a>
             </div>
 
             <div id="dlg" class="easyui-dialog" style="width:500px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
@@ -80,6 +82,32 @@ include_once('estructura/head.php');
 
                 </form>
             </div>
+            <div id="dlg-roles" class="easyui-dialog" style="width:500px;height:400px;padding:10px"
+                data-options="closed:true,modal:true,title:'Gestionar Roles'">
+            <div style="margin-bottom:10px; display:flex; gap:5px;">
+                <select id="combo-roles" class="easyui-combobox" name="idrol" style="width:70%" 
+                    data-options="
+                        url:'accion/accionListarRoles.php', 
+                        method:'get',
+                        valueField:'idrol',
+                        textField:'rodescripcion',
+                        panelHeight:'auto',
+                        label:'Asignar Rol:',
+                        labelWidth:80
+                    ">
+                </select>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-add" onclick="addRole()">Agregar</a>
+            </div>
+            <table id="dg-roles" class="easyui-datagrid" style="width:100%;height:280px"
+                data-options="singleSelect:true, rownumbers:true">
+                <thead>
+                    <tr>
+                        <th field="rodescripcion" width="70%">Rol</th>
+                        <th field="action" width="30%" formatter="formatDeleteRole">Acción</th>
+                    </tr>
+                </thead>
+            </table>
+            </div>
             <div id="dlg-buttons">
                 <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveMenu()" style="width:90px">Guardar</a>
                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancelar</a>
@@ -110,8 +138,9 @@ include_once('estructura/head.php');
                 </div>
             </div>
     <?php  } ?>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
+           <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        --> 
+           <script src="js/adminMenu.js" type="text/javascript"></script>
         </div>
     </div>
 <?php include_once('estructura/footer.php'); ?>

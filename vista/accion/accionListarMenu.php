@@ -12,6 +12,7 @@ foreach ($listaMenus as $elem) {
     $nuevoElem["idmenu"] = $elem->getIdMenu();
     $nuevoElem["menombre"] = $elem->getMeNombre();
     $nuevoElem["medescripcion"] = $elem->getMeDescripcion();
+    $nuevoElem["iconoBootstrap"] = $elem->getIconoBootstrap();
     $nuevoElem["idpadre"] = $elem->getIdPadre();
     $estado = $elem->getMeDeshabilitado();
         if($estado==null){

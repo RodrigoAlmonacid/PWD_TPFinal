@@ -27,23 +27,21 @@ if (isset($datos['operacion'])) {
 
     // --- OPERACIONES ---
 
+        // agregar rol
     if ($datos['operacion'] == 'alta') {
-        if ($objAbmMenu->alta($datos)) {
+        if ($objAbmUsuarioRol->alta($datos)) {
             $respuesta = true;
         } else {
-            $mensajeError = "No se pudo crear el menú.";
+            $mensaje = "No se pudo asignar el rol (posiblemente ya lo tenga).";
         }
     }
 
-    if ($datos['operacion'] == 'modificacion') {
-        if (!isset($datos['idmenu']) && isset($_GET['idmenu'])) {
-            $datos['idmenu'] = $_GET['idmenu'];
-        }
-
-        if ($objAbmMenu->modificacion($datos)) {
+    // eliminar rol
+    if ($datos['operacion'] == 'baja') {
+        if ($objAbmUsuarioRol->baja($datos)) {
             $respuesta = true;
         } else {
-            $mensajeError = "No se pudo modificar el menú.";
+            $mensaje = "No se pudo quitar el rol.";
         }
     }
 

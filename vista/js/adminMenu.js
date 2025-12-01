@@ -75,3 +75,59 @@ function destroyMenu(){
         $.messager.alert('Atención', 'Por favor selecciona un menú para eliminar.', 'warning');
     }
 }
+
+//sección de roles (corregir, está copiado de roles de usuarios)
+function manageRoles() {
+    var row = $('#dg').datagrid('getSelected');
+    console.log(row);
+    if (row) {
+        idMenuSeleccionado = row.idmenu;
+        $('#dlg-roles').dialog('open');
+        // Cargamos la grilla de roles de este menu
+        $('#dg-roles').datagrid({
+            url: 'accion/accionMenuRol.php?operacion=listar&idmenu=' + idMenuSeleccionado
+        });
+    } else {
+        $.messager.alert('Atención', 'Selecciona un usuario primero.', 'warning');
+    }
+}
+
+function addRole() {
+    var idRol = $('#combo-roles').combobox('getValue');
+    if (idRol) {
+        $.post('accion/accionUsuarioRol.php?operacion=alta', 
+            { idusuario: idUsuarioSeleccionado, idrol: idRol }, 
+            function(result) {
+                            console.log(result);
+                if (result.success) {
+                    $('#dg-roles').datagrid('reload'); // Recargamos la lista
+                    $.messager.show({title: 'Éxito', msg: 'Rol asignado correctamente'});
+                } else {
+                    $.messager.show({title: 'Error', msg: result.errorMsg});
+                }
+            }, 'json');
+    } else {
+        $.messager.alert('Error', 'Selecciona un rol de la lista.');
+    }
+}
+
+// Formateador para poner el botón de eliminar en la grilla
+function formatDeleteRole(val, row) {
+    return '<a href="javascript:void(0)" onclick="deleteRole('+row.idrol+')">Quitar</a>';
+}
+
+function deleteRole(idRol) {
+    $.messager.confirm('Confirmar', '¿Quitar este rol?', function(r) {
+        if (r) {
+            $.post('accion/accionUsuarioRol.php?operacion=baja', 
+                { idusuario: idUsuarioSeleccionado, idrol: idRol }, 
+                function(result) {
+                    if (result.success) {
+                        $('#dg-roles').datagrid('reload');
+                    } else {
+                        $.messager.show({title: 'Error', msg: result.errorMsg});
+                    }
+                }, 'json');
+        }
+    });
+}
