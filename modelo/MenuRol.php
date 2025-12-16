@@ -58,7 +58,7 @@ class MenuRol{
 
     //buscar un roles por id Menu o por id rol, mando el parámetro correspondiente
     public function buscar($params){
-        $where = "TRUE";
+        $where = "true";
         $respuesta=false;
         $arreglo=[
             'rol'=>"",
@@ -87,18 +87,24 @@ class MenuRol{
                         if($params['idrol']){
                             $arregloMenu=[];
                             do{
-                                $objMenu=new Menu();
-                                $objMenu->buscar($row['idmenu']);  
-                                array_push($arregloMenu, $objMenu);
-                            }while($row = $base->Registro());
-                            $arreglo['menu']=$arregloMenu;
+                                // Aquí, $row contiene los datos de la fila actual
+                                $objMenu = new Menu();
+                                // PASO CLAVE: Asegúrate que $row['idmenu'] exista
+                                if (isset($row['idmenu'])) {
+                                    $objMenu->buscar($row['idmenu']); 
+                                    array_push($arregloMenu, $objMenu);
+                                }
+                            }while($row = $base->Registro()); // <--- $row se actualiza aquí
+                            $arreglo['menu'] = $arregloMenu;
                         }
                         if($params['idmenu']){
                             $arregloRol=[];
                             do{
                                 $objRol=new Rol();
-                                $objRol->buscar($row['idrol']);  
-                                array_push($arregloRol, $objRol);
+                                if(isset($row['idrol'])){
+                                    $objRol->buscar($row['idrol']);  
+                                    array_push($arregloRol, $objRol);
+                                }
                             }while($row = $base->Registro());
                             $arreglo['rol']=$arregloRol;
                         } 
@@ -117,9 +123,9 @@ class MenuRol{
     /** funcion para listar todos los Menus y sus roles
      * @return array
      * */
-    public function listar(){
+    public function listar($param){
         $base=new BaseDatos();
-        $consulta="SELECT * FROM menurol ORDER BY idrol;";
+        $consulta="SELECT * FROM menurol WHERE $param ORDER BY idrol;";
         $arregloMenuRol=[];
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){

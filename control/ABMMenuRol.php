@@ -1,4 +1,7 @@
 <?php
+include_once('../modelo/Menu.php');
+include_once('../modelo/Rol.php');
+include_once('../modelo/MenuRol.php');
 class ABMMenuRol {
     
     // En MenuRol la clave es compuesta (idmenu + idrol)
@@ -8,12 +11,10 @@ class ABMMenuRol {
             $obj = new MenuRol();
             // Necesitamos los objetos Menu y Rol completos
             $objMenu = new Menu();
-            $objMenu->setIdMenu($param['idmenu']);
-            $objMenu->cargar($param['idmenu']); // Asumiendo que Menu tiene cargar
+            $objMenu->buscar($param['idmenu']); 
             
             $objRol = new Rol();
-            $objRol->setId_rol($param['idrol']);
-            $objRol->cargar($param['idrol'], null); // Asumiendo que Rol tiene cargar
+            $objRol->buscar($param['idrol']);
 
             $obj->setObjMenu($objMenu);
             $obj->setObjRol($objRol);

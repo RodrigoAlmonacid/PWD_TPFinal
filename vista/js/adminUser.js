@@ -101,7 +101,6 @@ function addRole() {
         $.post('accion/accionUsuarioRol.php?operacion=alta', 
             { idusuario: idUsuarioSeleccionado, idrol: idRol }, 
             function(result) {
-                            console.log(result);
                 if (result.success) {
                     $('#dg-roles').datagrid('reload'); // Recargamos la lista
                     $.messager.show({title: 'Éxito', msg: 'Rol asignado correctamente'});

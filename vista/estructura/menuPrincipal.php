@@ -1,15 +1,24 @@
 <?php
-
+include_once('../control/ABMMenuRol.php');
 // Recuperamos los roles 
 $rolesUsuarioSimple = [];
+$rolesMenu=[];
 if ($objSession->activa()) {
     $listaRolesObjetos = $objSession->getRol();
     foreach ($listaRolesObjetos as $objRol) {
-        $rolesUsuarioSimple[] = $objRol->getDescripcion_rol();
+        $objMenuRol=new ABMMenuRol();
+        $param['idrol']=$objRol->getId_rol();
+        $rolesMenu[]=$objMenuRol->buscar($param);
+        $rolesUsuarioSimple[]=$objRol->getId_rol();
+    }
+    $ejemplo=[];
+    foreach($rolesMenu as $arreglo){
+        $ejemplo[]=$arreglo //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     }
 }
 // Preparamos el array JSON para el JavaScript
 $jsonRoles = json_encode($rolesUsuarioSimple);
+$jsonRolesMenu=json_encode($rolesMenu);
 ?>
 
 <header>
@@ -142,7 +151,9 @@ $jsonRoles = json_encode($rolesUsuarioSimple);
     document.addEventListener("DOMContentLoaded", function() {
         // Inyectamos el array de roles
         const misRoles = <?php echo $jsonRoles; ?>;
-        console.log(misRoles);
+        const RolesMenu = <?php echo $jsonRolesMenu; ?>;
+        console.log('roles de usuario', misRoles);
+        console.log('menuRol: ', RolesMenu);
         // Roles permitidos (los puse a mano))
         const rolesDeAdmin = ['Root', 'Administrador', 'Cliente'];
         
