@@ -132,9 +132,15 @@ class MenuRol{
                 $row=$base->Registro();
                 if($row){
                     do{
-                        $params=['idmenu'=>$row['idmenu'], 'idrol'=>$row['idrol']];
+                        //$params=['idmenu'=>$row['idmenu'], 'idrol'=>$row['idrol']];
+                        $objMenu=new Menu();
+                        $objMenu->buscar($row['idmenu']);
+                        $objRol=new Rol();
+                        $objRol->buscar($row['idrol']);
                         $objMenuRol=new MenuRol();
-                        $objMenuRol->buscar($params);  
+                        $objMenuRol->setobjMenu($objMenu);
+                        $objMenuRol->setObjRol($objRol);
+                        //$objMenuRol->buscar($params);  
                         array_push($arregloMenuRol, $objMenuRol);
                     }while($row = $base->Registro());
                 }

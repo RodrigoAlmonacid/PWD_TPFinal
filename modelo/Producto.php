@@ -1,5 +1,6 @@
 <?php
 include_once('conector/conector.php');
+date_default_timezone_set('America/Argentina/Buenos_Aires');
 class Producto
 {
     private $idProducto;
@@ -20,7 +21,7 @@ class Producto
         $this->mensaje = "";
         $this->detallesProd = "";
         $this->imgProd = "";
-        $this->proDeshabilitado = 0;
+        $this->proDeshabilitado = date('Y-m-d H:i:s');
     }
 
     //Metodos de acceso Get
@@ -121,15 +122,13 @@ class Producto
 
     //Cargar Producto
 
-    public function cargar($idProducto, $nomProducto, $detallesProd, $stockProducto, $proPrecio, $imgProd, $proDeshabilitado)
+    public function cargar($nomProducto, $detallesProd, $stockProducto, $proPrecio, $imgProd)
     {
-        $this->setIdProducto($idProducto);
         $this->setNomProducto($nomProducto);
         $this->setDetallesProd($detallesProd);
         $this->setStockProducto($stockProducto);
         $this->setProPrecio($proPrecio);
         $this->setImgProd($imgProd);
-        $this->setProDeshabilitado($proDeshabilitado);
     }
 
     //Buscar un producto por id
@@ -203,16 +202,14 @@ class Producto
     public function insertar()
 {
     $agrega = false;
-    $base = new BaseDatos();
-    $deshabilitado = (int)$this->getProDeshabilitado(); 
-    $consulta = "INSERT INTO producto (pronombre, prodetalle, procantstock, proimagen, proprecio, prodeshabilitado) VALUES";
+    $base = new BaseDatos(); 
+    $consulta = "INSERT INTO producto (pronombre, prodetalle, procantstock, proprecio, proimagen, prodeshabilitado) VALUES";
     $consulta .= "('" . $this->getNomProducto() . "', ";
     $consulta .= "'" . $this->getDetallesProd() . "', ";
     $consulta .= $this->getStockProducto() . ", "; 
+    $consulta .= $this->getProPrecio() . ", "; 
     $consulta .= "'" . $this->getImgProd() . "', ";
-    $consulta .= $this->getProPrecio() . ", ";
-    $consulta .= $deshabilitado . ");";
-    
+    $consulta .= "'".$this->getProDeshabilitado() . "'); ";   
     if ($base->iniciar()) {
         if ($base->Ejecutar($consulta)) {
             $agrega = true; 
@@ -234,7 +231,14 @@ class Producto
         $modifica = false;
         $consulta = "UPDATE producto SET ";
         $consulta .= "pronombre='" . $this->getNomProducto() . "', prodetalle='" . $this->getDetallesProd() . "', procantstock=" . $this->getStockProducto() . ", proimagen='" . $this->getImgProd();
-        $consulta .= "', proprecio=" . $this->getProPrecio() . ", prodeshabilitado=" . $this->getProDeshabilitado() . " WHERE idproducto=" . $this->getIdProducto() . ";";
+        $consulta .= "', proprecio=" . $this->getProPrecio() . ",";
+        $fecha=$this->getProDeshabilitado();
+        if ($fecha == null || $fecha == "null") {
+            $consulta .= " prodesHabilitado=NULL"; 
+        } else {
+            $consulta .= " prodesHabilitado='".$fecha."'";
+        }
+        $consulta.= " WHERE idproducto=" . $this->getIdProducto() . ";";
         if ($base->iniciar()) {
             if ($base->Ejecutar($consulta)) {
                 $modifica = true;

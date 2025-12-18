@@ -1,24 +1,36 @@
 <?php
 include_once('../control/ABMMenuRol.php');
+include_once('../modelo/Menu.php');
 // Recuperamos los roles 
 $rolesUsuarioSimple = [];
-$rolesMenu=[];
+$menuSegunRol=[];
+$ejemplo=[];
+//$_SESSION=[];
 if ($objSession->activa()) {
     $listaRolesObjetos = $objSession->getRol();
     foreach ($listaRolesObjetos as $objRol) {
         $objMenuRol=new ABMMenuRol();
         $param['idrol']=$objRol->getId_rol();
-        $rolesMenu[]=$objMenuRol->buscar($param);
+        $menuRol=$objMenuRol->buscar($param);
+        array_push($menuSegunRol, $menuRol);
         $rolesUsuarioSimple[]=$objRol->getId_rol();
     }
-    $ejemplo=[];
-    foreach($rolesMenu as $arreglo){
-        $ejemplo[]=$arreglo //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    if(count($menuSegunRol)>0){
+        foreach($menuSegunRol as $objMenuRol){
+            for($i=0; $i<count($objMenuRol); $i++){
+                $objMenu=$objMenuRol[$i]->getObjMenu();
+                $variable=$objMenu->getMeDescripcion();
+                array_push($ejemplo, $variable);
+            }
+        }
+    }
+    else{
+        $ejemplo="No trae nada";
     }
 }
 // Preparamos el array JSON para el JavaScript
 $jsonRoles = json_encode($rolesUsuarioSimple);
-$jsonRolesMenu=json_encode($rolesMenu);
+$jsonRolesMenu=json_encode($ejemplo);
 ?>
 
 <header>
@@ -96,47 +108,30 @@ $jsonRolesMenu=json_encode($rolesMenu);
             }
                     -->
             <?php if (count($rolesUsuarioSimple) > 0): ?>
-            <li class="list-group-item bg-dark text-white border-secondary">
-                <a href="<?= $ruta ?>/vista/index.php" class="text-decoration-none text-light d-block">
-                    <i class="bi bi-speedometer2 me-2"></i> Inicio / Dashboard
-                </a>
-            </li>
+                <li class="list-group-item bg-dark text-white border-secondary">
+                    <a href="<?= $ruta ?>/vista/index.php" class="text-decoration-none text-light d-block">
+                    <i class="bi bi-speedometer2 me-2"></i> Inicio
+                    </a>
+                </li>
             <?php endif; ?>
-
-            <?php if (in_array('Root', $rolesUsuarioSimple)): ?>
-            <li class="list-group-item bg-dark text-white border-secondary">
-                <a href="<?= $ruta ?>/vista/adminUser.php" class="text-decoration-none text-warning d-block">
-                    <i class="bi bi-people-fill me-2"></i> Gestión de Usuarios (Root)
-                </a>
-            </li>
-            <li class="list-group-item bg-dark text-white border-secondary">
-                <a href="<?= $ruta ?>/vista/adminMenu.php" class="text-decoration-none text-warning d-block">
-                    <i class="bi bi-list-nested me-2"></i> Gestión de Menús (Root)
-                </a>
-            </li>
-            <?php endif; ?>
-
-            <?php if (in_array('Administrador', $rolesUsuarioSimple) || in_array('Root', $rolesUsuarioSimple)): ?>
-            <li class="list-group-item bg-dark text-white border-secondary">
-                <a href="<?= $ruta ?>/vista/adminStock.php" class="text-decoration-none text-info d-block">
-                    <i class="bi bi-box-seam me-2"></i> Control de Stock
-                </a>
-            </li>
-            <li class="list-group-item bg-dark text-white border-secondary">
-                <a href="<?= $ruta ?>/vista/adminProductos.php" class="text-decoration-none text-success d-block">
-                    <i class="bi bi-currency-dollar me-2"></i> Gestión de Productos
-                </a>
-            </li>
-            <?php endif; ?>
-            
-            <?php if (in_array('Cliente', $rolesUsuarioSimple) || in_array('Root', $rolesUsuarioSimple)): ?>
-            <li class="list-group-item bg-dark text-white border-secondary">
-                <a href="<?= $ruta ?>/vista/misCompras.php" class="text-decoration-none text-primary d-block">
-                    <i class="bi bi-bag-check me-2"></i> Mis Pedidos
-                </a>
-            </li>
-            <?php endif; ?>
-
+            <?php
+            foreach($menuSegunRol as $menu){
+                if(isset($menu[0])){
+                    for($i=0; $i<count($menu); $i++){
+                        $objMenu=$menu[$i]->getObjMenu();
+                        if(!$objMenu->getMeDeshabilitado()){
+                            ?> 
+                            <li class="list-group-item bg-dark text-white border-secondary">
+                                <a href="<?php  echo $ruta.$objMenu->getMeDescripcion() ?>" class="text-decoration-none text-light d-block">
+                                <i class="<?php  echo $objMenu->getIconoBootstrap() ?>"></i> <?php  echo $objMenu->getMeNombre() ?>
+                                </a>
+                            </li>
+                        <?php
+                        }
+                    }
+                }
+            }
+            ?> 
         </ul>
 
         <div class="mt-auto pt-5">

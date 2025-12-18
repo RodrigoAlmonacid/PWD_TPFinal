@@ -1,21 +1,19 @@
 <?php
-
+date_default_timezone_set('America/Argentina/Buenos_Aires');
 class ABMProducto
 {
     //crea un objeto producto
     private function cargar($param)
     {
         $objProducto = null;
-        if (array_key_exists('pronombre', $param) && array_key_exists('prodetalle', $param) && array_key_exists('procantstock', $param) && array_key_exists('proimagen', $param) && array_key_exists('proprecio', $param) && array_key_exists('prodeshabilitado', $param)) {
+        if (array_key_exists('pronombre', $param) && array_key_exists('prodetalle', $param) && array_key_exists('procantstock', $param) && array_key_exists('proimagen', $param) && array_key_exists('proprecio', $param)) {
             $objProducto = new Producto();
             $objProducto->cargar(
-                $param['idproducto'] ?? null,
                 $param['pronombre'],
                 $param['prodetalle'],
                 $param['procantstock'],
-                $param['proimagen'],
                 $param['proprecio'],
-                $param['prodeshabilitado']
+                $param['proimagen']
             );
         }
         return $objProducto;
@@ -74,8 +72,12 @@ class ABMProducto
                 if(isset($param['proprecio'])) {
                     $objProducto->setProPrecio($param['proprecio']);
                 }
-                if(isset($param['prodeshabilitado'])) {
-                    $objProducto->setProDeshabilitado($param['prodeshabilitado']);
+                if (isset($param['prodeshabilitado']) && $param['prodeshabilitado']=="Habilitado") {
+                    $objProducto->setProDeshabilitado("null");
+                }
+                elseif (isset($param['prodeshabilitado']) && $param['prodeshabilitado']=="Deshabilitado") {
+                    $date=date('Y-m-d H:i:s');
+                    $objProducto->setProDeshabilitado($date);
                 }
 
                 $respuesta = $objProducto->modificar();

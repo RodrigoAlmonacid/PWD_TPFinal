@@ -14,7 +14,7 @@ include_once('estructura/head.php');
     <script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
 
     <div class="container my-5">
-        <?php if (in_array('Root', $rolesUsuarioSimple)){ ?>
+        <?php if (in_array(1, $rolesUsuarioSimple)){ ?>
         <div class="table-responsive">
             <table id="tg" class="easyui-treegrid" title="Administración de Menús" style="width:100%;height:600px"
                 data-options="

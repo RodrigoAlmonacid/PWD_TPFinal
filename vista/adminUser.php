@@ -21,7 +21,7 @@
 <body class="d-flex flex-column min-vh-100">
     <?php include_once('estructura/menuPrincipal.php'); ?>
     <main class="container my-5 flex-grow-1">
-        <?php if (in_array('Root', $rolesUsuarioSimple)){ ?>
+        <?php if (in_array(1, $rolesUsuarioSimple)){ ?>
             <div class="card shadow-lg p-4">
                 <h2>Gestion de usuarios</h2>
                 <p>Seleccione la acción que desea realizar</p>
