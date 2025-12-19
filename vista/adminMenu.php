@@ -33,6 +33,7 @@ include_once('estructura/head.php');
                         <th field="medescripcion" width="50">Ruta/redirección</th>
                         <th field="iconoBootstrap" width="50">Icono Bootstrap</th>
                         <th field="idmenu" width="20">ID</th>
+                        <th field="idpadre" width="20">ID Padre</th>
                         <th field="medeshabilitado" width="30">Estado</th>
                     </tr>
                 </thead>
@@ -55,6 +56,10 @@ include_once('estructura/head.php');
                     
                     <div style="margin-bottom:10px">
                         <input name="medescripcion" class="easyui-textbox" required="true" label="Ruta/Desc:" style="width:100%">
+                    </div>
+
+                    <div id="divIcono" style="margin-bottom:10px">
+                        <input id="icono" name="iconoBootstrap" class="easyui-textbox" required="true" label="Icono:" style="width:100%">
                     </div>
 
                     <div style="margin-bottom:10px">

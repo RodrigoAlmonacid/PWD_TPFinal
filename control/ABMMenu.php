@@ -9,6 +9,7 @@ class ABMMenu {
             
             $obj->setMeNombre($param['menombre']);
             $obj->setMeDescripcion($param['medescripcion']);
+            $obj->setIconoBootstrap($param['iconoBootstrap']);
             
             // Manejo de ID Padre (puede ser null)
             if (isset($param['idpadre']) && $param['idpadre'] != "" && $param['idpadre'] != "null"){
@@ -21,7 +22,7 @@ class ABMMenu {
             if(isset($param['medeshabilitado'])){
                 $obj->setMeDeshabilitado($param['medeshabilitado']);
             } else {
-                $obj->setMeDeshabilitado(null); // Habilitado por defecto
+                $obj->setMeDeshabilitado(null);
             }
         }
         return $obj;

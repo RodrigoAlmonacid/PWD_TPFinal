@@ -1,22 +1,32 @@
 var url;
 
 function newMenu(){
+    const selectDivId=document.getElementById('divIcono');
+    //Ocultar/mostrar
+    $(selectDivId).hide();
+    //Deshabilitar/habilitar 
+    $('#icono').combobox('disable');
     $('#dlg').dialog('open').dialog('center').dialog('setTitle','Nuevo Menú');
     $('#fm').form('clear');
     
-    // Por defecto habilitado al crear
-    $('#select-estado').combobox('setValue', 'Habilitado');
+    // Por defecto deshabilitado al crear
+    $('#select-estado').combobox('setValue', 'Deshabilitado');
     
     url = 'accion/accionMenu.php?operacion=alta';
 }
 
 function editMenu(){
+    const selectDivId=document.getElementById('divIcono');
+    //Ocultar/mostrar
+    $(selectDivId).show(); 
+    //Deshabilitar/habilitar
+    $('#icono').combobox('enable');
+    //
     var row = $('#tg').treegrid('getSelected');
     if (row){
         $('#dlg').dialog('open').dialog('center').dialog('setTitle','Editar Menú');
         $('#fm').form('load',row);
-        console.log(row);
-        // Lógica para el combo de estado (igual que en usuarios)
+        // Lógica para el cambio de estado (igual que en usuarios)
         if(row.medeshabilitado == null || row.medeshabilitado == "0000-00-00 00:00:00"){
              $('#select-estado').combobox('setValue', 'Habilitado');
         } else {
@@ -35,6 +45,7 @@ function saveMenu(){
         onSubmit: function(){
             return $(this).form('validate');
         },
+        
         success: function(result){
             if (result === "") {
         $.messager.show({ title: 'Error', msg: 'El servidor no respondió nada. Revisa el PHP.' });

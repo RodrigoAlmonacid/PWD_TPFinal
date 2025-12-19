@@ -13,9 +13,9 @@
                         <div class="card-body">
 
                             <h2 class="card-title text-center mb-4">
-                                <i class="bi bi-person-fill me-2 text-warning"></i> Iniciar Sesión
+                                <i class="bi bi-person-fill me-2 text-warning"></i>Recuperar contraseña
                             </h2>
-                            <p class="text-center text-muted mb-4">Accede a tu cuenta de "Ponete las pilas"</p>
+                            <p class="text-center text-muted mb-4">Se enviará un link de recuperación</p>
                             <?php
                             if (isset($_GET['error'])) {
                                 echo "
@@ -35,7 +35,7 @@
                                 ";
                             }
                             ?>
-                            <form action="accion/verificarLogin.php" method="POST">
+                            <form action="accion/generaToken.php" method="POST">
 
                                 <div class="mb-3">
                                     <label for="inputEmail" class="form-label">Email (Usuario)</label>
@@ -49,26 +49,10 @@
                                     >
                                 </div>
 
-                                <div class="mb-4">
-                                    <label for="inputPassword" class="form-label">Contraseña</label>
-                                    <input 
-                                        type="password" 
-                                        class="form-control" 
-                                        id="inputPassword" 
-                                        name="uspass" 
-                                        required
-                                    >
-                                </div>
-
                                 <div class="d-grid mb-3">
                                     <button type="submit" class="btn btn-dark btn-lg">
-                                        <i class="bi bi-box-arrow-in-right me-2"></i> Entrar
+                                        <i class="bi bi-box-arrow-in-right me-2"></i> Solicitar
                                     </button>
-                                </div>
-
-                                <div class="text-center mt-3">
-                                    <a href="recuperacionPass.php" class="text-muted small me-3">¿Olvidaste tu contraseña?</a> 
-                                    <a href="registro.php" class="text-warning small fw-bold">Crear una cuenta</a>
                                 </div>
 
                             </form>

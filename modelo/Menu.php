@@ -166,9 +166,24 @@ class Menu{
     public function insertar(){
         $agrega=false;
         $base=new BaseDatos();
-        $consulta="INSERT INTO menu (menombre, medescripcion, idpadre, medeshabilitado, iconoBootstrap) VALUES";
+        $consulta="INSERT INTO menu (menombre, medescripcion, idpadre, medeshabilitado) VALUES";
         $nombre = $this->getMeNombre();
-        $consulta.="('$nombre', '".$this->getMeDescripcion()."', ".$this->getIdPadre().", '".$this->getMeDeshabilitado().", '".$this->getIconoBootstrap()."');";
+        $descripcion=$this->getMeDescripcion();
+        $idPadre=$this->getIdPadre();
+        $deshabilitado=$this->getMeDeshabilitado();
+        $consulta.="('$nombre', '$descripcion', ";
+        if($idPadre==null || $idPadre=="null"){
+            $consulta.=" NULL,";
+        }
+        else{
+            $consulta.=$idPadre.",";
+        }
+        if($deshabilitado==null || $deshabilitado=="null"){
+            $consulta.=" NULL);";
+        }
+        else{
+            $consulta.=" '".$deshabilitado."');";
+        }
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $agrega=true;
@@ -197,7 +212,7 @@ class Menu{
         } else {
             $consulta .= "', medeshabilitado='".$des."'";
         }
-        $consulta.=" WHERE idmenu=".$this->getIdMenu().";";        
+        $consulta.=", iconoBootstrap= '".$this->getIconoBootstrap()."' WHERE idmenu=".$this->getIdMenu().";";        
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
             $modifica=true;

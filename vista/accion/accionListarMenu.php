@@ -13,14 +13,18 @@ foreach ($listaMenus as $elem) {
     $nuevoElem["menombre"] = $elem->getMeNombre();
     $nuevoElem["medescripcion"] = $elem->getMeDescripcion();
     $nuevoElem["iconoBootstrap"] = $elem->getIconoBootstrap();
-    $nuevoElem["idpadre"] = $elem->getIdPadre();
+    $idPadre = $elem->getIdPadre();
     $estado = $elem->getMeDeshabilitado();
-        if($estado==null){
-            $estado="Habilitado";
-        }
-        else{
-            $estado="Deshabilitado";
-        }
+    if($estado==null){
+        $estado="Habilitado";
+    }
+    else{
+        $estado="Deshabilitado";
+    }
+    if($idPadre==null){
+        $idPadre="N/D";
+    }
+    $nuevoElem["idpadre"] = $idPadre;
     $nuevoElem["medeshabilitado"] = $estado;
     
     // --- ESTO ES LO IMPORTANTE PARA EASYUI TREEGRID ---
