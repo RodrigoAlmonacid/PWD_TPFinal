@@ -23,13 +23,12 @@ if (count($checkEmail) > 0) {
 }
 
 // 4. Preparar los datos para la DB
-// Hasheamos la contraseña por seguridad
-$passSegura = md5($datos['uspass']);
+
 
 $datosRegistro = [
     'usnombre' => $datos['usnombre'],
     'usmail'   => $datos['usmail'],
-    'uspass'   => $passSegura
+    'uspass'   => $datos['uspass']
 ];
 
 // 5. Intentar insertar en la Base de Datos

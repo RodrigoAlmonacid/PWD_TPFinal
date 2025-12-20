@@ -171,18 +171,21 @@ class Usuario{
     /** Funcion que me permite modificar un usuario
      * @return bool
      */
-    public function modificar(){
+    public function modificar($olvida){
         $base=new BaseDatos();
         $modifica=false;
         $consulta="UPDATE usuario SET ";
         $consulta.="usnombre='".$this->getNom_usuario()."', usmail='".$this->getEmail_usuario();
         $fecha=$this->getDesHabilitado_usuario();
         if ($fecha == null || $fecha == "null") {
-            $consulta .= "', usdesHabilitado=NULL"; 
+            $consulta .= "', usdeshabilitado=NULL"; 
         } else {
-            $consulta .= "', usdesHabilitado='".$fecha."'";
+            $consulta .= "', usdeshabilitado='".$fecha."'";
         }
-        $consulta.=" WHERE idusuario=".$this->getId_usuario().";";        
+        if($olvida){
+            $consulta.=", uspass='".$this->getPass_usuario();
+        }
+        $consulta.="' WHERE idusuario=".$this->getId_usuario().";";      
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
             $modifica=true;

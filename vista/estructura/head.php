@@ -13,9 +13,10 @@
     <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/color.css">
 
     <?php
-        include_once(__DIR__.'/configuracion.php');
+        //include_once(__DIR__.'/configuracion.php');
         include_once('ruta.php');
         $ruta = ruta();
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
         // Incluimos Session acá para que esté disponible en todas partes
         include_once(__DIR__.'/../../control/Session.php');
         $objSession = new Session();

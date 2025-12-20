@@ -63,12 +63,11 @@ class ABMUsuario
     public function modificar($param)
     {
         $respuesta = false;
+        $olvida=false;
         if ($this->seteadosCamposClaves($param)) {
-
             $objUsuario = $this->cargarObjetoConClave($param);
 
             if ($objUsuario != null && $objUsuario->buscar($param['idusuario'])) {
-
                 if (isset($param['usnombre'])){
                     $objUsuario->setNom_usuario($param['usnombre']);
                 }
@@ -80,18 +79,19 @@ class ABMUsuario
                 if (isset($param['uspass']) && $param['uspass'] != "") {
                     $passEncriptada = md5($param['uspass']);
                     $objUsuario->setPass_usuario($passEncriptada);
+                    $olvida=true;
                 }
                 
                 //lógica de deshabilitado (con problemaas)
-                if (isset($param['usdeshabilitado']) && $param['usdeshabilitado']=="Habilitado") {
+                if (isset($param['usdeshabilitado']) && ($param['usdeshabilitado']=="Habilitado" || $param['usdeshabilitado']==null || $param['usdeshabilitado']=="")) {
                     $objUsuario->setDesHabilitado_usuario("null");
                 }
                 elseif (isset($param['usdeshabilitado']) && $param['usdeshabilitado']=="Deshabilitado") {
                     $date=date('Y-m-d H:i:s');
                     $objUsuario->setDesHabilitado_usuario($date);
                 }
-                
-                $respuesta = $objUsuario->modificar();
+
+                $respuesta = $objUsuario->modificar($olvida);
             }
         }
         return $respuesta;
