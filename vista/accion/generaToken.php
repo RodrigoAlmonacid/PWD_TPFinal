@@ -10,14 +10,14 @@ $listaUsuarios = $objAbmUsuario->buscar(['usmail' => $datos['usmail']]);
 if (count($listaUsuarios) > 0) {
     // 1. Generar un Token seguro e irrepetible
     $token = bin2hex(random_bytes(32)); 
-    
+    $datos['idusuario']=$listaUsuarios[0]->getId_usuario();
     // 2. Definir vencimiento (Ahora + 1 hora)
     $vencimiento = date("Y-m-d H:i:s", strtotime('+1 hour'));
 
     // 3. Guardar en la tabla password_resets (necesitarás un ABM para esto o una consulta directa)
     // Supongamos una inserción directa para simplificar:
     $db = new BaseDatos();
-    $sql = "INSERT INTO pass_reset (usmail, token, vencimiento) VALUES ('{$datos['usmail']}', '$token', '$vencimiento')";
+    $sql = "INSERT INTO pass_reset (id, usmail, token, vencimiento) VALUES ({$datos['idusuario']}, '{$datos['usmail']}', '$token', '$vencimiento')";
     
     if ($db->ejecutar($sql)) {
         // 4. Enviar el Mail
