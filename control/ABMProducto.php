@@ -1,5 +1,6 @@
 <?php
 date_default_timezone_set('America/Argentina/Buenos_Aires');
+include_once(__DIR__.'/../modelo/Producto.php');
 class ABMProducto
 {
     //crea un objeto producto
@@ -109,7 +110,7 @@ public function buscar($param){
             $where.=" and pronombre ='" . $param['pronombre'] . "'";
 
         if  (isset($param['prodeshabilitado']))
-            $where.=" and prodeshabilitado =".$param['prodeshabilitado'];
+            $where.=" and prodeshabilitado IS ".$param['prodeshabilitado'];
     }
     $objProducto = new Producto();
     $arreglo = $objProducto->listar($where); 

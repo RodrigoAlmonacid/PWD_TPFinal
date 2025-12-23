@@ -1,11 +1,15 @@
 <?php
 include_once('../control/ABMMenuRol.php');
+include_once('../control/ABMProducto.php');
 include_once('../modelo/Menu.php');
 // Recuperamos los roles 
 $rolesUsuarioSimple = [];
 $menuSegunRol=[];
 $ejemplo=[];
 //$_SESSION=[];
+
+$objAbmProducto=new ABMProducto();
+$arregloProductos=$objAbmProducto->buscar(['prodeshabilitado' => 'NULL']);
 if ($objSession->activa()) {
     $listaRolesObjetos = $objSession->getRol();
     foreach ($listaRolesObjetos as $objRol) {

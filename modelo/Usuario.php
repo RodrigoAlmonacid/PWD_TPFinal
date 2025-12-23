@@ -183,9 +183,9 @@ class Usuario{
             $consulta .= "', usdeshabilitado='".$fecha."'";
         }
         if($olvida){
-            $consulta.=", uspass='".$this->getPass_usuario();
+            $consulta.=", uspass='".$this->getPass_usuario()."'";
         }
-        $consulta.="' WHERE idusuario=".$this->getId_usuario().";";      
+        $consulta.=" WHERE idusuario=".$this->getId_usuario().";";      
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
             $modifica=true;

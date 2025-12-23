@@ -2,8 +2,6 @@
     include_once('estructura/head.php');
 ?>
 <script type="text/javascript" src="js/adminUser.js"></script>
-</head>
-<body>
 
     <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css">

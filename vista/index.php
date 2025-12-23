@@ -5,67 +5,64 @@
 <body class="d-flex flex-column min-vh-100">
     <?php include_once('estructura/menuPrincipal.php'); ?>
     <main class="container my-5 flex-grow-1">
-        <h2 class="mb-4 border-bottom pb-2">Nuestros Productos</h2>
+    <h2 class="mb-4 border-bottom pb-2">Productos Destacados</h2>
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-            <div class="col">
-                <div class="card h-100 shadow-sm border-0">
-                    <img src="imagenes/pilaAA.jpg" class="card-img-top p-3" alt="Pila AA" 
-
-[Image of a generic AA battery pack]
->
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Pila AA Alcalina (Pack x4)</h5>
-                        <p class="card-text text-warning fw-bold fs-5">$150</p>
-                        <button class="btn btn-dark add-to-cart" data-product-id="1">
-                            <i class="bi bi-bag-plus"></i> Añadir
-                        </button>
+    <div id="carouselProductos" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <?php
+            $gruposProductos = array_chunk($arregloProductos, 4);
+            $isFirst = true;
+            foreach ($gruposProductos as $grupo) :
+            ?>
+                <div class="carousel-item <?php echo $isFirst ? 'active' : ''; ?>">
+                    <div class="row g-4">
+                        <?php foreach ($grupo as $objProducto) : ?>
+                            <div class="col-12 col-sm-6 col-md-3">
+                                <div class="card h-100 shadow-sm border-0 product-card">
+                                    <a href="detalleProducto.php?id=<?php echo $objProducto->getIdProducto(); ?>">
+                                        <img src="<?php echo $objProducto->getImgProd(); ?>" 
+                                             class="card-img-top p-3" 
+                                             alt="<?php echo $objProducto->getNomProducto(); ?>"
+                                             style="height: 200px; object-fit: contain;">
+                                    </a>
+                                    
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title text-truncate"><?php echo $objProducto->getNomProducto(); ?></h5>
+                                        <p class="card-text text-warning fw-bold fs-5">$<?php echo $objProducto->getProPrecio(); ?></p>
+                                        
+                                        <?php if ($objSession->activa()) : ?>
+                                            <button class="btn btn-dark add-to-cart" 
+                                                    data-product-id="<?php echo $objProducto->getIdproducto(); ?>">
+                                                <i class="bi bi-bag-plus"></i> Añadir
+                                            </button>
+                                        <?php else : ?>
+                                            <p class="small text-muted">Inicia sesión para comprar</p>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card h-100 shadow-sm border-0">
-                    <img src="imagenes/pilaAAA.jpg" class="card-img-top p-3" alt="Pila AAA" >
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Pila AAA Recargable</h5>
-                        <p class="card-text text-warning fw-bold fs-5">$250</p>
-                        <button class="btn btn-dark add-to-cart" data-product-id="2">
-                            <i class="bi bi-bag-plus"></i> Añadir
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
+            <?php
+                $isFirst = false;
+            endforeach;
+            ?>
         </div>
-    </main>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
-        <div class="offcanvas-header bg-dark text-white">
-            <h5 class="offcanvas-title" id="cartOffcanvasLabel"><i class="bi bi-bag-check-fill me-2"></i> Tu Carrito</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <ul class="list-group mb-4" id="cart-items">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Pila AA x4
-                    <span class="badge bg-warning text-dark">$500</span>
-                </li>
-                </ul>
-            
-            <div class="d-flex justify-content-between align-items-center mb-3 fw-bold fs-5 border-top pt-3">
-                <span>Total:</span>
-                <span class="text-danger">$500</span>
-            </div>
-            
-            <button class="btn btn-success w-100">
-                <i class="bi bi-credit-card-fill"></i> Finalizar Compra
-            </button>
-        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselProductos" data-bs-slide="prev" style="width: 5%; filter: invert(1);">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselProductos" data-bs-slide="next" style="width: 5%; filter: invert(1);">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
     </div>
+</main>
     <script type="text/javascript" src="js/javaScript.js"> </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
-</main>
     <?php
         include_once('estructura/footer.php');
     ?>
