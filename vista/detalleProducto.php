@@ -34,15 +34,11 @@
         <div class="col-md-6 mb-4">
             <div class="card shadow-sm border-0">
                 <img src="<?php echo $objProducto->getImgProd(); ?>" 
-                                             class="card-img-top p-3" 
-                                             alt="<?php echo $objProducto->getNomProducto(); ?>"
-                                             style="height: 200px; object-fit: contain;">
+                    class="card-img-top p-3" 
+                    alt="<?php echo $objProducto->getNomProducto(); ?>"
+                    style="height: 300px; object-fit: contain;">
             </div>
-            
-            <div class="d-flex justify-content-center mt-3">
-                <img src="imagenes/pilaAA_2.jpg" alt="Vista 1" class="img-thumbnail me-2" style="width: 80px; cursor: pointer;">
-                <img src="imagenes/pilaAA_3.jpg" alt="Vista 2" class="img-thumbnail me-2" style="width: 80px; cursor: pointer;">
-            </div>
+
         </div>
         
         <div class="col-md-6">
@@ -83,97 +79,24 @@
                     </div>
                 </div>
 
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-dark btn-lg">
-                        <i class="bi bi-cart-plus-fill me-2"></i> Añadir al Carrito
-                    </button>
-                </div>
+                <?php if ($objSession->activa()) : ?>
+                            <button class="btn btn-dark w-100 add-to-cart" 
+                                    data-product-id="<?php echo $objProducto->getIdProducto(); ?>">
+                                <i class="bi bi-cart-plus me-2"></i>Añadir al Carrito
+                            </button>
+                        <?php else : ?>
+                            <a href="login.php" class="btn btn-outline-secondary w-100">
+                                Inicia sesión para comprar
+                            </a>
+                        <?php endif; ?>
             </form>
             
-            <div class="text-center mt-3">
-                <a href="#" class="btn btn-outline-secondary btn-sm">
-                    <i class="bi bi-heart"></i> Añadir a Favoritos
-                </a>
-            </div>
         </div>
     </div>
 
     <hr class="my-5">
 
-    <div class="row">
-        <div class="col-12">
-            
-            <ul class="nav nav-tabs" id="productTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="desc-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">Descripción Completa</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="specs-tab" data-bs-toggle="tab" data-bs-target="#specs" type="button" role="tab" aria-controls="specs" aria-selected="false">Especificaciones Técnicas</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="envio-tab" data-bs-toggle="tab" data-bs-target="#envio" type="button" role="tab" aria-controls="envio" aria-selected="false">Envío y Devoluciones</button>
-                </li>
-            </ul>
 
-            <div class="tab-content border border-top-0 p-4 bg-white shadow-sm" id="productTabsContent">
-                
-                <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="desc-tab">
-                    <h4>Características Principales</h4>
-                    <ul>
-                        <li>Tecnología PowerBoost para un flujo constante de energía.</li>
-                        <li>Diseño a prueba de fugas: protege tus dispositivos valiosos.</li>
-                        <li>Ideal para usos críticos y de larga duración (mandos, linternas, juguetes).</li>
-                    </ul>
-                    <p>Las pilas Ultra Power ofrecen la combinación perfecta entre durabilidad y potencia, asegurando que tus equipos funcionen al máximo rendimiento sin interrupciones. Olvídate de cambiar pilas constantemente y disfruta de la tranquilidad que solo la calidad premium puede ofrecerte.</p>
-                </div>
-                
-                <div class="tab-pane fade" id="specs" role="tabpanel" aria-labelledby="specs-tab">
-                    <h4>Detalles del Producto</h4>
-                    <table class="table table-striped table-hover">
-                        <tbody>
-                            <tr>
-                                <th scope="row" style="width: 30%;">Tipo de Pila</th>
-                                <td>Alcalina</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Voltaje Nominal</th>
-                                <td>1.5V</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Formato</th>
-                                <td>AA (Doble A)</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Recargable</th>
-                                <td class="text-danger fw-bold">No</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Capacidad (mAh)</th>
-                                <td>2800 mAh (Estimado)</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="tab-pane fade" id="envio" role="tabpanel" aria-labelledby="envio-tab">
-                    <h4>Información Logística</h4>
-                    <p><strong>Costo de Envío:</strong> Calculado al finalizar la compra. Envío gratis en compras superiores a $5000.</p>
-                    <p><strong>Tiempo de Entrega:</strong> 3-5 días hábiles en CABA y GBA. 5-10 días hábiles al interior del país.</p>
-                    <p><strong>Política de Devolución:</strong> Aceptamos devoluciones de productos sin abrir dentro de los 30 días de la compra. Las pilas tienen 6 meses de garantía por fallas de fábrica.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="mt-5">
-        <h3 class="mb-3">Productos que te pueden interesar</h3>
-        <div class="row row-cols-2 row-cols-md-4 g-4">
-            <div class="col">... Card de Producto ...</div>
-            <div class="col">... Card de Producto ...</div>
-        </div>
-    </div>
-
-    </div>
     </main>
 
 <?php

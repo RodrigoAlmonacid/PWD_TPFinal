@@ -25,7 +25,8 @@
                                     <th scope="col" class="py-3">Precio Unitario</th>
                                     <th scope="col" class="py-3" style="width: 150px;">Cantidad</th>
                                     <th scope="col" class="py-3">Subtotal</th>
-                                    <th scope="col" class="py-3"></th> </tr>
+                                    <th scope="col" class="py-3"></th> 
+                                </tr>
                             </thead>
                             <tbody>
                                 <tr>

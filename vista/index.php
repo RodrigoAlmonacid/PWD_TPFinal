@@ -36,7 +36,9 @@
                                                 <i class="bi bi-bag-plus"></i> Añadir
                                             </button>
                                         <?php else : ?>
-                                            <p class="small text-muted">Inicia sesión para comprar</p>
+                                            <a href="login.php" class="btn btn-outline-secondary w-100">
+                                                Inicia sesión para comprar
+                                            </a>
                                         <?php endif; ?>
                                     </div>
                                 </div>

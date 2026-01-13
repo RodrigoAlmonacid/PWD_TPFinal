@@ -51,27 +51,27 @@ $jsonRolesMenu=json_encode($ejemplo);
             <div class="collapse navbar-collapse" id="categoryNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="<?= $ruta ?>/vista/index.php">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= $ruta ?>/vista/productoAA.php">Pilas AA</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= $ruta ?>/vista/productoAAA.php">Pilas AAA</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= $ruta ?>/vista/pruductoEspeciales.php">Especiales</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= $ruta ?>/vista/productos.php">Productos</a></li>
                 </ul>
 
                 <div class="d-flex align-items-center">
+                    
+                    
+                    <?php if ($objSession->activa()){ ?>  
                     <button class="btn btn-outline-warning me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
                         <i class="bi bi-cart-fill"></i> <span class="d-none d-md-inline">Carrito</span> (<span id="cart-count">0</span>)
-                    </button>
-                    
-                    <?php if (!$objSession->activa()): ?>
-                    <a href="<?= $ruta ?>/vista/login.php" class="btn btn-primary me-2">
-                        <i class="bi bi-person-circle"></i> Ingresar
-                    </a>
-                    <?php endif; ?>
-                    <?php if ($objSession->activa()): ?>    
+                    </button>  
                     <button class="btn btn-warning me-2" type="button" id="admin-menu-toggle" style="display:block;" 
                         data-bs-toggle="offcanvas" data-bs-target="#adminOffcanvas">
                         <i class="bi bi-gear-fill"></i> <?php echo $objSession->activa() ? $_SESSION['usnombre'] : 'Invitado'; ?>
                     </button>
-                    <?php endif; ?>
+                    <?php }
+                        else{ ?>
+                            <a href="<?= $ruta ?>/vista/login.php" class="btn btn-primary me-2">
+                        <i class="bi bi-person-circle"></i> Ingresar
+                    </a>
+                    <?php }
+                 ?>
                 </div>
             </div>
         </div>
