@@ -22,7 +22,7 @@ if (empty($token)) {
         // 2. Validamos el vencimiento
         $ahora = date("Y-m-d H:i:s");
         if ($ahora > $pedido['vencimiento']) {
-            $error = "El enlace ha expirado. Los tokens duran solo 1 hora. Hora venc: ".$pedido['vencimiento'].", hora:".$ahora;
+            $error = "El enlace ha expirado. Los tokens duran solo 1 hora.";
         }
     } else {
         // Si no encontró nada o ya fue usado

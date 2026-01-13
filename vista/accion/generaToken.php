@@ -17,7 +17,7 @@ if (count($listaUsuarios) > 0) {
     // 3. Guardar en la tabla password_resets (necesitarás un ABM para esto o una consulta directa)
     // Supongamos una inserción directa para simplificar:
     $db = new BaseDatos();
-    $sql = "INSERT INTO pass_reset (id, usmail, token, vencimiento) VALUES ({$datos['idusuario']}, '{$datos['usmail']}', '$token', '$vencimiento')";
+    $sql = "INSERT INTO pass_reset (usmail, token, vencimiento) VALUES ('{$datos['usmail']}', '$token', '$vencimiento')";
     
     if ($db->ejecutar($sql)) {
         // 4. Enviar el Mail

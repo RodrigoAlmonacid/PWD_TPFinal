@@ -3,7 +3,19 @@
 ?>
 </head>
 <body class="d-flex flex-column min-vh-100">
-    <?php include_once('estructura/menuPrincipal.php'); ?>
+    <?php include_once('estructura/menuPrincipal.php'); 
+    //recupero el producto
+    $encuentra=false;
+    $i=0;
+    $idProducto=$_GET['id'];
+    do{
+        $objProducto=$arregloProductos[$i];
+        if($objProducto->getIdProducto() == $idProducto){
+            $encuentra=true;
+        }
+        $i++;
+    }while(!$encuentra);
+    ?>
     <main class="container my-5 flex-grow-1">
 
 <div class="container my-5">
@@ -12,7 +24,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<?= $ruta ?>/vista/index.php" class="text-decoration-none text-dark">Inicio</a></li>
             <li class="breadcrumb-item"><a href="/categorias/aa" class="text-decoration-none text-dark">Pilas AA</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Pila Alcalina Ultra Power (x4)</li>
+            <li class="breadcrumb-item active" aria-current="page"><?php echo $objProducto->getNomProducto(); ?></li>
         </ol>
     </nav>
     
@@ -20,7 +32,10 @@
         
         <div class="col-md-6 mb-4">
             <div class="card shadow-sm border-0">
-                <img src="imagenes/pilaAAx4.jpg" class="img-fluid p-4 rounded" alt="Pila Alcalina Ultra Power">
+                <img src="<?php echo $objProducto->getImgProd(); ?>" 
+                                             class="card-img-top p-3" 
+                                             alt="<?php echo $objProducto->getNomProducto(); ?>"
+                                             style="height: 200px; object-fit: contain;">
             </div>
             
             <div class="d-flex justify-content-center mt-3">
@@ -30,30 +45,21 @@
         </div>
         
         <div class="col-md-6">
-            <h1 class="fw-bold">Pila Alcalina Ultra Power AA (Pack x4)</h1>
-            <p class="text-muted fs-5">Marca: Energizer Pro</p>
+            <h1 class="fw-bold"><?php echo $objProducto->getNomProducto(); ?></h1>
             
             <h2 class="text-warning display-4 my-3 fw-bold border-bottom pb-2">
-                $580.00 <small class="text-muted fs-5">(IVA incluido)</small>
+                $<?php echo $objProducto->getProPrecio(); ?> <small class="text-muted fs-5">(IVA incluido)</small>
             </h2>
 
             <p class="lead">
-                Máximo rendimiento para tus dispositivos de alto consumo. Perfecta para cámaras, juguetes motorizados y flashes. ¡Dura hasta 10 veces más!
-            </p>
+                <?php echo $objProducto->getDetallesProd(); ?>
+                        </p>
             
             <hr>
 
             <form action="/carrito/agregar" method="POST">
                 <input type="hidden" name="product_id" value="123">
                 
-                <div class="mb-3">
-                    <label for="selectPack" class="form-label fw-bold">Selecciona el paquete:</label>
-                    <select class="form-select" id="selectPack" name="pack_id" required>
-                        <option value="4" selected>Pack x4 (Alcalina)</option>
-                        <option value="8">Pack x8 (Alcalina)</option>
-                        <option value="4R">Pack x4 (Recargable) - $890.00</option>
-                    </select>
-                </div>
 
                 <div class="row align-items-center mb-4">
                     <div class="col-auto">
@@ -67,11 +73,12 @@
                             name="cantidad" 
                             value="1" 
                             min="1" 
+                            max="<?php echo $objProducto->getStockProducto(); ?>"
                             required
                         >
                     </div>
                     <div class="col-12 mt-2">
-                        <span class="text-success small">Stock disponible: 98 unidades</span>
+                        <span class="text-success small">Stock disponible: <?php echo $objProducto->getStockProducto(); ?></span>
                     </div>
                 </div>
 
