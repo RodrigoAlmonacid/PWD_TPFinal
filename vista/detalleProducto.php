@@ -7,6 +7,7 @@
     //recupero el producto
     $encuentra=false;
     $i=0;
+    $cant=count($arregloProductos);
     $idProducto=$_GET['id'];
     do{
         $objProducto=$arregloProductos[$i];
@@ -14,7 +15,7 @@
             $encuentra=true;
         }
         $i++;
-    }while(!$encuentra);
+    }while(!$encuentra && $i<$cant);
     ?>
     <main class="container my-5 flex-grow-1">
 
