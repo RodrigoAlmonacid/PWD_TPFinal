@@ -93,9 +93,9 @@ class Compra{
     /** funcion para listar todas la compras
      * @return array
      * */
-    public function listar(){
+    public function listar($where){
         $base=new BaseDatos();
-        $consulta="SELECT * FROM compra;";
+        $consulta="SELECT * FROM compra WHERE $where;";
         $arregloCompras=[];
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){

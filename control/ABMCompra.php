@@ -1,7 +1,8 @@
 <?php
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 include_once(__DIR__.'/../modelo/Compra.php');
-class ABMProducto
+include_once(__DIR__.'/../modelo/Usuario.php');
+class ABMCompra
 {
     //crea un objeto compra
     private function cargar($param)
@@ -88,15 +89,15 @@ class ABMProducto
 public function buscar($param){
     $where = " true "; 
     if ($param != NULL){
-        if  (isset($param['idproducto']))
-            $where.=" and idproducto =".$param['idproducto'];
-        if  (isset($param['pronombre']))
-            $where.=" and pronombre ='" . $param['pronombre'] . "'";
+        if  (isset($param['idcompra']))
+            $where.=" and idcompra =".$param['idcompra'];
+        if  (isset($param['cofecha']))
+            $where.=" and cofecha ='" . $param['cofecha'] . "'";
 
-        if  (isset($param['prodeshabilitado']))
-            $where.=" and prodeshabilitado IS ".$param['prodeshabilitado'];
+        if  (isset($param['idusuario']))
+            $where.=" and idusuario ".$param['idusuario'];
     }
-    $objCompra = new Producto();
+    $objCompra = new Compra();
     $arreglo = $objCompra->listar($where); 
     
     return $arreglo; 

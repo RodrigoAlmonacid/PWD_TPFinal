@@ -87,9 +87,9 @@ class CompraEstadoTipo{
     /** funcion para listar todas la compras
      * @return array
      * */
-    public function listar(){
+    public function listar($where){
         $base=new BaseDatos();
-        $consulta="SELECT * FROM compraestadotipo;";
+        $consulta="SELECT * FROM compraestadotipo WHERE $where;";
         $arregloComprasET=[];
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){

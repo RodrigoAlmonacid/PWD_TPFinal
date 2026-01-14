@@ -1,41 +1,39 @@
 <?php
 date_default_timezone_set('America/Argentina/Buenos_Aires');
-include_once(__DIR__.'/../modelo/Producto.php');
-class ABMProducto
+include_once(__DIR__.'/../modelo/CompraEstadoTipo.php');
+class ABMCompraEstadoTipo
 {
-    //crea un objeto producto
+    //crea un objeto cet
     private function cargar($param)
     {
-        $objProducto = null;
-        if (array_key_exists('pronombre', $param) && array_key_exists('prodetalle', $param) && array_key_exists('procantstock', $param) && array_key_exists('proimagen', $param) && array_key_exists('proprecio', $param)) {
-            $objProducto = new Producto();
-            $objProducto->cargar(
-                $param['pronombre'],
-                $param['prodetalle'],
-                $param['procantstock'],
-                $param['proprecio'],
-                $param['proimagen']
+        $objCompraEstadoTipo = null;
+        if (array_key_exists('idcompraestadotipo', $param) && array_key_exists('cetdescripcion', $param) && array_key_exists('cetdetalle', $param)) {
+            $objCompraEstadoTipo = new CompraEstadoTipo();
+            $objCompraEstadoTipo->cargar(
+                $param['idcompraestadotipo'],
+                $param['cetdetalle'],
+                $param['cetdescripcion']
             );
         }
-        return $objProducto;
+        return $objCompraEstadoTipo;
     }
 
     private function cargarObjetoConClave($param)
     {
-        $objProducto = null;
+        $objCompraEstadoTipo = null;
 
-        if (isset($param['idproducto'])) {
-            $objProducto = new Producto();
-            $objProducto->setIdProducto($param['idproducto']);
+        if (isset($param['idcompraestadotipo'])) {
+            $objCompraEstadoTipo = new CompraEstadoTipo();
+            $objCompraEstadoTipo->setIdCompraEstadoTipo($param['idcompraestadotipo']);
         }
-        return $objProducto;
+        return $objCompraEstadoTipo;
     }
 
 
     private function seteadosCamposClaves($param)
     {
         $respuesta = false;
-        if (!empty($param['idproducto'])) {
+        if (!empty($param['idcompraestadotipo'])) {
             $respuesta = true;
         }
 
@@ -45,9 +43,9 @@ class ABMProducto
     public function alta($param)
     {
         $respuesta = false;
-        $objProducto = $this->cargar($param);
-        if ($objProducto != null) {
-            $respuesta = $objProducto->insertar();
+        $objCompraEstadoTipo = $this->cargar($param);
+        if ($objCompraEstadoTipo != null) {
+            $respuesta = $objCompraEstadoTipo->insertar();
         }
         return $respuesta;
     }
@@ -56,32 +54,15 @@ class ABMProducto
     {
         $respuesta = false;
         if ($this->seteadosCamposClaves($param)) {
-            $objProducto = $this->cargarObjetoConClave($param);
-            if ($objProducto != null && $objProducto->buscar($param['idproducto'])) {
-                if (isset($param['pronombre'])) {
-                    $objProducto->setNomProducto($param['pronombre']);
+            $objCompraEstadoTipo = $this->cargarObjetoConClave($param);
+            if ($objCompraEstadoTipo != null && $objCompraEstadoTipo->buscar($param['idcompraestadotipo'])) {
+                if (isset($param['cetdetalle'])) {
+                    $objCompraEstadoTipo->setCetDetalle($param['cetdetalle']);
                 }
-                if (isset($param['prodetalle'])) {
-                    $objProducto->setDetallesProd($param['prodetalle']);
+                if (isset($param['cetdescripcion'])) {
+                    $objCompraEstadoTipo->setCetDescripcion($param['cetdescripcion']);
                 }
-                if (isset($param['procantstock'])) {
-                    $objProducto->setStockProducto($param['procantstock']);
-                }
-                if (isset($param['proimagen'])) {
-                    $objProducto->setImgProd($param['proimagen']);
-                }
-                if(isset($param['proprecio'])) {
-                    $objProducto->setProPrecio($param['proprecio']);
-                }
-                if (isset($param['prodeshabilitado']) && $param['prodeshabilitado']=="Habilitado") {
-                    $objProducto->setProDeshabilitado("null");
-                }
-                elseif (isset($param['prodeshabilitado']) && $param['prodeshabilitado']=="Deshabilitado") {
-                    $date=date('Y-m-d H:i:s');
-                    $objProducto->setProDeshabilitado($date);
-                }
-
-                $respuesta = $objProducto->modificar();
+                $respuesta = $objCompraEstadoTipo->modificar();
             }
         }
 
@@ -92,9 +73,9 @@ class ABMProducto
     {
         $respuesta = false;
         if ($this->seteadosCamposClaves($param)) {
-            $objProducto = $this->cargarObjetoConClave($param);
-            if ($objProducto != null && $objProducto->buscar($param['idproducto'])) {
-                $respuesta = $objProducto->eliminar();
+            $objCompraEstadoTipo = $this->cargarObjetoConClave($param);
+            if ($objCompraEstadoTipo != null && $objCompraEstadoTipo->buscar($param['idcompraestadotipo'])) {
+                $respuesta = $objCompraEstadoTipo->eliminar();
             }
         }
         return $respuesta;
@@ -104,16 +85,16 @@ class ABMProducto
 public function buscar($param){
     $where = " true "; 
     if ($param != NULL){
-        if  (isset($param['idproducto']))
-            $where.=" and idproducto =".$param['idproducto'];
-        if  (isset($param['pronombre']))
-            $where.=" and pronombre ='" . $param['pronombre'] . "'";
+        if  (isset($param['idcompraestadotipo']))
+            $where.=" and idcompraestadotipo =".$param['idcompraestadotipo'];
+        if  (isset($param['cetdetalle']))
+            $where.=" and cetdetalle ='" . $param['cetdetalle'] . "'";
 
-        if  (isset($param['prodeshabilitado']))
-            $where.=" and prodeshabilitado IS ".$param['prodeshabilitado'];
+        if  (isset($param['cetdescripcion']))
+            $where.=" and cetdescripcion = ".$param['cetdescripcion'];
     }
-    $objProducto = new Producto();
-    $arreglo = $objProducto->listar($where); 
+    $objCompraEstadoTipo = new CompraEstadoTipo();
+    $arreglo = $objCompraEstadoTipo->listar($where); 
     
     return $arreglo; 
 }

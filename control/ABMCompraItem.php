@@ -1,41 +1,41 @@
 <?php
 date_default_timezone_set('America/Argentina/Buenos_Aires');
-include_once(__DIR__.'/../modelo/Producto.php');
-class ABMProducto
+include_once(__DIR__.'/../modelo/CompraItem.php');
+include_once(__DIR__.'/../modelo/Usuario.php');
+class ABMCompraItem
 {
-    //crea un objeto producto
+    //crea un objeto cet
     private function cargar($param)
     {
-        $objProducto = null;
-        if (array_key_exists('pronombre', $param) && array_key_exists('prodetalle', $param) && array_key_exists('procantstock', $param) && array_key_exists('proimagen', $param) && array_key_exists('proprecio', $param)) {
-            $objProducto = new Producto();
-            $objProducto->cargar(
-                $param['pronombre'],
-                $param['prodetalle'],
-                $param['procantstock'],
-                $param['proprecio'],
-                $param['proimagen']
+        $objCompraItem = null;
+        if (array_key_exists('idcompraitem', $param) && array_key_exists('idproducto', $param) && array_key_exists('idcompra', $param)&& array_key_exists('cicantidad', $param)) {
+            $objCompraItem = new CompraItem();
+            $objCompraItem->cargar(
+                $param['idcompraitem'],
+                $param['idproducto'],
+                $param['idcompra'],
+                $param['cicantidad']
             );
         }
-        return $objProducto;
+        return $objCompraItem;
     }
 
     private function cargarObjetoConClave($param)
     {
-        $objProducto = null;
+        $objCompraItem = null;
 
-        if (isset($param['idproducto'])) {
-            $objProducto = new Producto();
-            $objProducto->setIdProducto($param['idproducto']);
+        if (isset($param['idcompraitem'])) {
+            $objCompraItem = new CompraItem();
+            $objCompraItem->setIdCompraItem($param['idcompraitem']);
         }
-        return $objProducto;
+        return $objCompraItem;
     }
 
 
     private function seteadosCamposClaves($param)
     {
         $respuesta = false;
-        if (!empty($param['idproducto'])) {
+        if (!empty($param['idcompraitem'])) {
             $respuesta = true;
         }
 
@@ -45,9 +45,9 @@ class ABMProducto
     public function alta($param)
     {
         $respuesta = false;
-        $objProducto = $this->cargar($param);
-        if ($objProducto != null) {
-            $respuesta = $objProducto->insertar();
+        $objCompraItem = $this->cargar($param);
+        if ($objCompraItem != null) {
+            $respuesta = $objCompraItem->insertar();
         }
         return $respuesta;
     }
@@ -56,32 +56,22 @@ class ABMProducto
     {
         $respuesta = false;
         if ($this->seteadosCamposClaves($param)) {
-            $objProducto = $this->cargarObjetoConClave($param);
-            if ($objProducto != null && $objProducto->buscar($param['idproducto'])) {
-                if (isset($param['pronombre'])) {
-                    $objProducto->setNomProducto($param['pronombre']);
+            $objCompraItem = $this->cargarObjetoConClave($param);
+            if ($objCompraItem != null && $objCompraItem->buscar($param['idcompraitem'])) {
+                if (isset($param['idusuario'])) {
+                    $objProducto=new Producto();
+                    $objProducto->buscar($param['idusuario']);
+                    $objCompraItem->setObjProducto($objProducto);
                 }
-                if (isset($param['prodetalle'])) {
-                    $objProducto->setDetallesProd($param['prodetalle']);
+                if (isset($param['idcompra'])) {
+                    $objCompra=new Compra();
+                    $objCompra->buscar($objCompra);
+                    $objCompraItem->setObjProducto($objCompra);
                 }
-                if (isset($param['procantstock'])) {
-                    $objProducto->setStockProducto($param['procantstock']);
+                if (isset($param['cicantidad'])) {
+                    $objCompraItem->setCantidad($param['cicantidad']);
                 }
-                if (isset($param['proimagen'])) {
-                    $objProducto->setImgProd($param['proimagen']);
-                }
-                if(isset($param['proprecio'])) {
-                    $objProducto->setProPrecio($param['proprecio']);
-                }
-                if (isset($param['prodeshabilitado']) && $param['prodeshabilitado']=="Habilitado") {
-                    $objProducto->setProDeshabilitado("null");
-                }
-                elseif (isset($param['prodeshabilitado']) && $param['prodeshabilitado']=="Deshabilitado") {
-                    $date=date('Y-m-d H:i:s');
-                    $objProducto->setProDeshabilitado($date);
-                }
-
-                $respuesta = $objProducto->modificar();
+                $respuesta = $objCompraItem->modificar();
             }
         }
 
@@ -92,9 +82,9 @@ class ABMProducto
     {
         $respuesta = false;
         if ($this->seteadosCamposClaves($param)) {
-            $objProducto = $this->cargarObjetoConClave($param);
-            if ($objProducto != null && $objProducto->buscar($param['idproducto'])) {
-                $respuesta = $objProducto->eliminar();
+            $objCompraItem = $this->cargarObjetoConClave($param);
+            if ($objCompraItem != null && $objCompraItem->buscar($param['idcompraItem'])) {
+                $respuesta = $objCompraItem->eliminar();
             }
         }
         return $respuesta;
@@ -104,16 +94,18 @@ class ABMProducto
 public function buscar($param){
     $where = " true "; 
     if ($param != NULL){
+        if  (isset($param['idcompraitem']))
+            $where.=" and idcompraitem =".$param['idcompraitem'];
         if  (isset($param['idproducto']))
-            $where.=" and idproducto =".$param['idproducto'];
-        if  (isset($param['pronombre']))
-            $where.=" and pronombre ='" . $param['pronombre'] . "'";
+            $where.=" and idproducto ='" . $param['idproducto'] . "'";
 
-        if  (isset($param['prodeshabilitado']))
-            $where.=" and prodeshabilitado IS ".$param['prodeshabilitado'];
+        if  (isset($param['idcompra']))
+            $where.=" and idcompra = ".$param['idcompra'];
+        if  (isset($param['cicantidad']))
+            $where.=" and cicantidad = ".$param['cicantidad'];
     }
-    $objProducto = new Producto();
-    $arreglo = $objProducto->listar($where); 
+    $objCompraItem = new CompraEstadoTipo();
+    $arreglo = $objCompraItem->listar($where); 
     
     return $arreglo; 
 }
