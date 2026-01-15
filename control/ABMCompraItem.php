@@ -13,7 +13,7 @@ class ABMCompraItem
             $objCompraItem->cargar(
                 $param['idcompraitem'],
                 $param['idproducto'],
-                $param['idcompra'],
+                $param['idcompra'], 
                 $param['cicantidad']
             );
         }
@@ -65,7 +65,7 @@ class ABMCompraItem
                 }
                 if (isset($param['idcompra'])) {
                     $objCompra=new Compra();
-                    $objCompra->buscar($objCompra);
+                    $objCompra->buscar($param['idcompra']);
                     $objCompraItem->setObjProducto($objCompra);
                 }
                 if (isset($param['cicantidad'])) {

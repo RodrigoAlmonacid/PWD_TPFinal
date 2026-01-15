@@ -78,13 +78,16 @@ class CompraEstado{
     }
 
     //cargar los datos
-    public function cargar($idCompra, $idCompraEstadoTipo){
+    public function cargar($idCompraEstado, $idCompra, $idCompraEstadoTipo, $fechaIni, $fechaFin){
         $objCompraEstadoTipo=new CompraEstadoTipo();
         $objCompraEstadoTipo->buscar($idCompraEstadoTipo);
         $this->setObjCompraEstadoTipo($objCompraEstadoTipo);
         $objCompra=new Compra();
         $objCompra->buscar($idCompra);
         $this->setObjCompra($objCompra);
+        $this->setIdCompraEstado($idCompraEstado);
+        $this->setFechaIni($fechaIni);
+        $this->setFechaFin($fechaFin);
     }
 
     //buscar detalle de un item

@@ -55,9 +55,10 @@ class CompraEstadoTipo{
     }
 
     //cargar compra estado tipo
-    public function cargar($detalle, $descripcion){
+    public function cargar($idCompraEstadoTipo, $detalle, $descripcion){
         $this->setCetDetalle($detalle);
         $this->setCetDescripcion($descripcion);
+        $this->setIdCompraEstadoTipo($idCompraEstadoTipo);
     }
 
     //buscar una compra estado por id
