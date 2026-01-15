@@ -45,7 +45,14 @@ class ABMCompraItem
     public function alta($param)
     {
         $respuesta = false;
-        $objCompraItem = $this->cargar($param);
+        $objCompraItem = new CompraItem();
+        $objCompra=new Compra();
+        $objCompra->buscar($param['idcompra']);
+        $objCompraItem->setobjCompra($objCompra);
+        $objProducto=new Producto();
+        $objProducto->buscar($param['idproducto']);
+        $objCompraItem->setObjProducto($objProducto);
+        $objCompraItem->setCantidad($param['cicantidad']);
         if ($objCompraItem != null) {
             $respuesta = $objCompraItem->insertar();
         }
@@ -58,15 +65,15 @@ class ABMCompraItem
         if ($this->seteadosCamposClaves($param)) {
             $objCompraItem = $this->cargarObjetoConClave($param);
             if ($objCompraItem != null && $objCompraItem->buscar($param['idcompraitem'])) {
-                if (isset($param['idusuario'])) {
+                if (isset($param['idproducto'])) {
                     $objProducto=new Producto();
-                    $objProducto->buscar($param['idusuario']);
+                    $objProducto->buscar($param['idproducto']);
                     $objCompraItem->setObjProducto($objProducto);
                 }
                 if (isset($param['idcompra'])) {
                     $objCompra=new Compra();
                     $objCompra->buscar($param['idcompra']);
-                    $objCompraItem->setObjProducto($objCompra);
+                    $objCompraItem->setobjCompra($objCompra);
                 }
                 if (isset($param['cicantidad'])) {
                     $objCompraItem->setCantidad($param['cicantidad']);
@@ -104,7 +111,7 @@ public function buscar($param){
         if  (isset($param['cicantidad']))
             $where.=" and cicantidad = ".$param['cicantidad'];
     }
-    $objCompraItem = new CompraEstadoTipo();
+    $objCompraItem = new CompraItem();
     $arreglo = $objCompraItem->listar($where); 
     
     return $arreglo; 

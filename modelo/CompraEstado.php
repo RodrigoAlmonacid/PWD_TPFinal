@@ -124,9 +124,9 @@ class CompraEstado{
     /** funcion para listar todos productos comprados
      * @return array
      * */
-    public function listar(){
+    public function listar($where){
         $base=new BaseDatos();
-        $consulta="SELECT * FROM compraestado;";
+        $consulta="SELECT * FROM compraestado WHERE $where;";
         $arregloCompraEstado=[];
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){

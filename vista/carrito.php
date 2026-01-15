@@ -3,7 +3,24 @@
 ?>
 </head>
 <body class="d-flex flex-column min-vh-100">
-    <?php include_once('estructura/menuPrincipal.php'); ?>
+    <?php 
+    include_once('estructura/menuPrincipal.php'); 
+    include_once(__DIR__.'/../control/ABMCompra.php');
+    ?>
+    <?php 
+$datos = $_GET;
+$objABMCompra= new ABMCompra();
+$idUsuario = $_SESSION['idusuario'];
+$carritoActivo=$objABMCompra->obtenerCarritoActivo($idUsuario);//acá obtengo un objeto compra
+//necesito los productos de esa compra para poder mostar los datos
+//tambien necesito la cantidad de productos para hacer la cuenta
+if (isset($datos['va']) && $datos['va'] == 1): ?>
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <strong>¡Agregado!</strong> El producto se sumó a tu carrito con éxito.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
     <main class="container my-5 flex-grow-1">
 <div class="container my-5">
     
@@ -148,6 +165,7 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/javaScript.js"> </script>
     
 </div>
     </main>

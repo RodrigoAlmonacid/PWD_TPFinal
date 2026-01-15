@@ -54,8 +54,8 @@
             
             <hr>
 
-            <form action="/carrito/agregar" method="POST">
-                <input type="hidden" name="product_id" value="123">
+            <form action="accion/altaCarrito.php" method="POST">
+                <input type="hidden" name="idproducto" value="<?php echo $objProducto->getIdProducto(); ?>">
                 
 
                 <div class="row align-items-center mb-4">
@@ -95,7 +95,9 @@
     </div>
 
     <hr class="my-5">
-
+    <script type="text/javascript" src="js/javaScript.js"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </div>
 
     </main>
 

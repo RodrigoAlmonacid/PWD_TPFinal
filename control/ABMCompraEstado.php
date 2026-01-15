@@ -3,6 +3,7 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
 include_once(__DIR__.'/../modelo/CompraItem.php');
 include_once(__DIR__.'/../modelo/Compra.php');
 include_once(__DIR__.'/../modelo/CompraEstadoTipo.php');
+include_once(__DIR__.'/../modelo/CompraEstado.php');
 class ABMCompraEstado
 {
     //crea un objeto cet
@@ -47,7 +48,13 @@ class ABMCompraEstado
     public function alta($param)
     {
         $respuesta = false;
-        $objCompraEstado = $this->cargar($param);
+        $objCompraEstado = new CompraEstado();
+        $objCompraEstadoTipo = new CompraEstadoTipo;
+        $objCompraEstadoTipo->buscar($param['idcompraestadotipo']);
+        $objCompraEstado->setObjCompraEstadoTipo($objCompraEstadoTipo);
+        $objCompra = new Compra();
+        $objCompra->buscar($param['idcompra']); //********** 
+        $objCompraEstado->setobjCompra($objCompra);
         if ($objCompraEstado != null) {
             $respuesta = $objCompraEstado->insertar();
         }
@@ -109,7 +116,7 @@ public function buscar($param){
             $where .= " AND cefechafin IS NULL";
         }
     }
-    $objCompraEstado = new CompraEstadoTipo();
+    $objCompraEstado = new CompraEstado();
     $arreglo = $objCompraEstado->listar($where); 
     
     return $arreglo; 

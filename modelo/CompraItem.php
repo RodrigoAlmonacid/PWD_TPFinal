@@ -89,9 +89,9 @@ class CompraItem{
                         $respuesta=true;
                         $this->setIdCompraItem($row['idcompraitem']);
                         $objProducto=new Producto();
-                        $objProducto->buscar($row['idprodudcto']);
+                        $objProducto->buscar($row['idproducto']);
                         $this->setObjProducto($objProducto);
-                        $this->setCantidad($row['cantidad']);
+                        $this->setCantidad($row['cicantidad']);
                         $objCompra=new Compra();
                         $objCompra->buscar($row['idcompra']);
                         $this->setObjCompra($objCompra);
@@ -110,9 +110,9 @@ class CompraItem{
     /** funcion para listar todos productos comprados
      * @return array
      * */
-    public function listar(){
+    public function listar($where){
         $base=new BaseDatos();
-        $consulta="SELECT * FROM compraitem;";
+        $consulta="SELECT * FROM compraitem WHERE $where;";
         $arregloCompraItem=[];
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
@@ -170,7 +170,7 @@ class CompraItem{
         $consulta="UPDATE compraitem SET ";
         $consulta.="idcompra=".$objCompra->getIdCompra();
         $consulta.=", idproducto=".$objCompra->getIdCompra();
-        $consulta.=", cantidad=".$this->getCantidad();
+        $consulta.=", cicantidad=".$this->getCantidad();
         $consulta.=" WHERE idcompraitem=".$this->getIdCompraItem().";";        
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){

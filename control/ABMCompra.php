@@ -2,6 +2,7 @@
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 include_once(__DIR__.'/../modelo/Compra.php');
 include_once(__DIR__.'/../modelo/Usuario.php');
+include_once(__DIR__.'/ABMCompraEstado.php');
 class ABMCompra
 {
     //crea un objeto compra
@@ -44,7 +45,10 @@ class ABMCompra
     public function alta($param)
     {
         $respuesta = false;
-        $objCompra = $this->cargar($param);
+        $objCompra = new Compra();
+        $objUsuario = new Usuario();
+        $objUsuario->buscar($param);
+        $objCompra->setobjUsuario($objUsuario);
         if ($objCompra != null) {
             $respuesta = $objCompra->insertar();
         }
@@ -95,12 +99,33 @@ public function buscar($param){
             $where.=" and cofecha ='" . $param['cofecha'] . "'";
 
         if  (isset($param['idusuario']))
-            $where.=" and idusuario ".$param['idusuario'];
+            $where.=" and idusuario =".$param['idusuario'];
     }
     $objCompra = new Compra();
     $arreglo = $objCompra->listar($where); 
     
     return $arreglo; 
 }
-
+public function obtenerCarritoActivo($idUsuario) {
+    $objAbmCompraEstado = new ABMCompraEstado();
+    $carrito = null;
+    $compras = $this->buscar(['idusuario' => $idUsuario]);
+    $i = 0;
+    $cantidadCompras = count($compras);
+    $encontrado = false;
+    while ($i < $cantidadCompras && !$encontrado) {
+        $idCompraActual = $compras[$i]->getIdcompra();
+        $estados = $objAbmCompraEstado->buscar([
+            'idcompra' => $idCompraActual,
+            'idcompraestadotipo' => 1,
+            'cefechafin' => 'null' 
+        ]);
+        if (count($estados) > 0) {
+            $encontrado = true;
+            $carrito = $compras[$i];
+        }     
+        $i++;
+    }
+    return $carrito;
+}
 }
