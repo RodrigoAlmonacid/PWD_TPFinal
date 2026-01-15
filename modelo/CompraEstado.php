@@ -158,7 +158,7 @@ class CompraEstado{
         $objCompraEstadoTipo=$this->getobjCompraEstadoTipo();
         $objCompra=$this->getObjCompra();
         $consulta="INSERT INTO compraestado(idcompraestadotipo, idcompra, cefechaini, cefechafin) VALUES";
-        $consulta.="(".$objCompraEstadoTipo->getIdCompraEstadoTipo().", ".$objCompra->getIdCompra().", '".$this->getFechaIni()."', '".$this->getFechaFin()."');";
+        $consulta.="(".$objCompraEstadoTipo->getIdCompraEstadoTipo().", ".$objCompra->getIdCompra().", '".$this->getFechaIni()."', NULL);";
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
                 $agrega=true;

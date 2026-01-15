@@ -11,8 +11,9 @@
 $datos = $_GET;
 $objABMCompra= new ABMCompra();
 $idUsuario = $_SESSION['idusuario'];
-$carritoActivo=$objABMCompra->obtenerCarritoActivo($idUsuario);//acá obtengo un objeto compra
-//necesito los productos de esa compra para poder mostar los datos
+$carritoActivo=$objABMCompra->obtenerCarritoActivo($idUsuario);//acá obtengo un objeto compra 
+//con el idCompra busco los productos en compraItem
+
 //tambien necesito la cantidad de productos para hacer la cuenta
 if (isset($datos['va']) && $datos['va'] == 1): ?>
     <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
