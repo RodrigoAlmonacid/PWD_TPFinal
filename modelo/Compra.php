@@ -57,10 +57,12 @@ class Compra{
     }
 
     //cargar los objetos rol
-    public function cargar($idusuario){
+    public function cargar($idCompra, $fecha, $idUsuario){
         $objUsuario=new Usuario();
-        $objUsuario->buscar($idusuario);
+        $objUsuario->buscar($idUsuario);
         $this->setObjUsuario($objUsuario);
+        $this->setFecha($fecha);
+        $this->setIdCompra($idCompra);
     }
 
     //buscar un roles por id usuario o por id rol, mando el parámetro correspondiente
