@@ -184,8 +184,12 @@ class CompraEstado{
         $consulta="UPDATE compraestado SET ";
         $consulta.="idcompra=".$objCompra->getIdCompra();
         $consulta.=", idcompraestadotipo=".$objCompraEstadoTipo->getIdCompraEstadoTipo();
-        $consulta.=", cefechaini=".$this->getFechaIni();
-        $consulta.=", cefechafin=".$this->getFechaFin();
+        if($this->getFechaIni()){
+            $consulta.=", cefechaini=".$this->getFechaIni();
+        }
+        if($this->getFechaFin()){
+            $consulta.=", cefechafin=".$this->getFechaFin();
+        }
         $consulta.=" WHERE idcompraestado=".$this->getIdCompraEstado().";";        
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){

@@ -169,7 +169,7 @@ class CompraItem{
         $modifica=false;
         $consulta="UPDATE compraitem SET ";
         $consulta.="idcompra=".$objCompra->getIdCompra();
-        $consulta.=", idproducto=".$objCompra->getIdCompra();
+        $consulta.=", idproducto=".$objProducto->getIdProducto();
         $consulta.=", cicantidad=".$this->getCantidad();
         $consulta.=" WHERE idcompraitem=".$this->getIdCompraItem().";";        
         if($base->iniciar()){

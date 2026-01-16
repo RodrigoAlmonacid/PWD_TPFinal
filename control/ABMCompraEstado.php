@@ -66,10 +66,10 @@ class ABMCompraEstado
         $respuesta = false;
         if ($this->seteadosCamposClaves($param)) {
             $objCompraEstado = $this->cargarObjetoConClave($param);
-            if ($objCompraEstado != null && $objCompraEstado->buscar($param['idcompraitem'])) {
+            if ($objCompraEstado != null && $objCompraEstado->buscar($param['idcompraestado'])) {
                 if (isset($param['idcompra'])) {
                     $objCompra=new Compra();
-                    $objCompra->buscar($param['idusuario']);
+                    $objCompra->buscar($param['idcompra']);
                     $objCompraEstado->setobjCompra($objCompra);
                 }
                 if (isset($param['idcompraestadotipo'])) {
@@ -121,5 +121,33 @@ public function buscar($param){
     
     return $arreglo; 
 }
-
+/**
+ * Cierra el estado actual y abre uno nuevo
+ */
+public function cambiarEstado($idCompra, $nuevoEstadoTipo) {
+    // 1. Buscamos el estado actual (el que tiene cefechafin en NULL)
+    $estados = $this->buscar(['idcompra' => $idCompra, 'cefechafin' => 'null']);
+    
+    if (count($estados) > 0) {
+        $objEstadoActual = $estados[0];
+        $ahora = date('Y-m-d H:i:s');
+        
+        // 2. Cerramos el estado actual (UPDATE)
+        $this->modificar([
+            'idcompraestado' => $objEstadoActual->getIdcompraestado(),
+            'idcompra' => $idCompra,
+            'idcompraestadotipo' => $objEstadoActual->getObjCompraEstadoTipo()->getIdcompraestadotipo(),
+            'cefechaini' => $objEstadoActual->getCefechaini(),
+            'cefechafin' => $ahora
+        ]);
+        
+        // 3. Abrimos el nuevo estado (INSERT)
+        return $this->alta([
+            'idcompra' => $idCompra,
+            'idcompraestadotipo' => $nuevoEstadoTipo,
+            'cefechaini' => $ahora
+        ]);
+    }
+    return false;
+}
 }

@@ -1,6 +1,8 @@
 <?php
 include_once('../control/ABMMenuRol.php');
 include_once('../control/ABMProducto.php');
+include_once('../control/ABMCompra.php');
+include_once('../control/ABMCompraItem.php');
 include_once('../modelo/Menu.php');
 // Recuperamos los roles 
 $rolesUsuarioSimple = [];
@@ -8,9 +10,19 @@ $menuSegunRol=[];
 $ejemplo=[];
 //$_SESSION=[];
 
+
 $objAbmProducto=new ABMProducto();
 $arregloProductos=$objAbmProducto->buscar(['prodeshabilitado' => 'NULL']);
 if ($objSession->activa()) {
+    $idUsuario = $_SESSION['idusuario'];
+    $objABMCompra= new ABMCompra();
+    $carritoActivo=$objABMCompra->obtenerCarritoActivo($idUsuario);//acá obtengo un objeto compra
+    if($carritoActivo){ //condición para mostrar un cartel de que no hay compras activas
+        $objABMCompraItem=new ABMCompraItem();
+        $idCompra=$carritoActivo->getIdCompra();
+        $compraItem=$objABMCompraItem->buscar(['idcompra' => $idCompra]); //Aca ya logré obtener los items 
+        $cantProductos=count($compraItem);
+    }
     $listaRolesObjetos = $objSession->getRol();
     foreach ($listaRolesObjetos as $objRol) {
         $objMenuRol=new ABMMenuRol();
@@ -58,9 +70,11 @@ $jsonRolesMenu=json_encode($ejemplo);
                     
                     
                     <?php if ($objSession->activa()){ ?>  
+                    <a href="<?= $ruta ?>/vista/carrito.php">
                     <button class="btn btn-outline-warning me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
-                        <i class="bi bi-cart-fill"></i> <span class="d-none d-md-inline">Carrito</span> (<span id="cart-count">0</span>)
-                    </button>  
+                        <i class="bi bi-cart-fill"></i> <span class="d-none d-md-inline">Carrito</span> (<span id="cart-count"><?php if($carritoActivo) echo $cantProductos; else echo 0; ?></span>)
+                    </button>
+                    </a>  
                     <button class="btn btn-warning me-2" type="button" id="admin-menu-toggle" style="display:block;" 
                         data-bs-toggle="offcanvas" data-bs-target="#adminOffcanvas">
                         <i class="bi bi-gear-fill"></i> <?php echo $objSession->activa() ? $_SESSION['usnombre'] : 'Invitado'; ?>
