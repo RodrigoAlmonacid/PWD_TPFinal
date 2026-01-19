@@ -8,9 +8,13 @@
     $idCompra=$_POST['idcompra'];
     $objABMCompraEstado=new ABMCompraEstado();
     $fecha=date('Y-m-d H:i:s');
+    //El nuevo estado es Pendiente (id=2) ya que queda lista para aprobación por el administrador
+    $modifica=$objABMCompraEstado->cambiarEstado($idCompra, 2);
+    /*
     $objCompraEstado=$objABMCompraEstado->buscar(['idcompra'=>$idCompra, 'idcompraestadotipo'=>1]);
     $idCompraEstado=$objCompraEstado[0]->getIdCompraEstado();
     $modifica=$objABMCompraEstado->modificar(['idcompraestado'=>$idCompraEstado, 'cefechaini'=>$fecha, 'idcompraestadotipo'=>2]);
+    */
     if($modifica){
         header('Location: ../carrito.php');
     }

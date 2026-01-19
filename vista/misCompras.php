@@ -25,6 +25,7 @@
                             <th field="idcompra" width="20">ID Compra</th>
                             <th field="cefechaini" width="50">Fecha de envío</th>
                             <th field="estado" width="50">Estado</th>
+                            <th field="cefechafin" width="50">Fecha de resolución</th>
                         </tr>
                     </thead>
                 </table>

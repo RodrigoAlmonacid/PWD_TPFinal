@@ -81,12 +81,11 @@ class ABMCompraEstado
                     $objCompraEstado->setFechaIni($param['cefechaini']);
                 }
                 if (isset($param['cefechafin'])) {
-                    $objCompraEstado->setFechaIni($param['cefechaini']);
+                    $objCompraEstado->setFechaFin($param['cefechafin']);
                 }
                 $respuesta = $objCompraEstado->modificar();
             }
         }
-
         return $respuesta;
     }
 
@@ -125,43 +124,48 @@ public function buscar($param){
  * Cierra el estado actual y abre uno nuevo
  */
 public function cambiarEstado($idCompra, $nuevoEstadoTipo) {
-    // 1. Buscamos el estado actual (el que tiene cefechafin en NULL)
+    //Busco el estado actual y lo cierro
     $estados = $this->buscar(['idcompra' => $idCompra, 'cefechafin' => 'null']);
-    
+    $cambia=false;
+    $cierro=false;
     if (count($estados) > 0) {
         $objEstadoActual = $estados[0];
+        $estadoTipoActual=$objEstadoActual->getObjCompraEstadoTipo()->getIdcompraestadotipo();
         $ahora = date('Y-m-d H:i:s');
-        
-        // 2. Cerramos el estado actual (UPDATE)
-        $this->modificar([
-            'idcompraestado' => $objEstadoActual->getIdcompraestado(),
-            'idcompra' => $idCompra,
-            'idcompraestadotipo' => $objEstadoActual->getObjCompraEstadoTipo()->getIdcompraestadotipo(),
-            'cefechaini' => $objEstadoActual->getCefechaini(),
-            'cefechafin' => $ahora
-        ]);
-        
-        // 3. Abrimos el nuevo estado (INSERT)
-        return $this->alta([
-            'idcompra' => $idCompra,
-            'idcompraestadotipo' => $nuevoEstadoTipo,
-            'cefechaini' => $ahora
-        ]);
+        if($estadoTipoActual != $nuevoEstadoTipo){
+            $cierro=$this->modificar([
+                'idcompraestado' => $objEstadoActual->getIdCompraEstado(),
+                'idcompra' => $idCompra,
+                'idcompraestadotipo' => $estadoTipoActual,
+                'cefechaini' => $objEstadoActual->getFechaIni(),
+                'cefechafin' => $ahora
+            ]);
+        }
+        //Si se cerró el anterior abro el nuevo
+        if($cierro){
+            $cambia= $this->alta([
+                'idcompra' => $idCompra,
+                'idcompraestadotipo' => $nuevoEstadoTipo,
+                'cefechaini' => $ahora
+            ]);
+        }
     }
-    return false;
+    return $cambia;
 }
 
-//busqueda de compras segun estado
+/**
+ * busqueda de compras segun estado
+ */
 public function buscarCompraEstado($estado){
     $resultado=[];
     if($estado=="Iniciada"){
         $resultado=$this->buscar(['idcompraestadotipo'=>1]);
     }
     if($estado=="Pendiente"){
-        $resultado=$this->buscar(['idcompraestadotipo'=>2]);
+        $resultado=$this->buscar(['idcompraestadotipo'=>2, 'cefechafin' => 'null']);
     }
     if($estado=="Aprobada"){
-        $resultado=$this->buscar(['idcompraestadotipo'=>3]);
+        $resultado=$this->buscar(['idcompraestadotipo'=>3, 'cefechafin' => 'null']);
     }
     if($estado=="Cancelada"){
         $resultado=$this->buscar(['idcompraestadotipo'=>4]);

@@ -190,7 +190,7 @@ class CompraEstado{
         if($this->getFechaFin()){
             $consulta.=", cefechafin='".$this->getFechaFin()."'";
         }
-        $consulta.=" WHERE idcompraestado=".$this->getIdCompraEstado().";";        
+        $consulta.=" WHERE idcompraestado=".$this->getIdCompraEstado().";";      
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
             $modifica=true;

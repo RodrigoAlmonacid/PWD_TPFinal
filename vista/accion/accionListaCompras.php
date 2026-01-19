@@ -11,12 +11,14 @@ $objAbmCompraEstado=new ABMCompraEstado();
 
 // busco las compras según estado
 $compraPendiente=$objAbmCompraEstado->buscarCompraEstado("Pendiente");
+$compraAprobada=$objAbmCompraEstado->buscarCompraEstado("Aprobada");
 $compraPagada=$objAbmCompraEstado->buscarCompraEstado("Pagada");
 $compraCancelada=$objAbmCompraEstado->buscarCompraEstado("Cancelada");
 $arregloCompras=[];
-array_push($arregloCompras, $compraPendiente); //me queda en $arregloCompras[0] todas las pendiente
-array_push($arregloCompras, $compraPagada);//me queda en $arregloCompras[1] todas las pagadas
-array_push($arregloCompras, $compraCancelada);//me queda en $arregloCompras[2] todas las canceladas
+array_push($arregloCompras, $compraAprobada);//me queda en $arregloCompras[0] todas las aprobadas
+array_push($arregloCompras, $compraPendiente); //me queda en $arregloCompras[1] todas las pendiente
+array_push($arregloCompras, $compraPagada);//me queda en $arregloCompras[2] todas las pagadas
+array_push($arregloCompras, $compraCancelada);//me queda en $arregloCompras[3] todas las canceladas
 $usuario=$_GET['usuario'];
 if($usuario=="cliente"){
     $idUsuario=$_GET['idusuario'];
@@ -35,14 +37,16 @@ foreach($arregloCompras as $compraTipo) {
                 $datosParaGrid[] = array(
                     'idcompra' => $objCompra->getIdCompra(),
                     'cefechaini' => $objCompraEstado->getFechaIni(),
+                    'cefechafin'=> $objCompraEstado->getFechaFin(),
                     'estado'=> $objCompraEstadoTipo->getCetDescripcion()
                 );
             }
-            else if($usuario=="admin"){
+            else if($usuario=="admin" && $objCompraEstadoTipo->getCetDescripcion()!="Aprobada"){
                 $datosParaGrid[] = array(
                     'idcompra' => $objCompra->getIdCompra(),
                     'usuario' => $objUsuario->getEmail_usuario(),
                     'cefechaini' => $objCompraEstado->getFechaIni(),
+                    'cefechafin'=> $objCompraEstado->getFechaFin(),
                     'estado'=> $objCompraEstadoTipo->getCetDescripcion()
                 );
             }
