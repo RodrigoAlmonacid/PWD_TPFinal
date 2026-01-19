@@ -56,7 +56,7 @@ class CompraEstado{
         return $this->fechaFin;
     }
     public function setFechaFin($fecha){
-        $this->fechaIni=$fecha;
+        $this->fechaFin=$fecha;
     }
 
     public function getMensaje(){
@@ -185,10 +185,10 @@ class CompraEstado{
         $consulta.="idcompra=".$objCompra->getIdCompra();
         $consulta.=", idcompraestadotipo=".$objCompraEstadoTipo->getIdCompraEstadoTipo();
         if($this->getFechaIni()){
-            $consulta.=", cefechaini=".$this->getFechaIni();
+            $consulta.=", cefechaini='".$this->getFechaIni()."'";
         }
         if($this->getFechaFin()){
-            $consulta.=", cefechafin=".$this->getFechaFin();
+            $consulta.=", cefechafin='".$this->getFechaFin()."'";
         }
         $consulta.=" WHERE idcompraestado=".$this->getIdCompraEstado().";";        
         if($base->iniciar()){

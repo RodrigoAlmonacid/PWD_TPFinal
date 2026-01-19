@@ -150,4 +150,25 @@ public function cambiarEstado($idCompra, $nuevoEstadoTipo) {
     }
     return false;
 }
+
+//busqueda de compras segun estado
+public function buscarCompraEstado($estado){
+    $resultado=[];
+    if($estado=="Iniciada"){
+        $resultado=$this->buscar(['idcompraestadotipo'=>1]);
+    }
+    if($estado=="Pendiente"){
+        $resultado=$this->buscar(['idcompraestadotipo'=>2]);
+    }
+    if($estado=="Aprobada"){
+        $resultado=$this->buscar(['idcompraestadotipo'=>3]);
+    }
+    if($estado=="Cancelada"){
+        $resultado=$this->buscar(['idcompraestadotipo'=>4]);
+    }
+    if($estado=="Pagada"){
+        $resultado=$this->buscar(['idcompraestadotipo'=>5]);
+    }
+    return $resultado;
+}
 }
