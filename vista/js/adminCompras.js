@@ -3,7 +3,13 @@ function resumenCompra(){
     if (row){
         // Abrimos el diálogo
         $('#dlg').dialog('open').dialog('setTitle', 'Resumen de Compra ID: ' + row.idcompra);
-        
+        const divButtons=document.getElementById('dlg-buttons');
+        if(row.estado=="Cancelada" || row.estado=="Pagada"){
+            $(divButtons).hide();
+        }
+        else{
+            $(divButtons).show();
+        }
         // Cargamos los items de esa compra en el datagrid interno
         // Nota: Asegúrate que este PHP devuelva el JSON de los items
         $('#dg-detalle').datagrid({
@@ -21,6 +27,9 @@ function cambiarEstado(nuevoEstado) {
     else if(nuevoEstado=='Cancelada'){
         nuevoEstado=4;
     }
+    else if(nuevoEstado=='Pagada'){
+        nuevoEstado=5;
+    }
     var row = $('#dg').datagrid('getSelected');
     if (row) {
         $.post('accion/cambiarEstado.php', {
@@ -34,6 +43,24 @@ function cambiarEstado(nuevoEstado) {
                 $('#dlg').dialog('close');    // Cerramos el detalle
             } else {
                 $.messager.alert('Error', resultado.errorMsg);
+            }
+        }, 'json');
+    }
+}
+
+function irAPagar() {
+    var row = $('#dg').datagrid('getSelected');
+    if (row) {
+        // Mostramos un mensajito de "Cargando..."
+        $.messager.progress({ title: 'Procesando', msg: 'Generando orden de pago...' });
+
+        $.post('accion/pagarCompra.php', { idcompra: row.idcompra }, function(res) {
+            $.messager.progress('close');
+            if (res.url) {
+                // Redirigimos a la pasarela de pago de Mercado Pago
+                window.location.href = res.url;
+            } else {
+                $.messager.alert('Error', 'No se pudo generar el pago');
             }
         }, 'json');
     }
