@@ -10,8 +10,8 @@ use MercadoPago\Item;
 header('Content-Type: application/json');
 
 try {
-    // 1. Configuración del SDK
-    SDK::setAccessToken("acces token");
+    // 1. Configuración del SDK  TEST-1185005007844572-012012-10774fdb2552195efd255768a7520a02-116676898
+    SDK::setAccessToken("APP_USR-3779932665121810-012011-8372cc2a198da95d6bc6fc3dcd5964ac-3146019998");
 
     $idcompra = $_POST['idcompra'] ?? null;
     if (!$idcompra) {
@@ -25,7 +25,7 @@ try {
     if (empty($listaItems)) {
         throw new Exception("La compra no tiene items.");
     }
-
+ 
     // 3. Configurar la Preferencia
     $preference = new Preference();
     $items_para_mp = [];
@@ -40,14 +40,14 @@ try {
     }
 
     $preference->items = $items_para_mp;
-
+    $preference->external_reference = $idcompra;
     // 4. Configurar URLs de retorno ANTES de guardar
     $preference->back_urls = [
-        "success" => "http://localhost/PWD_TPFinal/vista/pagoExitoso.php?idcompra=$idcompra",
+        "success" => "http://localhost/PWD_TPFinal/vista/accion/pagoExitoso.php",
         "failure" => "http://localhost/PWD_TPFinal/vista/misCompras.php",
         "pending" => "http://localhost/PWD_TPFinal/vista/misCompras.php"
     ];
-    $preference->auto_return = "approved";
+    //$preference->auto_return = "approved";
 
     // 5. Guardar la preferencia una SOLA vez
     if (!$preference->save()) {
