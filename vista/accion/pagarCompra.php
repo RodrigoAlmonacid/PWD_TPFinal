@@ -10,8 +10,8 @@ use MercadoPago\Item;
 header('Content-Type: application/json');
 
 try {
-    // 1. Configuración del SDK  TEST-1185005007844572-012012-10774fdb2552195efd255768a7520a02-116676898
-    SDK::setAccessToken("APP_USR-3779932665121810-012011-8372cc2a198da95d6bc6fc3dcd5964ac-3146019998");
+    // 1. Configuración del SDK  
+    SDK::setAccessToken("token");
 
     $idcompra = $_POST['idcompra'] ?? null;
     if (!$idcompra) {
