@@ -4,6 +4,7 @@ include_once(__DIR__.'/../modelo/CompraItem.php');
 include_once(__DIR__.'/../modelo/Compra.php');
 include_once(__DIR__.'/../modelo/CompraEstadoTipo.php');
 include_once(__DIR__.'/../modelo/CompraEstado.php');
+include_once('ABMProducto.php');
 class ABMCompraEstado
 {
     //crea un objeto cet
@@ -149,6 +150,10 @@ public function cambiarEstado($idCompra, $nuevoEstadoTipo) {
                 'cefechaini' => $ahora
             ]);
         }
+    }
+    if($nuevoEstadoTipo==3 || $nuevoEstadoTipo==4){
+        $objABMProducto=new ABMProducto();
+        $objABMProducto->actualizarStock($idCompra, $nuevoEstadoTipo);
     }
     return $cambia;
 }

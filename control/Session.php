@@ -16,12 +16,12 @@ class Session
         $resp = false;
         $objAbmUsuario = new ABMUsuario();
         
-        // 1. Buscamos el usuario por nombre
+        //Buscamos el usuario por nombre
         $param = ['usmail' => $nombreUsuario];
         $listaUsuarios = $objAbmUsuario->buscar($param);
         if (count($listaUsuarios) > 0) {
             $usuario = $listaUsuarios[0];
-            // 2. Verificamos si está habilitado (null o fecha 0000...)
+            //Verificamos si está habilitado (null o fecha 0000...)
             $fechaBaja = $usuario->getDesHabilitado_usuario();
             $habilitado = ($fechaBaja === null);
             if ($habilitado) {

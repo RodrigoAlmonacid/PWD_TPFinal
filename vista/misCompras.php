@@ -42,13 +42,12 @@
                     <tr>
                         <th field="producto" width="50">Producto</th>
                         <th field="cantidad" width="20">Cantidad</th>
-                        <th field="stock" width="20">Stock</th>
                     </tr>
                 </thead>
                 </table>
             </div>
             <div id="dlg-buttons">
-                <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="irAPagar()">Ir a pagar</a>
+                <a href="javascript:void(0)" id="botonPagar" class="easyui-linkbutton" iconCls="icon-ok" onclick="irAPagar()">Ir a pagar</a>
                 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="cambiarEstado('Cancelada')">Cancelar Compra</a>
             </div>
     <?php } 

@@ -10,6 +10,16 @@ function resumenCompra(){
         else{
             $(divButtons).show();
         }
+        if(('#botonPagar').length>0){
+            console.log('ve el boton');
+            if(row.estado=="Pendiente"){
+                $('#botonPagar').hide();
+                console.log('entra pero no esconde');
+            }
+            else{
+                $('#botonPagar').show();
+            }
+        }
         // Cargamos los items de esa compra en el datagrid interno
         // Nota: Asegúrate que este PHP devuelva el JSON de los items
         $('#dg-detalle').datagrid({

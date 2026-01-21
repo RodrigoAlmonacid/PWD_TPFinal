@@ -1,6 +1,8 @@
 <?php
 date_default_timezone_set('America/Argentina/Buenos_Aires');
 include_once(__DIR__.'/../modelo/Producto.php');
+include_once('ABMCompraItem.php');
+include_once('ABMCompraEstado.php');
 class ABMProducto
 {
     //crea un objeto producto
@@ -118,6 +120,28 @@ public function buscar($param){
     return $arreglo; 
 }
 
+/** actualiza stock
+ *  $compraItem=$objABMCompraItem->buscar(['idcompra' => $idCompra]); Aca ya logré obtener los items
+ */
+public function actualizarStock($idCompra, $estado){
+    $objABMCompraItem=new ABMCompraItem();
+    $compraItem=$objABMCompraItem->buscar(['idcompra' => $idCompra]);
+    $objABMCompraEstado=new ABMCompraEstado();
+    $estadoAprobada=$objABMCompraEstado->buscar(['idcompra'=>$idCompra, 'idcompraestadotipo'=>3]);
+    foreach($compraItem as $unItem){
+        $objProducto=$unItem->getobjProducto();
+        $stockActual=$objProducto->getStockProducto();
+        $cantidad=$unItem->getCantidad();
+        $nuevoStock=$objProducto->getStockProducto();
+        if($estado==3){
+            $nuevoStock = $stockActual - $cantidad;
+        }
+        else if($estado==4 && count($estadoAprobada)>0){
+            $nuevoStock = $stockActual + $cantidad;
+        }
+        $this->modificar(['idproducto'=>$objProducto->getNomProducto(), 'procantstock'=>$nuevoStock]);
+    }
+}
 }
 
 
