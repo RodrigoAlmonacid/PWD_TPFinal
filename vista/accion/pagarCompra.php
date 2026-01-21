@@ -1,69 +1,63 @@
 <?php
-require_once __DIR__.'/../../vendor/autoload.php';
+require __DIR__.'/../../vendor/autoload.php';
 require_once '../../control/ABMCompraItem.php'; 
+use PayPalCheckoutSdk\Core\PayPalHttpClient;
+use PayPalCheckoutSdk\Core\SandboxEnvironment;
+use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 
-use MercadoPago\SDK;
-use MercadoPago\Preference;
-use MercadoPago\Item;
-
-// Establecer cabecera JSON desde el inicio
-header('Content-Type: application/json');
+$idcompra = $_POST['idcompra'] ?? null;
 
 try {
-    // 1. Configuración del SDK  
-    SDK::setAccessToken("token");
+    if (!$idcompra) throw new Exception("ID de compra no recibido.");
 
-    $idcompra = $_POST['idcompra'] ?? null;
-    if (!$idcompra) {
-        throw new Exception("ID de compra no recibido.");
-    }
-
-    // 2. Obtener items
     $objAbmItems = new ABMCompraItem();
     $listaItems = $objAbmItems->buscar(['idcompra' => $idcompra]);
+    if (empty($listaItems)) throw new Exception("La compra no tiene items.");
 
-    if (empty($listaItems)) {
-        throw new Exception("La compra no tiene items.");
-    }
- 
-    // 3. Configurar la Preferencia
-    $preference = new Preference();
-    $items_para_mp = [];
-
+    $total = 0;
     foreach ($listaItems as $item) {
-        $nuevoItem = new Item();
-        $nuevoItem->title = (string)$item->getObjProducto()->getNomProducto();
-        $nuevoItem->quantity = (int)$item->getCantidad();
-        $nuevoItem->unit_price = (float)$item->getObjProducto()->getProPrecio();
-        $nuevoItem->currency_id = "ARS";
-        $items_para_mp[] = $nuevoItem;
+        $total += ($item->getCantidad() * $item->getObjProducto()->getProPrecio());
     }
 
-    $preference->items = $items_para_mp;
-    $preference->external_reference = $idcompra;
-    // 4. Configurar URLs de retorno ANTES de guardar
-    $preference->back_urls = [
-        "success" => "http://localhost/PWD_TPFinal/vista/accion/pagoExitoso.php",
-        "failure" => "http://localhost/PWD_TPFinal/vista/misCompras.php",
-        "pending" => "http://localhost/PWD_TPFinal/vista/misCompras.php"
+    // --- CONFIGURACIÓN PAYPAL ---
+    $clientId = "...";
+    $clientSecret = "...";
+    $environment = new SandboxEnvironment($clientId, $clientSecret);
+    $client = new PayPalHttpClient($environment);
+
+    $request = new OrdersCreateRequest();
+    $request->prefer('return=representation');
+    $request->body = [
+        "intent" => "CAPTURE",
+        "purchase_units" => [[
+            "amount" => [
+                "value" => number_format($total, 2, '.', ''), // Formato 10.00
+                "currency_code" => "USD" // IMPORTANTE: PayPal Sandbox no acepta ARS
+            ]
+        ]],
+        "application_context" => [
+            // Pasamos el idcompra en la URL para recuperarlo en pagoExitoso.php
+            "cancel_url" => "http://localhost/PWD_TPFinal/vista/misCompras.php",
+            "return_url" => "http://localhost/PWD_TPFinal/vista/accion/pagoExitoso.php?idcompra=".$idcompra
+        ]
     ];
-    //$preference->auto_return = "approved";
 
-    // 5. Guardar la preferencia una SOLA vez
-    if (!$preference->save()) {
-        $errorMsg = $preference->error->message ?? "Error desconocido al guardar en MP";
-        throw new Exception($errorMsg);
+    $response = $client->execute($request);
+
+    // --- EL TRUCO PARA TU JS ---
+    // Buscamos el link que tiene rel="approve"
+    $approveUrl = "";
+    foreach ($response->result->links as $link) {
+        if ($link->rel == "approve") {
+            $approveUrl = $link->href;
+        }
     }
 
-    // 6. Enviar respuesta única
-    echo json_encode(['url' => $preference->sandbox_init_point]);
-    exit; // Asegura que nada más se imprima
+    // Devolvemos la URL para que tu window.location.href funcione
+    echo json_encode(['url' => $approveUrl]);
 
-} catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode([
-        'errorMsg' => "Error: " . $e->getMessage(),
-        'url' => null
-    ]);
-    exit;
+} catch (Exception $ex) {
+    header('Content-Type: application/json');
+    echo json_encode(['error' => $ex->getMessage()]);
 }
+?>

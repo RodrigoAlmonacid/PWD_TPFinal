@@ -70,3 +70,8 @@ Rechazado debido a un problema de fecha de vencimiento
 FORM
 Rechazado debido a un error de formulario
 -
+pay pal:
+cuenta
+sb-v7ipk48920572@personal.example.com
+
++@_3EqTm

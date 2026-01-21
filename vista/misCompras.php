@@ -80,6 +80,28 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/adminCompras.js"></script>
+    <script>
+$(function(){
+    // Buscamos si en la URL dice "pago=exito"
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('pago') === 'exito') {
+        const id = urlParams.get('id');
+        $.messager.show({
+            title: '¡Excelente!',
+            msg: 'La compra #' + id + ' se acreditó correctamente. ¡Gracias!',
+            showType: 'fade',
+            timeout: 5000, // Se cierra solo en 5 segundos
+            style: {
+                right: '',
+                bottom: ''
+            }
+        });
+        
+        // Opcional: Limpiar la URL para que si refresca no vuelva a salir el cartel
+        window.history.replaceState({}, document.title, "misCompras.php");
+    }
+});
+</script>
     </main>
     <?php
         include_once('estructura/footer.php');
