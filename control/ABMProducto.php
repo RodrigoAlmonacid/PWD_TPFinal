@@ -139,7 +139,7 @@ public function actualizarStock($idCompra, $estado){
         else if($estado==4 && count($estadoAprobada)>0){
             $nuevoStock = $stockActual + $cantidad;
         }
-        $this->modificar(['idproducto'=>$objProducto->getNomProducto(), 'procantstock'=>$nuevoStock]);
+        $this->modificar(['idproducto'=>$objProducto->getIdProducto(), 'procantstock'=>$nuevoStock]);
     }
 }
 }

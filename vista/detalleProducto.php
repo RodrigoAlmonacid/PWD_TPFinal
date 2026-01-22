@@ -59,6 +59,7 @@
                 
 
                 <div class="row align-items-center mb-4">
+                    <?php  if($objProducto->getStockProducto()>0){ ?>
                     <div class="col-auto">
                         <label for="inputCantidad" class="form-label fw-bold">Cantidad:</label>
                     </div>
@@ -74,21 +75,31 @@
                             required
                         >
                     </div>
+                    <?php } ?>
                     <div class="col-12 mt-2">
                         <span class="text-success small">Stock disponible: <?php echo $objProducto->getStockProducto(); ?></span>
                     </div>
                 </div>
 
-                <?php if ($objSession->activa()) : ?>
+                <?php if ($objSession->activa()){ 
+                            if($objProducto->getStockProducto()>0){?>
                             <button class="btn btn-dark w-100 add-to-cart" 
                                     data-product-id="<?php echo $objProducto->getIdProducto(); ?>">
                                 <i class="bi bi-cart-plus me-2"></i>Añadir al Carrito
                             </button>
-                        <?php else : ?>
+                        <?php 
+                            } else{ ?>
+                            <a href="productos.php" class="btn btn-outline-secondary w-100">
+                                Producto sin stock, volver a productos
+                            </a>
+                        <?php
+                            }
+                        } 
+                        else { ?>
                             <a href="login.php" class="btn btn-outline-secondary w-100">
                                 Inicia sesión para comprar
                             </a>
-                        <?php endif; ?>
+                        <?php } ?>
             </form>
             
         </div>
