@@ -1,42 +1,38 @@
 <?php
-// Incluimos los archivos necesarios
-
-include_once(__DIR__.'/../../control/ABMusuario.php'); // Donde tengas tus clases y PHPMailer
+include_once(__DIR__.'/../../control/ABMusuario.php'); 
 include_once(__DIR__.'/../../vendor/autoload.php');
-include_once(__DIR__.'/../../utils/funciones.php');
-$datos = $_POST; //
+include_once(__DIR__.'/../../utils/funciones.php');//funcion de envío de mails
+require_once(__DIR__.'/../../utils/tipoMetodo.php');
+
+$datos = getSubmittedData();
 $respuesta = "";
 
-// 1. Validar que las contraseñas coincidan
+//Valida que la contraseña sea la misma
 if ($datos['uspass'] !== $datos['uspass2']) {
     header("Location: ../registro.php?error=" . urlencode("Las contraseñas no coinciden."));
     exit;
 }
 
-// 2. Instanciar el control de Usuario
 $objAbmUsuario = new AbmUsuario();
-// 3. Verificar si el email ya existe
+//verifico que el mail no esté en la base usado por otro usuario (el mail es clave)
 $checkEmail = $objAbmUsuario->buscar(['usmail' => $datos['usmail']]);
 if (count($checkEmail) > 0) {
     header("Location: ../registro.php?error=" . urlencode("El email ya está registrado."));
     exit;
 }
 
-// 4. Preparar los datos para la DB
-
-
+//armo los datos para el nuevo usuario
 $datosRegistro = [
     'usnombre' => $datos['usnombre'],
     'usmail'   => $datos['usmail'],
     'uspass'   => $datos['uspass']
 ];
 
-// 5. Intentar insertar en la Base de Datos
-if ($objAbmUsuario->alta($datosRegistro)) {
-    
-    // --- PARTE DEL EMAIL ---
-    // Preparamos el aviso para el administrador
-    $adminEmail = "rodrigo.almonacid@est.fi.uncoma.edu.ar"; 
+//inserto el nuevo usuario con el ABM
+$inserta=$objAbmUsuario->alta($datosRegistro);
+if ($inserta) {
+    //doy aviso al administrador del nuevo usuario por email, el admin debe habilitar al usuario que se crea deshabilitado por defecto
+    $adminEmail = "rodrigo.almonacid@est.fi.uncoma.edu.ar"; //acá va el destinatario, podría pensar en una lista de difusión con todos los que tienen el rol de administrador
     $asunto = "Nueva solicitud de registro: " . $datos['usnombre'];
     $cuerpo = "
         <h2>Nuevo usuario pendiente de aprobación</h2>
@@ -48,12 +44,11 @@ if ($objAbmUsuario->alta($datosRegistro)) {
         <p>Puedes habilitarlo desde el panel de administración de usuarios.</p>
     ";
 
-    // Intentamos enviar el mail (asumiendo que tienes configurado PHPMailer)
+    //uso la función de mail que usa la librería phpmailer
     try {
-        enviarMail($adminEmail, $asunto, $cuerpo); 
+        enviarMail($adminEmail, $asunto, $cuerpo); //esta es la función que se encarga del envío
     } catch (Exception $e) {
-        // Si el mail falla, no detenemos el proceso, el usuario ya se creó.
-        // Podrías loguear el error aquí.
+        header("Location: ../registro.php?error=" . urlencode("Error inesperado. Contactese con adminponetelaspilas@gmail.com"));
     }
 
     // Redirigir con éxito

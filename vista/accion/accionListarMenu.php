@@ -5,7 +5,7 @@ $objMenu = new ABMMenu();
 
 // Buscamos todos los menús
 $listaMenus = $objMenu->buscar(null);
-$arregloSalida = array();
+$arregloSalida = array(); //este arreglo devuelvo como json
 
 foreach ($listaMenus as $elem) {
     $nuevoElem = array();
@@ -27,7 +27,6 @@ foreach ($listaMenus as $elem) {
     $nuevoElem["idpadre"] = $idPadre;
     $nuevoElem["medeshabilitado"] = $estado;
     
-    // --- ESTO ES LO IMPORTANTE PARA EASYUI TREEGRID ---
     // Si tiene padre, le agregamos la propiedad _parentId
     if ($elem->getIdPadre() != null && $elem->getIdPadre() != "") {
         $nuevoElem["_parentId"] = $elem->getIdPadre();

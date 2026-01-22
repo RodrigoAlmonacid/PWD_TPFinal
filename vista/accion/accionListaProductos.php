@@ -1,18 +1,15 @@
 <?php
-// Incluir el ABM. El ABMUsuario ya se encarga de incluir Usuario.php
-// IMPORTANTE: Ajusta estas rutas si tu estructura de carpetas es diferente.
+// resolver el error del archivo de configuración que no trae los ABM
 require_once('../../control/ABMProducto.php');
 require_once('../../modelo/Producto.php');
 
-// 1. Instanciar el ABM
+//Instancio el ABM
 $abmProducto = new ABMProducto();
 
-// 2. Llamar al método de listado de la clase ABM
-// El método 'buscar' de ABMUsuario, si se le pasa NULL, devuelve todos los usuarios.
-// El resultado es un ARREGLO de OBJETOS Usuario.
+// El método 'buscar' si se le pasa NULL, devuelve todos los productos, un arreglo de objetos
 $arregloProductos = $abmProducto->buscar(null); 
 
-// 3. Preparar el formato JSON que el datagrid de EasyUI espera
+//Preparo el formato JSON que el datagrid de EasyUI espera
 $datosParaGrid = array();
 
 // El datagrid espera una lista de arrays asociativos, no de objetos.
@@ -37,13 +34,13 @@ if (count($arregloProductos) > 0) {
     }
 }
 
-// Estructura final para EasyUI: {total: N, rows: [...]}
+//Estructura final para EasyUI: {total: N, rows: [...]}
 $respuesta = array(
     'total' => count($datosParaGrid),
     'rows' => $datosParaGrid
 );
 
-// 4. Enviar la respuesta en formato JSON
+//Enviar la respuesta en formato JSON
 header('Content-Type: application/json');
 echo json_encode($respuesta);
 ?>

@@ -1,8 +1,9 @@
 <?php
 require_once('../../control/ABMUsuarioRol.php');
 require_once('../../control/ABMRol.php'); 
+require_once(__DIR__.'/../../utils/tipoMetodo.php');
 
-$datos = $_REQUEST;
+$datos = getSubmittedData();
 $objAbmUsuarioRol = new ABMUsuarioRol();
 $objAbmRol = new AbmRol(); 
 $respuesta = false;

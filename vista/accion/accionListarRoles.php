@@ -2,10 +2,10 @@
 require_once('../../control/ABMRol.php');
 require_once('../../modelo/Rol.php');
 $objAbmRol = new AbmRol();
-$lista = $objAbmRol->buscar(null);
+$listaRoles = $objAbmRol->buscar(null); //busco todos los roles
 $salida = [];
-foreach ($lista as $obj) {
-    $salida[] = ['idrol' => $obj->getId_rol(), 'rodescripcion' => $obj->getDescripcion_rol()];
+foreach ($listaRoles as $objRol) {
+    $salida[] = ['idrol' => $objRol->getId_rol(), 'rodescripcion' => $objRol->getDescripcion_rol()];
 }
 echo json_encode($salida);
 ?>

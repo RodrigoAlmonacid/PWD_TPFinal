@@ -1,8 +1,11 @@
 <?php
 require_once('../../control/ABMMenu.php');
 require_once('../../modelo/Menu.php');
+require_once(__DIR__.'/../../utils/tipoMetodo.php');
 
-$datos = $_REQUEST; // Captura tanto $_GET como $_POST
+$datos = getSubmittedData();
+
+//$datos = $_REQUEST;  Captura tanto $_GET como $_POST (mando idmenu y operacion por get)
 $objAbmMenu = new ABMMenu();
 $respuesta = false;
 $mensajeError = "";

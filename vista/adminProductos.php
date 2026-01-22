@@ -45,7 +45,7 @@
             </div>
             
             <div id="dlg" class="easyui-dialog" style="width:400px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
-                <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+                <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px" enctype="multipart/form-data">
                     <h3>Productos</h3>
                     <div style="margin-bottom:10px">
                         <input id="pronombre" name="pronombre" class="easyui-textbox" required="true" label="Nombre y apellido:" style="width:100%">
@@ -60,7 +60,13 @@
                         <input id="proprecio" name="proprecio" class="easyui-textbox" required="true" label="Precio:" style="width:100%">
                     </div>
                     <div style="margin-bottom:10px">
-                        <input id="proimagen" name="proimagen" class="easyui-textbox" required="true" label="Imagen:" style="width:100%">
+                        <input id="imgProducto" 
+                                name="imgProducto" 
+                                class="easyui-filebox" 
+                                required="true" 
+                                label="Imagen:" 
+                                style="width:100%" 
+                                data-options="buttonText:'Elegir archivo', prompt:'Seleccione una imagen...'">
                     </div>
                     <div id="div-select" style="margin-bottom:10px;">
                         <select id="select-edit" name="prodeshabilitado" class="easyui-combobox" label="Estado" labelPosition="top" required style="width:100%">

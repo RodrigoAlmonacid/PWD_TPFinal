@@ -1,13 +1,14 @@
 <?php
 require_once('../../control/ABMusuario.php');
 require_once('../../modelo/Usuario.php'); 
+require_once(__DIR__.'/../../utils/tipoMetodo.php');
 
+$datos = getSubmittedData();
 $abmUsuario = new ABMUsuario();
 $respuesta = array('success' => false, 'errorMsg' => 'Operación no reconocida.');
 
 // Obtener la operación a realizar
-$operacion = isset($_GET['operacion']) ? $_GET['operacion'] : '';
-$datos = $_POST; 
+$operacion = isset($datos['operacion']) ? $datos['operacion'] : '';
 
 if ($operacion == 'guardar') {
     $param_abm = array(
@@ -19,7 +20,7 @@ if ($operacion == 'guardar') {
     if ($abmUsuario->alta($param_abm)) {
         $respuesta = array('success' => true);
     } else {
-        $respuesta['errorMsg'] = 'Fallo en la inserción (ABM/Usuario).';
+        $respuesta['errorMsg'] = 'Fallo en la inserción (revisar alta() en ABMUsuario).';
     }
 
 } elseif ($operacion == 'actualizar') {
@@ -35,7 +36,7 @@ if ($operacion == 'guardar') {
     if ($abmUsuario->modificar($param_abm)) {
         $respuesta = array('success' => true);
     } else {
-        $respuesta['errorMsg'] = 'Fallo en la modificación (Revisar logs o clase ABM/Usuario). id:'.$param_abm['idusuario'];
+        $respuesta['errorMsg'] = 'Fallo en la modificación (Revisar modificar() en  ABMUsuario). id:'.$param_abm['idusuario'];
     }
     
 } elseif ($operacion == 'eliminar') { 
@@ -46,7 +47,7 @@ if ($operacion == 'guardar') {
     if ($abmUsuario->baja($param_abm)) {
         $respuesta = array('success' => true);
     } else {
-        $respuesta['errorMsg'] = 'Fallo en la baja (Revisar logs o clase ABM/Usuario).';
+        $respuesta['errorMsg'] = 'Fallo en la baja (Revisar baja() en ABMUsuario).';
     }
 }
 

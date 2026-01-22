@@ -1,10 +1,12 @@
 <?php
-// Incluir el ABM. El ABMUsuario ya se encarga de incluir Usuario.php
-// IMPORTANTE: Ajusta estas rutas si tu estructura de carpetas es diferente.
+// resolver el error del archivo de configuración que no trae los ABM
+//require_once(__DIR__.'/../../utils/incluyeABM.php');
 require_once('../../control/ABMCompra.php');
 require_once('../../control/ABMCompraEstado.php');
 require_once('../../modelo/CompraEstado.php');
+require_once(__DIR__.'/../../utils/tipoMetodo.php');
 
+$datos = getSubmittedData();
 //Instancio los abm
 $objAbmCompra = new ABMCompra();
 $objAbmCompraEstado=new ABMCompraEstado();
@@ -19,9 +21,9 @@ array_push($arregloCompras, $compraAprobada);//me queda en $arregloCompras[0] to
 array_push($arregloCompras, $compraPendiente); //me queda en $arregloCompras[1] todas las pendiente
 array_push($arregloCompras, $compraPagada);//me queda en $arregloCompras[2] todas las pagadas
 array_push($arregloCompras, $compraCancelada);//me queda en $arregloCompras[3] todas las canceladas
-$usuario=$_GET['usuario'];
+$usuario=$datos['usuario'];
 if($usuario=="cliente"){
-    $idUsuario=$_GET['idusuario'];
+    $idUsuario=$datos['idusuario'];
 }
 // 3. Preparar el formato JSON que el datagrid de EasyUI espera
 $datosParaGrid = array();
