@@ -4,12 +4,9 @@ require_once('../../modelo/Producto.php');
 require_once(__DIR__.'/../../utils/tipoMetodo.php');
 
 $datos = getSubmittedData(); //la operación viene por get, los demás datos por post
-
 $abmProducto = new ABMProducto();
 $respuesta = array('success' => false, 'errorMsg' => 'Operación no reconocida.');
-print_r($datos);
-die();
-if($datos['nuevo']==true){
+if(!empty($datos["imgProducto"]["name"])){
 $target_dir = "../imagenes/";
 $target_file = $target_dir . basename($datos["imgProducto"]["name"]);
 $uploadOk = 1;
@@ -55,6 +52,7 @@ if ($uploadOk == 0) {
     $respuesta['mensaje']="Sorry, there was an error uploading your file.";
   }
 }
+
 /*
 documentacion:
 $target_dir = "uploads/" - especifica el directorio donde se colocará el archivo
@@ -90,9 +88,11 @@ if ($operacion == 'guardar') {
         'prodetalle' => $datos['prodetalle'], 
         'procantstock' => $datos['procantstock'],
         'proprecio' => $datos['proprecio'],
-        'proimagen' => $datos['proimagen'],
         'prodeshabilitado' => $datos['prodeshabilitado']
     );
+    if (!empty($datos['proimagen'])) {
+        $param_abm['proimagen'] = $datos['proimagen'];
+    }
     if ($abmProducto->modificar($param_abm)) {
         $respuesta = array('success' => true);
     } else {
@@ -102,7 +102,7 @@ if ($operacion == 'guardar') {
 } elseif ($operacion == 'eliminar') { 
 
     $param_abm = array(
-        'idproducto' => $datos['id']);
+        'idproducto' => $datos['idproducto']);
 
     if ($abmProducto->baja($param_abm)) {
         $respuesta = array('success' => true);

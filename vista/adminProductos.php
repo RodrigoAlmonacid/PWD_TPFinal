@@ -59,15 +59,12 @@
                     <div style="margin-bottom:10px">
                         <input id="proprecio" name="proprecio" class="easyui-textbox" required="true" label="Precio:" style="width:100%">
                     </div>
-                    <div style="margin-bottom:10px" id="editImagen">
-                        <input id="proimagen" name="proimagen" class="easyui-textbox" required="true" label="Imagen:" style="width:100%" readonly>
-                    </div>
                     <div style="margin-bottom:10px">
                         <input id="imgProducto" 
                                 name="imgProducto" 
                                 class="easyui-filebox" 
-                                required="true" 
                                 label="Imagen:" 
+                                
                                 style="width:100%" 
                                 data-options="buttonText:'Elegir archivo', prompt:'Seleccione una imagen...'">
                     </div>

@@ -257,7 +257,7 @@ class Producto
     {
         $base = new BaseDatos();
         $elimina = false;
-        $consulta = "UPDATE producto SET prodeshabilitado = 1 WHERE idproducto=" . $this->getIdProducto() . ";";
+        $consulta = "DELETE FROM producto WHERE idproducto=" . $this->getIdProducto() . ";";
 
         if ($base->iniciar()) {
             if ($base->Ejecutar($consulta)) {
