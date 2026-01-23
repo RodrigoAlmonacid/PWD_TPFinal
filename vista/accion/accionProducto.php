@@ -7,8 +7,9 @@ $datos = getSubmittedData(); //la operación viene por get, los demás datos por
 
 $abmProducto = new ABMProducto();
 $respuesta = array('success' => false, 'errorMsg' => 'Operación no reconocida.');
-
-
+print_r($datos);
+die();
+if($datos['nuevo']==true){
 $target_dir = "../imagenes/";
 $target_file = $target_dir . basename($datos["imgProducto"]["name"]);
 $uploadOk = 1;
@@ -63,7 +64,7 @@ $imageFileType contiene la extensión del archivo (en minúsculas)
 A continuación, verifique si el archivo de imagen es una imagen real o una imagen falsa.
 Nota: Deberá crear un nuevo directorio llamado "uploads" en el directorio donde se encuentra el archivo "upload.php". Los archivos subidos se guardarán allí.
 */
-
+}
 // Obtener la operación a realizar
 $operacion = isset($datos['operacion']) ? $datos['operacion'] : ''; 
 
