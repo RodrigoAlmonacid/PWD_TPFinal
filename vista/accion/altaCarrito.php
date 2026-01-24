@@ -5,6 +5,7 @@ require_once('../../control/ABMCompraItem.php');
 require_once('../../control/ABMCompraEstado.php');
 require_once('../../modelo/Usuario.php'); 
 require_once('../../control/Session.php');
+include_once('../../utils/funciones.php');
 $objSession=new Session();
 $exito=false;//esta variable la uso por si hay errores al agregar
 //Obtengo datos del usuario y producto
@@ -59,6 +60,7 @@ if (count($items) > 0) {
 }
 
 if ($exito) {
+
     // Redirigimos al carrito con código de éxito
     header('Location: ../carrito.php');
 } else {

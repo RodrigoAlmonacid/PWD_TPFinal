@@ -3,6 +3,7 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
 include_once(__DIR__.'/../modelo/Compra.php');
 include_once(__DIR__.'/../modelo/Usuario.php');
 include_once(__DIR__.'/ABMCompraEstado.php');
+include_once(__DIR__.'/../utils/funciones.php');
 class ABMCompra
 {
     //crea un objeto compra
@@ -51,6 +52,17 @@ class ABMCompra
         $objCompra->setobjUsuario($objUsuario);
         if ($objCompra != null) {
             $respuesta = $objCompra->insertar();
+        }
+        if($respuesta){
+            //doy aviso al usuario que se creó la compra en estado borrador
+            $destinatario=$objUsuario->getEmail_usuario();
+            $nombre=$objUsuario->getNom_usuario();
+            $asunto="Inicio de compra - Ponete las pilas";
+            $cuerpo="<h2>Hola $nombre </h2><br><p>Nos ponemos en contacto para informarte que has iniciado correctamente tu carrito de compras en Ponete las pilas.</p>
+            <p>El mismo será un borrador al que podrás acceder y editar cuantas veces quieras, hasta que selecciones 'Finalizar y Enviar Pedido'.</p>
+            <p>Aguardamos tu pedido, saludos cordiales.</p>
+            <p>Equipo 'Ponete las pilas'.</p>";
+            $aviso=enviarMail($destinatario, $asunto, $cuerpo);
         }
         return $respuesta;
     }

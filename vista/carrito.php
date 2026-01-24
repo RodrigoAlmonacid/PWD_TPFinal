@@ -71,16 +71,16 @@
                                     </td>
                                     <td>
                                         <div class="input-group input-group-sm">
-                                            <button class="btn btn-outline-secondary btn-decrease" type="button">-</button>
+                                            <button class="btn btn-outline-secondary btn-decrease" type="button" data-iditem="<?= $unItem->getIdCompraItem(); ?>">-</button>
                                             <input type="number" class="form-control text-center quantity-input" value="<?= $cantidad; ?>" min="0" max="<?= $objProducto->getStockProducto(); ?>" data-product-id="101" style="max-width: 60px;">
-                                            <button class="btn btn-outline-secondary btn-increase" type="button">+</button>
+                                            <button class="btn btn-outline-secondary btn-increase" type="button" data-iditem="<?= $unItem->getIdCompraItem(); ?>">+</button>
                                         </div>
                                     </td>
                                     <td>
                                         <span class="text-warning fw-bold">$<?= $subTotal; ?></span> 
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-danger btn-remove" data-product-id="101">
+                                        <button class="btn btn-sm btn-outline-danger btn-remove" data-iditem="<?= $unItem->getIdCompraItem(); ?>" data-idcompra="<?= $idCompra ?>">
                                             <i class="bi bi-x-lg"></i>
                                         </button>
                                     </td>
@@ -96,9 +96,6 @@
                 <a href="productos.php" class="btn btn-outline-dark">
                     <i class="bi bi-arrow-left me-2"></i> Continuar Comprando
                 </a>
-                <button class="btn btn-light border" onclick="location.reload();">
-                    <i class="bi bi-arrow-clockwise me-2"></i> Actualizar Carrito
-                </button>
             </div>
         </div>
         

@@ -86,11 +86,11 @@ class ABMCompraItem
     }
 
     public function baja($param)
-    {
+    { 
         $respuesta = false;
         if ($this->seteadosCamposClaves($param)) {
             $objCompraItem = $this->cargarObjetoConClave($param);
-            if ($objCompraItem != null && $objCompraItem->buscar($param['idcompraItem'])) {
+            if ($objCompraItem != null && $objCompraItem->buscar($param['idcompraitem'])) {
                 $respuesta = $objCompraItem->eliminar();
             }
         }

@@ -21,10 +21,9 @@
         <div class="col">
             <div class="card h-100 shadow-sm border-0 bg-light">
                 <div class="p-3 bg-white" style="height: 220px;">
-                    <img src="<?php echo $objProducto->getImgProd(); ?>" 
-                         class="card-img-top w-100 h-100" 
-                         alt="..." 
-                         style="object-fit: contain;">
+                    <a href="detalleProducto.php?id=<?php echo $objProducto->getIdProducto(); ?>">
+                        <img src="<?php echo $objProducto->getImgProd(); ?>" class="card-img-top w-100 h-100" alt="..." style="object-fit: contain;">
+                    </a>
                 </div>
 
                 <div class="card-body d-flex flex-column">
@@ -45,11 +44,21 @@
 
                     <div class="mt-3 pt-3 border-top">
                         <?php if ($objSession->activa()) : ?>
-                            <button class="btn btn-dark w-100 add-to-cart" 
-                                    data-product-id="<?php echo $objProducto->getIdProducto(); ?>">
-                                <i class="bi bi-cart-plus me-2"></i>Añadir al Carrito
-                            </button>
-                        <?php else : ?>
+                            <?php  if($objProducto->getStockProducto()>0){ ?>
+                            <form action="accion/altaCarrito.php" method="POST">
+                                <input type="hidden" name="idproducto" value="<?php echo $objProducto->getIdProducto(); ?>">
+                                <input type="hidden" id="cantidad" name="cantidad" value="1" min="1" max="<?php echo $objProducto->getStockProducto(); ?>">
+                                <button class="btn btn-dark w-100 add-to-cart" 
+                                        data-product-id="<?php echo $objProducto->getIdProducto(); ?>">
+                                    <i class="bi bi-cart-plus me-2"></i>Añadir al Carrito
+                                </button>
+                            </form>
+                            <?php 
+                                } else{ ?>
+                                    <input type="button" class="btn btn-outline-secondary w-100" value="Producto sin stock">
+                                    <?php
+                                }
+                        else : ?>
                             <a href="login.php" class="btn btn-outline-secondary w-100">
                                 Inicia sesión para comprar
                             </a>

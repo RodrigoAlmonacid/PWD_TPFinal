@@ -4,6 +4,7 @@ include_once(__DIR__.'/../modelo/CompraItem.php');
 include_once(__DIR__.'/../modelo/Compra.php');
 include_once(__DIR__.'/../modelo/CompraEstadoTipo.php');
 include_once(__DIR__.'/../modelo/CompraEstado.php');
+include_once(__DIR__.'/../utils/funciones.php');
 include_once('ABMProducto.php');
 class ABMCompraEstado
 {
@@ -149,6 +150,7 @@ public function cambiarEstado($idCompra, $nuevoEstadoTipo) {
                 'idcompraestadotipo' => $nuevoEstadoTipo,
                 'cefechaini' => $ahora
             ]);
+            $this->avisoCambioEstado($idCompra, $nuevoEstadoTipo);
         }
     }
     if($nuevoEstadoTipo==3 || $nuevoEstadoTipo==4){
@@ -179,5 +181,34 @@ public function buscarCompraEstado($estado){
         $resultado=$this->buscar(['idcompraestadotipo'=>5]);
     }
     return $resultado;
+}
+
+/**
+ * aviso por email al usuario del nuevo estado de la compra
+ */
+public Function avisoCambioEstado($idCompra, $estado){
+    $objCompra=new Compra();
+    $objCompra->buscar($idCompra);
+    $objCompraEstadoTipo=new CompraEstadoTipo();
+    $objCompraEstadoTipo->buscar($estado);
+    $nuevoEstado=$objCompraEstadoTipo->getCetDescripcion();
+    $objUsuario=$objCompra->getObjUsuario();
+    $destinatario=$objUsuario->getEmail_usuario();
+    $nombre=$objUsuario->getNom_usuario();
+    $asunto="Su compra ha cambiado de estado - Ponete las pilas";
+    $cuerpo="<h2>Estado de compra Actualizado</h2><br>
+    <p>Hola $nombre. Nos comunicamos para informarte que su compra N° $idCompra ha cambiado a <b>estado: $nuevoEstado</b>.</p>
+    <p>Recordamos el significado de cada estado:
+        <ul>
+            <li>Iniciada: es un borrador, el cual podés editar, enviar o cancelar desde la sección 'carrito'.</li>
+            <li>Pendiente: se encuentra en proceso de evaluación por un administrador, quien aprobará o cancelará tu solicitud.</li>
+            <li>Aprobada: orden aprobada y lista para el pago, al cual podrás acceder desde la sección 'mis pedidos' en el menú principal.</li>
+            <li>Cancelada: orden cancelada.</li>
+            <li>Pagada: compra realizada con éxito, desde logística te contactarán para coordinar la entrega de productos.</li>
+        </ul>
+    </p>
+    <p>Saludos cordiales, el equipo de Ponete las pilas.</p>";
+    $avisa=enviarMail($destinatario, $asunto, $cuerpo);
+    return $avisa;
 }
 }

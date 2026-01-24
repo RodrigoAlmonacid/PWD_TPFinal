@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\Exception;
 
 function enviarMail($destinatario, $asunto, $cuerpo) {
     $mail = new PHPMailer(true);
-
+    $manda=false;
     try {
         // --- Configuración del Servidor ---
         $mail->isSMTP();
@@ -25,11 +25,11 @@ function enviarMail($destinatario, $asunto, $cuerpo) {
         $mail->CharSet = 'UTF-8'; // Para que las tildes se vean bien
 
         $mail->send();
-        return true;
+        $manda=true;
     } catch (Exception $e) {
         // Aquí podrías guardar el error en un log
         error_log("Error al enviar mail: {$mail->ErrorInfo}");
-        return false;
     }
+    return $manda;
 }
 ?>

@@ -31,11 +31,21 @@
                                         <p class="card-text text-warning fw-bold fs-5">$<?php echo $objProducto->getProPrecio(); ?></p>
                                         
                                         <?php if ($objSession->activa()) : ?>
-                                            <button class="btn btn-dark add-to-cart" 
-                                                    data-product-id="<?php echo $objProducto->getIdproducto(); ?>">
-                                                <i class="bi bi-bag-plus"></i> Añadir
-                                            </button>
-                                        <?php else : ?>
+                                            <?php  if($objProducto->getStockProducto()>0){ ?>
+                                            <form action="accion/altaCarrito.php" method="POST">
+                                                <input type="hidden" name="idproducto" value="<?php echo $objProducto->getIdProducto(); ?>">
+                                                <input type="hidden" id="cantidad" name="cantidad" value="1" min="1" max="<?php echo $objProducto->getStockProducto(); ?>">
+                                                <button class="btn btn-dark add-to-cart" 
+                                                        data-product-id="<?php echo $objProducto->getIdproducto(); ?>">
+                                                    <i class="bi bi-bag-plus"></i> Añadir
+                                                </button>
+                                            </form>
+                                            <?php 
+                                            } else{ ?>
+                                            <input type="button" class="btn btn-outline-secondary w-100" value="Producto sin stock">
+                                            <?php
+                                                }
+                                            else : ?>
                                             <a href="login.php" class="btn btn-outline-secondary w-100">
                                                 Inicia sesión para comprar
                                             </a>

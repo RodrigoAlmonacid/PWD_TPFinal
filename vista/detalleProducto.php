@@ -24,7 +24,7 @@
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<?= $ruta ?>/vista/index.php" class="text-decoration-none text-dark">Inicio</a></li>
-            <li class="breadcrumb-item"><a href="/categorias/aa" class="text-decoration-none text-dark">Pilas AA</a></li>
+            <li class="breadcrumb-item"><a href="productos.php" class="text-decoration-none text-dark">Productos</a></li>
             <li class="breadcrumb-item active" aria-current="page"><?php echo $objProducto->getNomProducto(); ?></li>
         </ol>
     </nav>
