@@ -212,6 +212,10 @@ class Menu{
         } else {
             $consulta .= "', medeshabilitado='".$des."'";
         }
+        $idPadre=$this->getIdPadre();
+        if(!empty($idPadre) && is_numeric($idPadre)){
+            $consulta.=", idpadre=$idPadre";
+        }
         $consulta.=", iconoBootstrap= '".$this->getIconoBootstrap()."' WHERE idmenu=".$this->getIdMenu().";";        
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
