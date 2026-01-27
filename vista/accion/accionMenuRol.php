@@ -12,15 +12,15 @@ $mensaje = "";
 
 if (isset($datos['operacion'])) {
     
-    //Roles de usuarios
+    //Roles de menus
     if ($datos['operacion'] == 'listar') {
-        if (isset($datos['idusuario'])) {
-            $lista = $objMenuRol->buscar(['idusuario' => $datos['idusuario']]);
+        if (isset($datos['idmenu'])) {
+            $lista = $objAbmMenuRol->buscar(['idmenu' => $datos['idmenu']]);
             $arregloSalida = array();
             foreach ($lista as $elem) {
                 $nuevoElem = array();
                 $nuevoElem["idrol"] = $elem->getobjRol()->getId_rol();
-                $nuevoElem["idusuario"] = $elem->getObjUsuario()->getId_usuario();
+                $nuevoElem["idmenu"] = $elem->getObjMenu()->getIdMenu();
                 $nuevoElem["rodescripcion"] = $elem->getobjRol()->getDescripcion_rol();
                 array_push($arregloSalida, $nuevoElem);
             }

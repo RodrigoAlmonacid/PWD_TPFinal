@@ -9,8 +9,9 @@ class ABMMenu {
             
             $obj->setMeNombre($param['menombre']);
             $obj->setMeDescripcion($param['medescripcion']);
+            if(!empty($param['iconoBootstrap'])){
             $obj->setIconoBootstrap($param['iconoBootstrap']);
-            
+            }
             // Manejo de ID Padre (puede ser null)
             if (isset($param['idpadre']) && $param['idpadre'] != "" && $param['idpadre'] != "null"){
                 $obj->setIdPadre($param['idpadre']);

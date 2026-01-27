@@ -40,30 +40,34 @@ function editMenu(){
 }
 
 function saveMenu(){
-    $('#fm').form('submit',{
-        url: url,
-        onSubmit: function(){
-            return $(this).form('validate');
-        },
-        
-        success: function(result){
-            if (result === "") {
-        $.messager.show({ title: 'Error', msg: 'El servidor no respondió nada. Revisa el PHP.' });
-        return;
+            console.log("entra al save");
+            $('#fm').form('submit',{
+                url: url,
+                iframe: false,
+                onSubmit: function(){
+                    console.log("entra a validar");
+                    if ($(this).form('validate')){
+                        console.log("valida");
+                    }
+                    else {
+                        console.log("no valida");
+                    }
+                    return $(this).form('validate');
+                },
+                success: function(result){
+                    var result = eval('('+result+')');
+                    if (result.errorMsg){
+                        $.messager.show({
+                            title: 'Error',
+                            msg: result.errorMsg
+                        });
+                    } else {
+                        $('#dlg').dialog('close');        // close the dialog
+                        $('#tg').treegrid('reload');    // reload the user data
+                    }
+                }
+            });
         }
-        var result = JSON.parse(result);
-            if (result.errorMsg){
-                $.messager.show({
-                    title: 'Error',
-                    msg: result.errorMsg
-                });
-            } else {
-                $('#dlg').dialog('close');      
-                $('#tg').treegrid('reload');    // Recargamos el árbol
-            }
-        }
-    });
-}
 
 function destroyMenu(){
     var row = $('#tg').treegrid('getSelected');
@@ -89,7 +93,7 @@ function destroyMenu(){
 
 //sección de roles (corregir, está copiado de roles de usuarios)
 function manageRoles() {
-    var row = $('#dg').datagrid('getSelected');
+    var row = $('#tg').datagrid('getSelected');
     console.log(row);
     if (row) {
         idMenuSeleccionado = row.idmenu;
@@ -99,15 +103,15 @@ function manageRoles() {
             url: 'accion/accionMenuRol.php?operacion=listar&idmenu=' + idMenuSeleccionado
         });
     } else {
-        $.messager.alert('Atención', 'Selecciona un usuario primero.', 'warning');
+        $.messager.alert('Atención', 'Selecciona un menu primero.', 'warning');
     }
 }
 
 function addRole() {
     var idRol = $('#combo-roles').combobox('getValue');
     if (idRol) {
-        $.post('accion/accionUsuarioRol.php?operacion=alta', 
-            { idusuario: idUsuarioSeleccionado, idrol: idRol }, 
+        $.post('accion/accionMenuRol.php?operacion=alta', 
+            { idmenu: idMenuSeleccionado, idrol: idRol }, 
             function(result) {
                             console.log(result);
                 if (result.success) {
@@ -130,8 +134,8 @@ function formatDeleteRole(val, row) {
 function deleteRole(idRol) {
     $.messager.confirm('Confirmar', '¿Quitar este rol?', function(r) {
         if (r) {
-            $.post('accion/accionUsuarioRol.php?operacion=baja', 
-                { idusuario: idUsuarioSeleccionado, idrol: idRol }, 
+            $.post('accion/accionMenuRol.php?operacion=baja', 
+                { idmenu: idMenuSeleccionado, idrol: idRol }, 
                 function(result) {
                     if (result.success) {
                         $('#dg-roles').datagrid('reload');

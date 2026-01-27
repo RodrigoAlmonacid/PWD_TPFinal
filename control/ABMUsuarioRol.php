@@ -36,7 +36,7 @@ class ABMUsuarioRol {
         $resp = false;
         if ($this->seteadosCamposClaves($param)){
             $objUsuarioRol = $this->cargarObjetoWithKey($param);
-            if ($objUsuarioRol!=null and $objUsuarioRol->eliminar()){
+            if ($objUsuarioRol!=null && $objUsuarioRol->eliminar()){
                 $resp = true;
             }
         }

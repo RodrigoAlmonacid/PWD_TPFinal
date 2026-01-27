@@ -1,7 +1,7 @@
 <?php
-include_once('../modelo/Menu.php');
-include_once('../modelo/Rol.php');
-include_once('../modelo/MenuRol.php');
+include_once(__DIR__.'/../modelo/Menu.php');
+include_once(__DIR__.'/../modelo/Rol.php');
+include_once(__DIR__.'/../modelo/MenuRol.php');
 class ABMMenuRol {
     
     // En MenuRol la clave es compuesta (idmenu + idrol)
