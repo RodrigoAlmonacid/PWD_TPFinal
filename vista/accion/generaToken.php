@@ -1,6 +1,7 @@
 <?php
-include_once(__DIR__.'/../../modelo/conector/conector.php');
+//include_once(__DIR__.'/../../modelo/conector/conector.php');
 include_once(__DIR__.'/../../control/ABMusuario.php');
+include_once(__DIR__.'/../../control/ABMPassReset.php');
 include_once(__DIR__.'/../../utils/funciones.php');
 $datos = $_POST;
 
@@ -8,19 +9,26 @@ $objAbmUsuario = new AbmUsuario();
 $listaUsuarios = $objAbmUsuario->buscar(['usmail' => $datos['usmail']]);
 
 if (count($listaUsuarios) > 0) {
-    // 1. Generar un Token seguro e irrepetible
+    //Generar un Token seguro e irrepetible
     $token = bin2hex(random_bytes(32)); 
     $datos['idusuario']=$listaUsuarios[0]->getId_usuario();
-    // 2. Definir vencimiento (Ahora + 1 hora)
+    //Definir vencimiento (Ahora + 1 hora)
     $vencimiento = date("Y-m-d H:i:s", strtotime('+1 hour'));
 
-    // 3. Guardar en la tabla password_resets (necesitarás un ABM para esto o una consulta directa)
-    // Supongamos una inserción directa para simplificar:
+    //Guardar en la tabla pass_reset
+    /*
     $db = new BaseDatos();
     $sql = "INSERT INTO pass_reset (usmail, token, vencimiento) VALUES ('{$datos['usmail']}', '$token', '$vencimiento')";
-    
-    if ($db->ejecutar($sql)) {
-        // 4. Enviar el Mail
+    */
+    $abmPass=new ABMPassReset();
+    $param=[
+        'token'=>$token,
+        'vencimiento'=>$vencimiento,
+        'usmail'=>$datos['usmail']
+    ];
+    $alta=$abmPass->alta($param);
+    if ($alta) {
+        //Enviar el Mail
         $enlace = "http://localhost/PWD_TPFinal/vista/actualizarPass.php?token=" . $token;
         
         $asunto = "Recuperación de Contraseña - Ponete las Pilas";

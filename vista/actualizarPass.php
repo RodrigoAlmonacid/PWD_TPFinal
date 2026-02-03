@@ -1,27 +1,30 @@
 <?php
 include_once(__DIR__.'/../modelo/conector/conector.php');
+include_once(__DIR__.'/../control/ABMPassReset.php');
     include_once('estructura/head.php');
 ?>
 </head>
 <?php
 $token = $_GET['token'] ?? '';
 
-$error = null; // Inicializamos la variable
+$error = null; // Inicializo la variable
 
-if (empty($token)) {
+if (empty($token)) { //miro que $token no esté vacío
     $error = "El enlace de recuperación no es válido o falta el token.";
 } else {
+    $abmPass=new ABMPassReset();
+    $objPass=$abmPass->buscar(['token'=>$token, 'usado'=>0]);
+    /*
     $db = new BaseDatos();
     // 1. Buscamos el token. Nota: Filtramos por usado = 0
     $sql = "SELECT * FROM pass_reset WHERE token = '$token' AND usado = 0 LIMIT 1";
     $cant = $db->ejecutar($sql);
-
-    if ($cant > 0) {
-        $pedido = $db->registro(); // Obtenemos los datos
+    */
+    if ($objPass) {
         
-        // 2. Validamos el vencimiento
+        //Validamos el vencimiento
         $ahora = date("Y-m-d H:i:s");
-        if ($ahora > $pedido['vencimiento']) {
+        if ($ahora > $objPass->getVencimiento()) {
             $error = "El enlace ha expirado. Los tokens duran solo 1 hora.";
         }
     } else {

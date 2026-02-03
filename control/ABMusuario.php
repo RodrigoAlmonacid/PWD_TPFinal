@@ -66,7 +66,6 @@ class ABMUsuario
         $olvida=false;
         if ($this->seteadosCamposClaves($param)) {
             $objUsuario = $this->cargarObjetoConClave($param);
-
             if ($objUsuario != null && $objUsuario->buscar($param['idusuario'])) {
                 if (isset($param['usnombre'])){
                     $objUsuario->setNom_usuario($param['usnombre']);

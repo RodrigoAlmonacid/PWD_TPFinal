@@ -72,11 +72,11 @@ class ABMPassReset {
             
             if($objPass != null && $objPass->buscar($param['id'])){
                 
-                if(isset($param['rodescripcion'])){
-                    $objRol->setDescripcion_rol($param['rodescripcion']);
+                if(isset($param['usado'])){
+                    $objPass->setUsado($param['usado']);
                 }
                 
-                if ($objRol->modificar()) {
+                if ($objPass->modificar()) {
                     $resp = true;
                 }
             }
@@ -84,21 +84,29 @@ class ABMPassReset {
         return $resp;
     }
 
-    //busca de rol
+    //busca de pass_reset
     public function buscar($param)
     {
         $where = " true ";
         if ($param <> NULL) {
-            if (isset($param['idrol']))
-                $where .= " and idrol =" . $param['idrol'];
-            
-            if (isset($param['rodescripcion']))
-                $where .= " and rodescripcion ='" . $param['rodescripcion'] . "'";
+            if (isset($param['id']))
+                $where .= " and id =" . $param['id'];
+            if (isset($param['usado']))
+                $where .= " and usado =" . $param['usado'];
+            if (isset($param['token']))
+                $where .= " and token ='" . $param['token'] . "'";
+            if (isset($param['vencimiento']))
+                $where .= " and vencimiento ='" . $param['vencimiento'] . "'";
+            if (isset($param['usmail']))
+                $where .= " and usmail ='" . $param['usmail'] . "'";
         }
         
-        $objRol = new Rol();
-        $arreglo = $objRol->listar($where);
-        return $arreglo;
+        $objPass = new PassReset();
+        $encuentra=$objPass->buscar($where);
+        if(!$encuentra){
+            $objPass=null;
+        }
+        return $objPass;
     }
 }
 ?>

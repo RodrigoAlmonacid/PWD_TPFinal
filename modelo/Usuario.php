@@ -185,10 +185,12 @@ class Usuario{
         if($olvida){
             $consulta.=", uspass='".$this->getPass_usuario()."'";
         }
-        $consulta.=" WHERE idusuario=".$this->getId_usuario().";";      
+        $consulta.=" WHERE idusuario=".$this->getId_usuario().";";  
+  
         if($base->iniciar()){
+            echo "quiere ejecutar";
             if($base->Ejecutar($consulta)){
-            $modifica=true;
+                $modifica=true;
             }
             else {
                 $this->setMensaje("usuario->modificar: " . $base->getError());

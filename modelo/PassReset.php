@@ -1,7 +1,7 @@
 <?php
     include_once('conector/conector.php');
     include_once('Usuario.php');
-    include_once('../control/ABMUsuario.php');
+    include_once(__DIR__.'/../control/ABMUsuario.php');
     class PassReset{
         //atributos
         private $idPassReset;
@@ -152,6 +152,28 @@
             $this->setMensaje("pass_reset->eliminar: " . $base->getError());
         }
         return $elimina;
+    }
+
+    /** función para buscar un pass_reset
+     * @return bool
+     */
+    public function buscar($where){
+        $base=new BaseDatos();
+        $encuentra=false;
+        $consulta="SELECT * FROM pass_reset WHERE $where";
+        if($base->iniciar()){
+            if($base->Ejecutar($consulta)){
+                $encuentra=true;
+                $row=$base->Registro();
+                $this->setIdPass($row['id']);
+                $this->setToken($row['token']);
+                $this->setVencimiento($row['vencimiento']);
+                $abmUsuario=new ABMUsuario();
+                $objUsuario=$abmUsuario->buscar(['usmail'=>$row['usmail']])[0];
+                $this->setObjUsuario($objUsuario);
+            }
+        }
+        return $encuentra;
     }
     }
 ?>
