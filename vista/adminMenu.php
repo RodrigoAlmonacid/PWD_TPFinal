@@ -1,8 +1,9 @@
 <?php
 include_once('estructura/head.php');
 ?>
-<script type="text/javascript" src="js/adminMenu.js"></script>
+
 <!--
+<script type="text/javascript" src="js/adminMenu.js"></script>
     <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css">
     <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/color.css">

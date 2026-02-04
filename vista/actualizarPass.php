@@ -1,7 +1,7 @@
 <?php
 include_once(__DIR__.'/../modelo/conector/conector.php');
 include_once(__DIR__.'/../control/ABMPassReset.php');
-    include_once('estructura/head.php');
+include_once('estructura/head.php');
 ?>
 </head>
 <?php
@@ -14,6 +14,7 @@ if (empty($token)) { //miro que $token no esté vacío
 } else {
     $abmPass=new ABMPassReset();
     $objPass=$abmPass->buscar(['token'=>$token, 'usado'=>0]);
+
     /*
     $db = new BaseDatos();
     // 1. Buscamos el token. Nota: Filtramos por usado = 0
@@ -33,17 +34,14 @@ if (empty($token)) { //miro que $token no esté vacío
     }
 }
 
-// 3. Tu bloque de captura de errores (ahora sí tiene qué capturar)
+//Tu bloque de captura de errores (ahora sí tiene qué capturar)
 if ($error) {
     header("Location: login.php?error=" . urlencode($error));
     exit;
 }
 
-// Si llegamos aquí, el token es VÁLIDO. 
-// Aquí mostrarías el formulario para ingresar la nueva contraseña.
+// Si llego, el token es VÁLIDO. 
 
-// Si está todo OK, muestras el formulario de "Nueva Contraseña"
-// ... (Aquí pones un formulario similar al de registro con uspass y uspass2)
 ?>
 <body class="d-flex flex-column min-vh-100">
     <?php include_once('estructura/menuPrincipal.php'); ?>

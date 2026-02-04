@@ -188,7 +188,6 @@ class Usuario{
         $consulta.=" WHERE idusuario=".$this->getId_usuario().";";  
   
         if($base->iniciar()){
-            echo "quiere ejecutar";
             if($base->Ejecutar($consulta)){
                 $modifica=true;
             }

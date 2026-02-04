@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ponete Las Pilas</title>
     
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-icons/bootstrap-icons.css">
+    
     <!-- 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
@@ -16,9 +15,7 @@
     <link rel="stylesheet" href="../css/bootstrap-icons/bootstrap-icons.min.css">
     -->
     
-    <link rel="stylesheet" type="text/css" href="css/easyui/themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="css/easyui/themes/icon.css">
-    <link rel="stylesheet" type="text/css" href="css/easyui/themes/color.css">
+    
 
     <?php
         //include_once(__DIR__.'/configuracion.php');
@@ -29,7 +26,13 @@
         include_once(__DIR__.'/../../control/Session.php');
         $objSession = new Session();
     ?>
-    
+    <link rel="stylesheet" href="<?=$ruta?>/vista/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?=$ruta?>/vista/css/bootstrap-icons/bootstrap-icons.css">
 
     <link rel="icon" href="<?=$ruta?>/vista/imagenes/logo.png" type="image/png">
     <link rel="stylesheet" href="<?php echo $ruta?>/vista/css/estilos.css">
+    <link rel="stylesheet" type="text/css" href="<?=$ruta?>/vista/css/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="<?=$ruta?>/vista/css/easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="<?=$ruta?>/vista/css/easyui/themes/color.css">
+    <script type="text/javascript" src="<?=$ruta?>/vista/js/jquery.min.js"></script>
+    <script type="text/javascript" src="<?=$ruta?>/vista/js/jquery.easyui.min.js"></script>
