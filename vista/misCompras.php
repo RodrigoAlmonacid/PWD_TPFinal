@@ -2,12 +2,13 @@
     include_once('estructura/head.php');
 ?>
 <script type="text/javascript" src="js/adminProductos.js"></script>
-
+<!--
     <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css">
     <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/color.css">
     <script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.min.js"></script>
     <script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+-->
 </head>
 <body class="d-flex flex-column min-vh-100">
     <?php include_once('estructura/menuPrincipal.php'); ?>
@@ -23,9 +24,8 @@
                     <thead>
                         <tr>
                             <th field="idcompra" width="20">ID Compra</th>
-                            <th field="cefechaini" width="50">Fecha de envío</th>
+                            <th field="cefechaini" width="50">Fecha</th>
                             <th field="estado" width="50">Estado</th>
-                            <th field="cefechafin" width="50">Fecha de resolución</th>
                         </tr>
                     </thead>
                 </table>
@@ -77,7 +77,7 @@
             </div>
     <?php  } ?>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="<?= $ruta ?>/vista/js/bootstrap.bundle.min.js" ></script>
     <script type="text/javascript" src="js/adminCompras.js"></script>
     <script>
 $(function(){
