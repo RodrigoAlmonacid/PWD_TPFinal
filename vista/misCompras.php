@@ -17,7 +17,7 @@
             <div class="card shadow-lg p-4">
                 <h2>Historial de compras</h2>
 
-                <table id="dg" title="Compras" class="easyui-datagrid" style="width:900px;height:250px alig"
+                <table id="dg" title="Compras" class="easyui-datagrid" style="width:100%; min-height:250px;"
                         url="accion/accionListaCompras.php?usuario=cliente&&idusuario=<?= $idUsuario ?>"
                         toolbar="#toolbar" pagination="true"
                         rownumbers="true" fitColumns="true" singleSelect="true">
@@ -33,10 +33,10 @@
                     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="resumenCompra()">Ver</a>
                 </div>
             
-            <div id="dlg" class="easyui-dialog" style="width:600px;height:400px;padding:10px 20px"
+            <div id="dlg" class="easyui-dialog" style="width:100%; max-width:600px; min-height:400px; padding:10px 20px;"
                 closed="true" buttons="#dlg-buttons" modal="true">
                 <h3>Detalle de la Compra</h3>
-                <table id="dg-detalle" class="easyui-datagrid" style="width:100%;height:250px"
+                <table id="dg-detalle" class="easyui-datagrid" style="width:100%; height:250px;"
                     fitColumns="true" singleSelect="true">
                 <thead>
                     <tr>

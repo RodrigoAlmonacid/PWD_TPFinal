@@ -46,7 +46,7 @@ function enviarMail($destinatario, $asunto, $cuerpo) {
  */
 function preparaPdf($compra, $usuario, $fecha){
     //PROCESAR EL LOGO
-    $rutaLogo =__DIR__."/../imagenes/logoCorreo.jpg";
+    $rutaLogo ="logoCorreo.jpg";
     $tipoArchivo = pathinfo($rutaLogo, PATHINFO_EXTENSION);
     $datosLogo = file_get_contents($rutaLogo);
     $base64Logo = 'data:image/' . $tipoArchivo . ';base64,' . base64_encode($datosLogo);
@@ -55,11 +55,13 @@ function preparaPdf($compra, $usuario, $fecha){
     $total = 0;
     $filasProductos = "";
     foreach ($compra as $producto){
+        $subtotal=$producto['precio']*$producto['cantidad'];
         $filasProductos .= "
             <tr>
                 <td>".$producto['nombre']."</td>
                 <td style='text-align: center;'>".$producto['cantidad']."</td>
-                <td style='text-align: right;'>$".number_format($producto['precio'], 2, ',', '.')."</td>
+                <td style='text-align: center;'>$".number_format($producto['precio'], 2, ',', '.')."</td>
+                <td style='text-align: right;'>$".number_format($subtotal, 2, ',', '.')."</td>
             </tr>";
             $total = $total + ($producto['cantidad'] * $producto['precio']);
     }
@@ -103,7 +105,8 @@ function preparaPdf($compra, $usuario, $fecha){
                 <tr>
                     <th>Producto</th>
                     <th style='text-align: center;'>Cant.</th>
-                    <th style='text-align: right;'>Precio Unit.</th>
+                    <th style='text-align: center;'>Precio Unit.</th>
+                    <th style='text-align: right;'>Subtotal</th>
                 </tr>
             </thead>
             <tbody>
