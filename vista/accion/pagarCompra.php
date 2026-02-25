@@ -1,6 +1,8 @@
 <?php
 require __DIR__.'/../../vendor/autoload.php';
-require_once '../../control/ABMCompraItem.php'; 
+require_once __DIR__.'/../../control/ABMCompraItem.php';
+require_once __DIR__.'/../../control/ABMCompra.php';
+include_once __DIR__.'/../../utils/funciones.php'; 
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
@@ -12,16 +14,25 @@ try {
 
     $objAbmItems = new ABMCompraItem();
     $listaItems = $objAbmItems->buscar(['idcompra' => $idcompra]);
+    $objAbmCompra = new ABMCompra();
+    $objCompra = $objAbmCompra->buscar(['idcompra' => $idcompra])[0];
+    $objUsuario = $objCompra->getObjUsuario();
     if (empty($listaItems)) throw new Exception("La compra no tiene items.");
 
     $total = 0;
+    $compra=[];
     foreach ($listaItems as $item) {
-        $total += ($item->getCantidad() * $item->getObjProducto()->getProPrecio());
+        $objProducto=$item->getObjProducto();
+        $prodCompra['nombre']=$objProducto->getNomProducto();
+        $prodCompra['cantidad']=$item->getCantidad();
+        $prodCompra['precio']=$objProducto->getProPrecio();
+        $total += ($prodCompra['cantidad'] * $prodCompra['precio']);
+        array_push($compra, $prodCompra);
     }
 
     // --- CONFIGURACIÓN PAYPAL ---
-    $clientId = "...";
-    $clientSecret = "...";
+    $clientId = "AdLIqQgSljenn6-r7RclIFA1IqzDEuK_g1ihPf2r4nogl0wg5tR_jPefzC94qKz-BiCm5gVSttsfm3a0";
+    $clientSecret = "EDMtAjKpZqKhg4JqtRt9YlYdyzf5DxzzEp8NYsHvmtK1LVEafp8Dq86KbHsicdTthU-o5_k7llAp3shH";
     $environment = new SandboxEnvironment($clientId, $clientSecret);
     $client = new PayPalHttpClient($environment);
 
