@@ -31,8 +31,8 @@ try {
     }
 
     // --- CONFIGURACIÓN PAYPAL ---
-    $clientId = "AdLIqQgSljenn6-r7RclIFA1IqzDEuK_g1ihPf2r4nogl0wg5tR_jPefzC94qKz-BiCm5gVSttsfm3a0";
-    $clientSecret = "EDMtAjKpZqKhg4JqtRt9YlYdyzf5DxzzEp8NYsHvmtK1LVEafp8Dq86KbHsicdTthU-o5_k7llAp3shH";
+    $clientId = "...";
+    $clientSecret = "...";
     $environment = new SandboxEnvironment($clientId, $clientSecret);
     $client = new PayPalHttpClient($environment);
 
