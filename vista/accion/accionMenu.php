@@ -1,11 +1,11 @@
 <?php
-require_once('../../control/ABMMenu.php');
-require_once('../../modelo/Menu.php');
+require_once(__DIR__.'/../../control/ABMMenu.php');
+require_once(__DIR__.'/../../modelo/Menu.php');
 require_once(__DIR__.'/../../utils/tipoMetodo.php');
 
+//capturo los datos 
 $datos = getSubmittedData();
 
-//$datos = $_REQUEST;  Captura tanto $_GET como $_POST (mando idmenu y operacion por get)
 $objAbmMenu = new ABMMenu();
 $respuesta = false;
 $mensajeError = "";
@@ -28,9 +28,9 @@ if (isset($datos['operacion'])) {
         }
     }
 
-    // --- OPERACIONES ---
+    //operaciones que vienen por get
 
-        // agregar menu
+    // agregar menu
     if ($datos['operacion'] == 'alta') {
         if ($objAbmMenu->alta($datos)) {
             $respuesta = true;
@@ -39,7 +39,7 @@ if (isset($datos['operacion'])) {
         }
     }
 
-    // eliminar rol
+    // modifica rol
     if ($datos['operacion'] == 'modificacion') {
         if ($objAbmMenu->modificacion($datos)) {
             $respuesta = true;
@@ -58,10 +58,10 @@ if (isset($datos['operacion'])) {
     }
 
 } else {
-    $mensajeError = "No se especificó operación.";
+    $mensajeError = "No se especificó la operación.";
 }
 
-// Retorno JSON para EasyUI
+// Retorno JSON para EasyUI, si respuesta es true
 if ($respuesta) {
     echo json_encode(array('success' => true));
 } else {

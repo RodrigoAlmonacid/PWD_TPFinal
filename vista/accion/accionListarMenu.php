@@ -1,6 +1,6 @@
 <?php
-require_once('../../control/ABMMenu.php');
-require_once('../../modelo/Menu.php');
+require_once(__DIR__.'/../../control/ABMMenu.php');
+require_once(__DIR__.'/../../modelo/Menu.php');
 $objMenu = new ABMMenu();
 
 // Buscamos todos los menús
@@ -21,7 +21,7 @@ foreach ($listaMenus as $elem) {
     else{
         $estado="Deshabilitado";
     }
-    if($idPadre==null){
+    if($idPadre==null || $idPadre==""){
         $idPadre="N/D";
     }
     $nuevoElem["idpadre"] = $idPadre;

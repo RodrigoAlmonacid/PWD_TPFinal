@@ -1,6 +1,6 @@
 <?php
-require_once('../../control/ABMusuario.php');
-require_once('../../modelo/Usuario.php');
+require_once(__DIR__.'/../../control/ABMusuario.php');
+require_once(__DIR__.'/../../modelo/Usuario.php');
 
 $abmUsuario = new ABMUsuario();
 

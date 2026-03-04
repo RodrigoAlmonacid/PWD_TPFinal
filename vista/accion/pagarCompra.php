@@ -1,13 +1,17 @@
 <?php
-require __DIR__.'/../../vendor/autoload.php';
-require_once __DIR__.'/../../control/ABMCompraItem.php';
-require_once __DIR__.'/../../control/ABMCompra.php';
-include_once __DIR__.'/../../utils/funciones.php'; 
+require (__DIR__.'/../../vendor/autoload.php');
+require_once (__DIR__.'/../../control/ABMCompraItem.php');
+require_once (__DIR__.'/../../control/ABMCompra.php');
+include_once (__DIR__.'/../../utils/funciones.php');
+require_once(__DIR__.'/../../utils/tipoMetodo.php');
+
+$datos=getSubmittedData();
+
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 
-$idcompra = $_POST['idcompra'] ?? null;
+$idcompra = $datos['idcompra'] ?? null;
 
 try {
     if (!$idcompra) throw new Exception("ID de compra no recibido.");
@@ -30,8 +34,8 @@ try {
         array_push($compra, $prodCompra);
     }
 
-    // --- CONFIGURACIÓN PAYPAL ---
-    $clientId = "...";
+    //Librería Paypal
+    $clientId = "..."; //datos en paypal developer con mi correo de gmail
     $clientSecret = "...";
     $environment = new SandboxEnvironment($clientId, $clientSecret);
     $client = new PayPalHttpClient($environment);
@@ -55,8 +59,13 @@ try {
 
     $response = $client->execute($request);
 
-    // --- EL TRUCO PARA TU JS ---
     // Buscamos el link que tiene rel="approve"
+    /*
+        los distintos rel de paypal
+        "self" → ver detalles de la orden
+        "approve" → URL para que el usuario apruebe el pago
+        "capture" → endpoint para capturar el pago
+    */
     $approveUrl = "";
     foreach ($response->result->links as $link) {
         if ($link->rel == "approve") {

@@ -1,9 +1,10 @@
 <?php
 // resolver el error del archivo de configuración que no trae los ABM
 //require_once(__DIR__.'/../../utils/incluyeABM.php');
-require_once('../../control/ABMCompra.php');
-require_once('../../control/ABMCompraEstado.php');
-require_once('../../modelo/CompraEstado.php');
+//agrego el __DIR__ para resolver errores de ruteo
+require_once(__DIR__.'/../../control/ABMCompra.php');
+require_once(__DIR__.'/../../control/ABMCompraEstado.php');
+require_once(__DIR__.'/../../modelo/CompraEstado.php');
 require_once(__DIR__.'/../../utils/tipoMetodo.php');
 
 $datos = getSubmittedData();
@@ -25,10 +26,10 @@ $usuario=$datos['usuario'];
 if($usuario=="cliente"){
     $idUsuario=$datos['idusuario'];
 }
-// 3. Preparar el formato JSON que el datagrid de EasyUI espera
+//Preparar el formato JSON que el datagrid de EasyUI espera
 $datosParaGrid = array();
 
-// El datagrid espera una lista de arrays asociativos, no de objetos.
+//El datagrid espera una lista de arrays asociativos, no de objetos.
 foreach($arregloCompras as $compraTipo) {
     if(count($compraTipo)>0){
         foreach ($compraTipo as $objCompraEstado) {
@@ -58,12 +59,13 @@ foreach($arregloCompras as $compraTipo) {
 }
 
 // Estructura final para EasyUI: {total: N, rows: [...]}
+//mando la cantidad de lineas en 'total' y el contenido en 'rows'
 $respuesta = array(
     'total' => count($datosParaGrid),
     'rows' => $datosParaGrid
 );
 
-// 4. Enviar la respuesta en formato JSON
+//Envio la respuesta en formato JSON
 header('Content-Type: application/json');
 echo json_encode($respuesta);
 ?>

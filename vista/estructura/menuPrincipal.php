@@ -1,9 +1,9 @@
 <?php
-include_once('../control/ABMMenuRol.php');
-include_once('../control/ABMProducto.php');
-include_once('../control/ABMCompra.php');
-include_once('../control/ABMCompraItem.php');
-include_once('../modelo/Menu.php');
+include_once(__DIR__.'/../../control/ABMMenuRol.php');
+include_once(__DIR__.'/../../control/ABMProducto.php');
+include_once(__DIR__.'/../../control/ABMCompra.php');
+include_once(__DIR__.'/../../control/ABMCompraItem.php');
+include_once(__DIR__.'/../../modelo/Menu.php');
 // Recuperamos los roles 
 $rolesUsuarioSimple = [];
 $menuSegunRol=[];
@@ -111,20 +111,6 @@ $jsonRolesMenu=json_encode($ejemplo);
         </div>
 
         <ul class="list-group list-group-flush rounded">
-        <!--    ejemplo del manejo del menú dinámico
-                        en el href pongo la ruta (la guardo en la descripcion  de la clase menu)
-                        al lado del botón pongo el nombre del menu
-                        trato de agregar una seccion para el icono (luego agrego alguno predeterminado para nuevos menus)
-        foreach($menues as $menu){
-                if($menu->menuHabilitado()){
-                <li class="list-group-item bg-dark text-white border-secondary">
-                    <a href="<?php  //echo $ruta  ?> /vista/index.php" class="text-decoration-none text-light d-block">
-                        <i class="bi bi-speedometer2 me-2"></i> $menu->nombre
-                    </a>
-                </li>    
-                }
-            }
-                    -->
             <?php if (count($rolesUsuarioSimple) > 0): ?>
                 <li class="list-group-item bg-dark text-white border-secondary">
                     <a href="<?= $ruta ?>/vista/index.php" class="text-decoration-none text-light d-block">

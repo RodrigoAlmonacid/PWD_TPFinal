@@ -4,22 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ponete Las Pilas</title>
-    
-    
-    <!-- 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
-    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css">
-    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/color.css">
-    <link rel="stylesheet" href="../css/bootstrap-icons/bootstrap-icons.min.css">
-    -->
-    
-    
 
     <?php
-        //include_once(__DIR__.'/configuracion.php');
-        include_once('ruta.php');
+        include_once(__DIR__.'/ruta.php');
         $ruta = ruta();
         date_default_timezone_set('America/Argentina/Buenos_Aires');
         // Incluimos Session acá para que esté disponible en todas partes

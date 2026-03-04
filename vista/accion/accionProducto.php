@@ -6,50 +6,52 @@ require_once(__DIR__.'/../../utils/tipoMetodo.php');
 $datos = getSubmittedData(); //la operación viene por get, los demás datos por post
 $abmProducto = new ABMProducto();
 $respuesta = array('success' => false, 'errorMsg' => 'Operación no reconocida.');
+
+//uso 
 if(!empty($datos["imgProducto"]["name"])){
-$target_dir = "../imagenes/";
-$target_file = $target_dir . basename($datos["imgProducto"]["name"]);
-$uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-$datos['proimagen']="imagenes/".basename($datos["imgProducto"]["name"]);
-// Check if image file is a actual image or fake image
+  $target_dir = "../imagenes/"; //especifica el directorio donde se colocará el archivo
+  $target_file = $target_dir . basename($datos["imgProducto"]["name"]); //especifica la ruta del archivo que se cargará
+  $uploadOk = 1;
+  $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION)); //contiene la extensión del archivo (en minúsculas)
+  $datos['proimagen']="imagenes/".basename($datos["imgProducto"]["name"]);
+//Comprueba si el archivo de imagen es una imagen real o una imagen falsa
 if(isset($datos["submit"])) {
   $check = getimagesize($datos["imgProducto"]["tmp_name"]);
   if($check !== false) {
-    $respuesta['mensaje']="File is an image - " . $check["mime"] . ".";
+    $respuesta['mensaje']="El archivo es una imagen - " . $check["mime"] . ".";
     $uploadOk = 1;
   } else {
-    $respuesta['mensaje']="File is not an image.";
+    $respuesta['mensaje']="El archivo no es una imagen.";
     $uploadOk = 0;
   }
 }
-// Check if file already exists
+//comprueba si el archivo ya existe
 if (file_exists($target_file)) {
-  $respuesta['mensaje']="Sorry, file already exists.";
+  $respuesta['mensaje']="La imagen ya existe.";
   $uploadOk = 0;
 }
-// Check file size
-if ($datos["imgProducto"]["size"] > 500000) {
-  $respuesta['mensaje']="Sorry, your file is too large.";
+//comprueba el tamaño
+if ($datos["imgProducto"]["size"] > 1048576) { //limito la imagen a 1 mega (el valor se expresa en bytes 1Mb = 1024b) 
+  $respuesta['mensaje']="La imagen no puede ser mayor a 1 Mb.";
   $uploadOk = 0;
 }
 
-// Allow certain file formats
+//formatos admitidos
 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 && $imageFileType != "gif" ) {
-  $respuesta['mensaje']="Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+  $respuesta['mensaje']="Formato incorrecto. Solo se admiten JPG, JPEG, PNG y GIF.";
   $uploadOk = 0;
 }
 
-// Check if $uploadOk is set to 0 by an error
+//Comprueba si $uploadOk está establecido en 0 por un error
 if ($uploadOk == 0) {
-  $respuesta['mensaje']="Sorry, your file was not uploaded.";
-// if everything is ok, try to upload file
+  $respuesta['mensaje']="El archivo no pudo ser cargado.";
+//si todo está bien, intenta cargar el archivo
 } else {
   if (move_uploaded_file($datos["imgProducto"]["tmp_name"], $target_file)) {
-    $respuesta['mensaje']="The file ". htmlspecialchars( basename( $datos["imgProducto"]["name"])). " has been uploaded.";
+    $respuesta['mensaje']="El archivo ". htmlspecialchars( basename( $datos["imgProducto"]["name"])). " fue cargado con éxito.";
   } else {
-    $respuesta['mensaje']="Sorry, there was an error uploading your file.";
+    $respuesta['mensaje']="Error al cargar el archivo.";
   }
 }
 

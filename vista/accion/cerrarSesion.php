@@ -1,8 +1,6 @@
 <?php
 
-include_once ('../../control/Session.php');
-// O incluye Session.php manualmente si no usas config
-// include_once '../../control/Session.php';
+include_once (__DIR__.'/../../control/Session.php');
 
 $objSession = new Session();
 $objSession->cerrar();

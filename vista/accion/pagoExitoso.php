@@ -1,37 +1,38 @@
 <?php
-require __DIR__.'/../../vendor/autoload.php';
-require_once __DIR__.'/../../control/ABMCompraEstado.php';
-require_once __DIR__.'/../../control/ABMCompraItem.php';
-require_once __DIR__.'/../../control/ABMCompra.php';
-require_once __DIR__.'/../../utils/funciones.php';
+require (__DIR__.'/../../vendor/autoload.php');
+require_once (__DIR__.'/../../control/ABMCompraEstado.php');
+require_once (__DIR__.'/../../control/ABMCompraItem.php');
+require_once (__DIR__.'/../../control/ABMCompra.php');
+require_once (__DIR__.'/../../utils/funciones.php');
+require_once(__DIR__.'/../../utils/tipoMetodo.php');
 $date=date('d-m-Y H:i:s');
+$datos=getSubmittedData();
+
 //uso lo mismo que en paypal
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 
 //Recupero los datos de la URL
-$idcompra = $_GET['idcompra'] ?? null;
-$orderId = $_GET['token'] ?? null; // Este es el ID que genera PayPal
+$idcompra = $datos['idcompra'] ?? null;
+$orderId = $datos['token'] ?? null; // Este es el ID que genera PayPal
 
 if (!$idcompra || !$orderId) {
     die("Error: Faltan datos para procesar el pago.");
 }
 
 try {
-    //CONFIGURACIÓN PAYPAL (Igual que el archivo anterior)
+    //config paypal igual que pagarCompra.php
     $clientId = "...";
     $clientSecret = "...";
     $environment = new SandboxEnvironment($clientId, $clientSecret);
     $client = new PayPalHttpClient($environment);
 
-    //CAPTURAR EL PAGO
     //Aquí es donde PayPal realmente saca el dinero de la cuenta del cliente
     $request = new OrdersCaptureRequest($orderId);
     $request->prefer('return=representation');
     $response = $client->execute($request);
 
-    //VERIFICAR EL ESTADO DEL PAGO
     // Si el estado es 'COMPLETED', el dinero ya es tuyo
     if ($response->result->status == 'COMPLETED') {
         

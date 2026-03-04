@@ -16,7 +16,9 @@ include_once('estructura/head.php');
     <?php include_once('estructura/menuPrincipal.php'); ?>
 
     <div class="container my-5">
-        <?php if (in_array(1, $rolesUsuarioSimple)){ ?>
+        <?php if (in_array(1, $rolesUsuarioSimple)){ 
+            /* tengo que implementar esto: $existe = in_array(10, array_column($array, 'id'), true) para no recorrer todo el arreglo
+            extraigo la columna y recorro solo los id */?> 
         <div class="table-responsive">
             <table id="tg" class="easyui-treegrid" title="Administración de Menús" style="width:100%;height:600px"
                 data-options="

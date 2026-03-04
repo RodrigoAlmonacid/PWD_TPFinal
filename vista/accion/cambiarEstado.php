@@ -1,7 +1,11 @@
 <?php 
-    require_once('../../control/ABMCompraEstado.php');
-    $idCompra=$_POST['idcompra'];
-    $idCompraEstadoTipo=$_POST['idcompraestadotipo'];
+    require_once(__DIR__.'/../../control/ABMCompraEstado.php');
+    require_once(__DIR__.'/../../utils/tipoMetodo.php');
+
+    $datos=getSubmittedData();
+    
+    $idCompra=$datos['idcompra'];
+    $idCompraEstadoTipo=$datos['idcompraestadotipo'];
     $objABMCompraEstado=new ABMCompraEstado();
     $respuesta = false;
     $errorMsg = "";

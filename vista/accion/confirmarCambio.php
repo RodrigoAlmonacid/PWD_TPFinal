@@ -1,9 +1,11 @@
 <?php
-//include_once(__DIR__.'/../../modelo/conector/conector.php');
 include_once(__DIR__.'/../../control/ABMusuario.php');
 include_once(__DIR__.'/../../modelo/Usuario.php');
 include_once(__DIR__.'/../../control/ABMPassReset.php');
-$datos = $_POST;
+require_once(__DIR__.'/../../utils/tipoMetodo.php');
+
+$datos=getSubmittedData();
+
 $token = $datos['token'] ?? '';
 $pass1 = $datos['uspass'] ?? '';
 $pass2 = $datos['uspass2'] ?? '';
@@ -14,20 +16,10 @@ if ($pass1 !== $pass2) {
     exit;
 }
 
-//$db = new BaseDatos();
-
 //Verificamos que el token siga siendo válido
-/*
-$sqlToken = "SELECT usmail FROM pass_reset WHERE token = '$token' AND usado = 0 LIMIT 1";
-$cant = $db->ejecutar($sqlToken);
-*/
 $abmPass=new ABMPassReset();
 $objPass=$abmPass->buscar(['token'=>$token, 'usado'=>0]);
 if ($objPass) {
-    /*
-    $registroToken = $db->registro();
-    $emailUsuario = $registroToken['usmail'];
-     */
     //Buscamos al usuario para obtener su ID y sus otros datos (necesarios para el ABM)
     $objAbmUsuario = new AbmUsuario();
     $objUsuario=$objPass->getObjUsuario();
@@ -44,10 +36,6 @@ if ($objPass) {
     ];
     $modifica=$objAbmUsuario->modificar($datosUpdate);
     if ($modifica) {
-        /*
-        $sqlInvalidar = "UPDATE pass_reset SET usado = 1 WHERE token = '$token'";
-        $db->ejecutar($sqlInvalidar);
-        */
         $id=$objPass->getIdPass();
         $modificaPass=$abmPass->modificacion(['id'=>$id, 'usado'=>1]);
 

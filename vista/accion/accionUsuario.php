@@ -1,6 +1,6 @@
 <?php
-require_once('../../control/ABMusuario.php');
-require_once('../../modelo/Usuario.php'); 
+require_once(__DIR__.'../../control/ABMusuario.php');
+require_once(__DIR__.'../../modelo/Usuario.php'); 
 require_once(__DIR__.'/../../utils/tipoMetodo.php');
 
 $datos = getSubmittedData();
@@ -25,7 +25,7 @@ if ($operacion == 'guardar') {
 
 } elseif ($operacion == 'actualizar') {
     // Para actualizar, necesitamos el 'idusuario' y los nuevos datos.
-    $datos['idusuario'] = $_GET['id'];
+    $datos['idusuario'] = $datos['id'];
 
     $param_abm = array(
         'idusuario' => $datos['idusuario'],

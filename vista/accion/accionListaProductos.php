@@ -1,7 +1,7 @@
 <?php
 // resolver el error del archivo de configuración que no trae los ABM
-require_once('../../control/ABMProducto.php');
-require_once('../../modelo/Producto.php');
+require_once(__DIR__.'/../../control/ABMProducto.php');
+require_once(__DIR__.'/../../modelo/Producto.php');
 
 //Instancio el ABM
 $abmProducto = new ABMProducto();

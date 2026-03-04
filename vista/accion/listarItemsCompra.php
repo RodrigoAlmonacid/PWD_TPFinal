@@ -1,15 +1,15 @@
 <?php
-// Incluir el ABM. El ABMUsuario ya se encarga de incluir Usuario.php
-// IMPORTANTE: Ajusta estas rutas si tu estructura de carpetas es diferente.
-require_once('../../control/ABMCompra.php');
-require_once('../../control/ABMCompraItem.php');
-require_once('../../modelo/CompraItem.php');
+require_once(__DIR__.'/../../control/ABMCompra.php');
+require_once(__DIR__.'/../../control/ABMCompraItem.php');
+require_once(__DIR__.'/../../modelo/CompraItem.php');
+require_once(__DIR__.'/../../utils/tipoMetodo.php');
 
+$datos=getSubmittedData();
 //Instancio los abm
 $objAbmCompra = new ABMCompra();
 $objABMCompraItem=new ABMCompraItem();
 //obtengo el idcompra
-$idCompra=$_GET['idcompra'];
+$idCompra=$datos['idcompra'];
 $compraItem=$objABMCompraItem->buscar(['idcompra' => $idCompra]); //Aca ya logré obtener los items 
 //Preparar el formato JSON que el datagrid de EasyUI espera
 $datosParaGrid = array();
@@ -28,13 +28,13 @@ if(count($compraItem)>0){
 }
 
 
-// Estructura final para EasyUI: {total: N, rows: [...]}
+//Estructura final para EasyUI: {total: N, rows: [...]}
 $respuesta = array(
     'total' => count($datosParaGrid),
     'rows' => $datosParaGrid
 );
 
-// 4. Enviar la respuesta en formato JSON
+//Enviar la respuesta en formato JSON
 header('Content-Type: application/json');
 echo json_encode($respuesta);
 ?>

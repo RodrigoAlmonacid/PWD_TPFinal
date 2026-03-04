@@ -1,16 +1,19 @@
 <?php
 date_default_timezone_set('America/Argentina/Buenos_Aires');
-require_once('../../control/ABMCompra.php');
-require_once('../../control/ABMCompraItem.php');
-require_once('../../control/ABMCompraEstado.php');
-require_once('../../modelo/Usuario.php'); 
-require_once('../../control/Session.php');
+require_once(__DIR__.'/../../control/ABMCompra.php');
+require_once(__DIR__.'/../../control/ABMCompraItem.php');
+require_once(__DIR__.'/../../control/ABMCompraEstado.php');
+require_once(__DIR__.'/../../modelo/Usuario.php'); 
+require_once(__DIR__.'/../../control/Session.php');
+require_once(__DIR__.'/../../utils/tipoMetodo.php');
+
+$datos=getSubmittedData();
 $objSession=new Session();
 $exito=false;//esta variable la uso por si hay errores al agregar
 //Obtengo datos del usuario y producto
 $idUsuario = $_SESSION['idusuario'];
-$idProducto = $_POST['idproducto']; // Viene por POST
-$cantidad = $_POST['cantidad'];
+$idProducto = $datos['idproducto'];
+$cantidad = $datos['cantidad'];
 
 $objAbmCompra = new AbmCompra();
 $objAbmCompraItem = new AbmCompraItem();

@@ -1,7 +1,11 @@
 <?php
-require_once "../../control/ABMCompraItem.php";
-$idItem = $_POST['idcompraitem'];
-$delta = (int)$_POST['delta'];
+require_once(__DIR__.'../../control/ABMCompraItem.php');
+require_once(__DIR__.'/../../utils/tipoMetodo.php');
+
+$datos=getSubmittedData();
+
+$idItem = $datos['idcompraitem'];
+$delta = (int)$datos['delta'];
 
 $objABM = new ABMCompraItem();
 $lista = $objABM->buscar(['idcompraitem' => $idItem]);

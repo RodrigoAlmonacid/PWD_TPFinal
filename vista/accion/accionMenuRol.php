@@ -1,10 +1,10 @@
 <?php
-require_once('../../control/ABMMenuRol.php');
-require_once('../../control/ABMRol.php'); 
+require_once(__DIR__.'/../../control/ABMMenuRol.php');
+require_once(__DIR__.'/../../control/ABMRol.php'); 
 require_once(__DIR__.'/../../utils/tipoMetodo.php');
 
 $datos = getSubmittedData();
-//$datos = $_REQUEST;
+
 $objAbmMenuRol = new ABMMenuRol();
 $objAbmRol = new AbmRol(); 
 $respuesta = false;
