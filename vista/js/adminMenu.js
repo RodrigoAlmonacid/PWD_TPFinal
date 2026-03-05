@@ -94,7 +94,7 @@ function destroyMenu(){
 //sección de roles (corregir, está copiado de roles de usuarios)
 function manageRoles() {
     var row = $('#tg').datagrid('getSelected');
-    console.log(row);
+    //console.log(row);
     if (row) {
         idMenuSeleccionado = row.idmenu;
         $('#dlg-roles').dialog('open');

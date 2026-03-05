@@ -11,10 +11,10 @@ function resumenCompra(){
             $(divButtons).show();
         }
         if(('#botonPagar').length>0){
-            console.log('ve el boton');
+            //console.log('ve el boton');
             if(row.estado=="Pendiente"){
                 $('#botonPagar').hide();
-                console.log('entra pero no esconde');
+                //console.log('entra pero no esconde');
             }
             else{
                 $('#botonPagar').show();
