@@ -10,20 +10,23 @@ $menuSegunRol=[];
 $ejemplo=[];
 //$_SESSION=[];
 
-
 $objAbmProducto=new ABMProducto();
 $arregloProductos=$objAbmProducto->buscar(['prodeshabilitado' => 'NULL']);
 if ($objSession->activa()) {
     $idUsuario = $_SESSION['idusuario'];
+    $listaRolesObjetos = $objSession->getRol(); //me devuelve los objetos rol de este usuario (el de la sesión activa)
+    
+    //miro si el usuario tiene algún carrito activo
     $objABMCompra= new ABMCompra();
     $carritoActivo=$objABMCompra->obtenerCarritoActivo($idUsuario);//acá obtengo un objeto compra
-    if($carritoActivo){ //condición para mostrar un cartel de que no hay compras activas
+    if($carritoActivo){
+         //si hay un carrito miro la cantidad de items para mostrarla en el boton del carrito
         $objABMCompraItem=new ABMCompraItem();
         $idCompra=$carritoActivo->getIdCompra();
         $compraItem=$objABMCompraItem->buscar(['idcompra' => $idCompra]); //Aca ya logré obtener los items 
         $cantProductos=count($compraItem);
     }
-    $listaRolesObjetos = $objSession->getRol();
+    
     foreach ($listaRolesObjetos as $objRol) {
         $objMenuRol=new ABMMenuRol();
         $param['idrol']=$objRol->getId_rol();
@@ -45,8 +48,10 @@ if ($objSession->activa()) {
     }
 }
 // Preparamos el array JSON para el JavaScript
+/*
 $jsonRoles = json_encode($rolesUsuarioSimple);
 $jsonRolesMenu=json_encode($ejemplo);
+*/
 ?>
 
 <header>
@@ -68,7 +73,7 @@ $jsonRolesMenu=json_encode($ejemplo);
 
                 <div class="d-flex align-items-center">
                     
-                    
+                    <!-- si la sesión está activa, muestro el botón para el carrito, con el número de items de una compra en caso que haya un carrito activo -->
                     <?php if ($objSession->activa()){ ?>  
                     <a href="<?= $ruta ?>/vista/carrito.php">
                     <button class="btn btn-outline-warning me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
@@ -80,6 +85,7 @@ $jsonRolesMenu=json_encode($ejemplo);
                         <i class="bi bi-gear-fill"></i> <?php echo $objSession->activa() ? $_SESSION['usnombre'] : 'Invitado'; ?>
                     </button>
                     <?php }
+                    /* si no hay sesión activa muestro el botón para iniciar sesión */
                         else{ ?>
                             <a href="<?= $ruta ?>/vista/login.php" class="btn btn-primary me-2">
                         <i class="bi bi-person-circle"></i> Ingresar
@@ -121,7 +127,8 @@ $jsonRolesMenu=json_encode($ejemplo);
             <?php
             foreach($menuSegunRol as $menu){
                 if(isset($menu[0])){
-                    for($i=0; $i<count($menu); $i++){
+                    $cantidad=count($menu);
+                    for($i=0; $i<$cantidad; $i++){
                         $objMenu=$menu[$i]->getObjMenu();
                         if(!$objMenu->getMeDeshabilitado()){
                             ?> 
@@ -145,22 +152,23 @@ $jsonRolesMenu=json_encode($ejemplo);
         </div>
     </div>
 </div>
+<!-- ya no manejo los roles con js
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Inyectamos el array de roles
+            const misRoles = <?php /*echo $jsonRoles; */?>;
+            const RolesMenu = <?php /*echo $jsonRolesMenu; */?>;
+            console.log('roles de usuario', misRoles);
+            console.log('menuRol: ', RolesMenu);
+            // Roles permitidos (los puse a mano))
+            const rolesDeAdmin = ['Root', 'Administrador', 'Cliente'];
+                
+            // Verificamos coincidencia
+            const esAdmin = misRoles.some(rol => rolesDeAdmin.includes(rol));
+                
+            const adminBtn = document.getElementById('admin-menu-toggle');
+                
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Inyectamos el array de roles
-        const misRoles = <?php echo $jsonRoles; ?>;
-        const RolesMenu = <?php echo $jsonRolesMenu; ?>;
-        console.log('roles de usuario', misRoles);
-        console.log('menuRol: ', RolesMenu);
-        // Roles permitidos (los puse a mano))
-        const rolesDeAdmin = ['Root', 'Administrador', 'Cliente'];
-        
-        // Verificamos coincidencia
-        const esAdmin = misRoles.some(rol => rolesDeAdmin.includes(rol));
-        
-        const adminBtn = document.getElementById('admin-menu-toggle');
-        
-
-    });
-</script>
+        });
+    </script>
+-->

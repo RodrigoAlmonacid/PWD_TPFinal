@@ -1,6 +1,6 @@
 <?php
-require_once(__DIR__.'../../control/ABMUsuarioRol.php');
-require_once(__DIR__.'../../control/ABMRol.php'); 
+require_once(__DIR__.'/../../control/ABMUsuarioRol.php');
+require_once(__DIR__.'/../../control/ABMRol.php'); 
 require_once(__DIR__.'/../../utils/tipoMetodo.php');
 
 $datos = getSubmittedData();
