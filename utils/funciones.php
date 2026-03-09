@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once (__DIR__ . '/../vendor/autoload.php');
+require_once (__DIR__.'/../vista/estructura/pass.php');
 use PHPMailer\PHPMailer\PHPMailer; //este se encarge de los mails
 use PHPMailer\PHPMailer\Exception;
 use Dompdf\Dompdf; //este arma los pdf
@@ -17,7 +18,7 @@ function enviarMail($destinatario, $asunto, $cuerpo) {
         $mail->Host       = 'smtp.gmail.com'; // O el de tu proveedor
         $mail->SMTPAuth   = true;
         $mail->Username   = 'rodrigo.almonacid@est.fi.uncoma.edu.ar';
-        $mail->Password   = 'lvmn nnlr fkhw tycy'; //contra de app mailPHP
+        $mail->Password   = passMail(); //contra de app mailPHP
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
@@ -123,13 +124,13 @@ function preparaPdf($compra, $usuario, $fecha){
     </body>
     </html>";
 
-    // --- 4. GENERACIÓN DEL PDF ---
-    $dompdf = new \Dompdf\Dompdf();
-    $dompdf->loadHtml($htmlFactura);
-    $dompdf->setPaper('A4', 'portrait');
-    $dompdf->render();
+    //GENERACIÓN DEL PDF
+    $dompdf = new \Dompdf\Dompdf(); //instancio un obj Dompdf
+    $dompdf->loadHtml($htmlFactura); //le paso todo el html para convertir
+    $dompdf->setPaper('A4', 'portrait'); //A4 es el tamaño, 'portrait' le digo vertical (landscape para horizantal)
+    $dompdf->render(); // lee e interpreta el html que pasé y lo dibuja en la memoria del servidor
 
-    return $dompdf->output();
+    return $dompdf->output(); //Toma el PDF que ya se renderizó en memoria y lo devuelve como una cadena de texto (string) de datos binarios
 }
 
 ?>

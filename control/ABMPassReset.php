@@ -67,16 +67,14 @@ class ABMPassReset {
     {
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
-            
             $objPass = $this->cargarObjetoConClave($param);
-            
-            if($objPass != null && $objPass->buscar($param['id'])){
-                
+            if($objPass != null && $this->buscar($param['id'])){
                 if(isset($param['usado'])){
                     $objPass->setUsado($param['usado']);
                 }
                 
                 if ($objPass->modificar()) {
+                    echo 'modifica';
                     $resp = true;
                 }
             }

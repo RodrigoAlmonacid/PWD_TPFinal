@@ -2,7 +2,7 @@
 include_once(__DIR__.'/../modelo/conector/conector.php');
 include_once(__DIR__.'/../control/ABMPassReset.php');
 include_once('estructura/head.php');
-require_once(__DIR__.'/../../utils/tipoMetodo.php');
+require_once(__DIR__.'/../utils/tipoMetodo.php');
 
 $datos = getSubmittedData();
 ?>
@@ -13,11 +13,11 @@ $objAbmPass=new ABMPassReset();
 if (empty($token)) { //miro que $token no esté vacío
     $error = "El enlace de recuperación no es válido o falta el token.";
 } else {
-    $valida=$objAbmPass->validaToken($token); //esta función me devuelve null si todo está bien
+    $error=$objAbmPass->validaToken($token); //esta función me devuelve null si todo está bien
 }
 
 //bloque de captura de errores (ahora sí tiene qué capturar)
-if ($valida) {
+if ($error) {
     header("Location: login.php?error=" . urlencode($error));
     exit; //si encuentro errores lo muestro y no permito el reseteo de la clave
 }

@@ -38,7 +38,7 @@ if ($objPass) {
     if ($modifica) {
         $id=$objPass->getIdPass();
         $modificaPass=$abmPass->modificacion(['id'=>$id, 'usado'=>1]);
-
+        
         $msj = "Contraseña actualizada correctamente. Ya puedes iniciar sesión.";
         header("Location: ../login.php?mensaje=" . urlencode($msj));
         exit;

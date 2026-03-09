@@ -5,6 +5,7 @@ require_once (__DIR__.'/../../control/ABMCompraItem.php');
 require_once (__DIR__.'/../../control/ABMCompra.php');
 require_once (__DIR__.'/../../utils/funciones.php');
 require_once(__DIR__.'/../../utils/tipoMetodo.php');
+require_once(__DIR__.'/../estructura/pass.php');
 $date=date('d-m-Y H:i:s');
 $datos=getSubmittedData();
 
@@ -23,8 +24,8 @@ if (!$idcompra || !$orderId) {
 
 try {
     //config paypal igual que pagarCompra.php
-    $clientId = "...";
-    $clientSecret = "...";
+    $clientId = $usPaypal;
+    $clientSecret = $passPaypal;
     $environment = new SandboxEnvironment($clientId, $clientSecret);
     $client = new PayPalHttpClient($environment);
 

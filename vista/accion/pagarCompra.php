@@ -4,6 +4,7 @@ require_once (__DIR__.'/../../control/ABMCompraItem.php');
 require_once (__DIR__.'/../../control/ABMCompra.php');
 include_once (__DIR__.'/../../utils/funciones.php');
 require_once(__DIR__.'/../../utils/tipoMetodo.php');
+require_once(__DIR__.'/../estructura/pass.php');
 
 $datos=getSubmittedData();
 
@@ -35,8 +36,8 @@ try {
     }
 
     //Librería Paypal
-    $clientId = "..."; //datos en paypal developer con mi correo de gmail
-    $clientSecret = "...";
+    $clientId = $usPaypal;
+    $clientSecret = $passPaypal;
     $environment = new SandboxEnvironment($clientId, $clientSecret);
     $client = new PayPalHttpClient($environment);
 

@@ -117,7 +117,7 @@
         $modifica=false;
         $consulta="UPDATE pass_reset SET ";
         $consulta.="usado=".$usado;
-        $consulta.=" WHERE id=".$this->getIdPass().";";        
+        $consulta.=" WHERE id=".$this->getIdPass().";";       
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){
             $modifica=true;
