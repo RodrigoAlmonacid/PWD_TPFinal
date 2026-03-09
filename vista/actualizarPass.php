@@ -2,42 +2,24 @@
 include_once(__DIR__.'/../modelo/conector/conector.php');
 include_once(__DIR__.'/../control/ABMPassReset.php');
 include_once('estructura/head.php');
+require_once(__DIR__.'/../../utils/tipoMetodo.php');
+
+$datos = getSubmittedData();
 ?>
 </head>
 <?php
-$token = $_GET['token'] ?? '';
-
-$error = null; // Inicializo la variable
-
+$token = $datos['token'] ?? '';
+$objAbmPass=new ABMPassReset();
 if (empty($token)) { //miro que $token no esté vacío
     $error = "El enlace de recuperación no es válido o falta el token.";
 } else {
-    $abmPass=new ABMPassReset();
-    $objPass=$abmPass->buscar(['token'=>$token, 'usado'=>0]);
-
-    /*
-    $db = new BaseDatos();
-    // 1. Buscamos el token. Nota: Filtramos por usado = 0
-    $sql = "SELECT * FROM pass_reset WHERE token = '$token' AND usado = 0 LIMIT 1";
-    $cant = $db->ejecutar($sql);
-    */
-    if ($objPass) {
-        
-        //Validamos el vencimiento
-        $ahora = date("Y-m-d H:i:s");
-        if ($ahora > $objPass->getVencimiento()) {
-            $error = "El enlace ha expirado. Los tokens duran solo 1 hora.";
-        }
-    } else {
-        // Si no encontró nada o ya fue usado
-        $error = "El enlace es inválido o ya fue utilizado previamente.";
-    }
+    $valida=$objAbmPass->validaToken($token); //esta función me devuelve null si todo está bien
 }
 
-//Tu bloque de captura de errores (ahora sí tiene qué capturar)
-if ($error) {
+//bloque de captura de errores (ahora sí tiene qué capturar)
+if ($valida) {
     header("Location: login.php?error=" . urlencode($error));
-    exit;
+    exit; //si encuentro errores lo muestro y no permito el reseteo de la clave
 }
 
 // Si llego, el token es VÁLIDO. 

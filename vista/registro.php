@@ -16,7 +16,7 @@
                             <p class="text-center text-muted mb-4">Regístrate para comenzar a usar "Ponete las pilas"</p>
                             
                             <?php
-                            // Reutilizamos tu lógica de alertas para mostrar errores de validación (ej: email duplicado)
+                            // Reutilizamos lógica de alertas para mostrar errores de validación (ej: email duplicado)
                             if (isset($_GET['error'])) {
                                 echo "
                                 <div class='alert alert-danger alert-dismissible fade show' role='alert'>

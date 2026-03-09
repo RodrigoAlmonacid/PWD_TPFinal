@@ -2,18 +2,12 @@
     include_once('estructura/head.php');
 ?>
 <script type="text/javascript" src="js/adminProductos.js"></script>
-<!--
-    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css">
-    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/color.css">
-    <script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.min.js"></script>
-    <script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
--->
-    <?php
-        include_once('../control/ABMProducto.php');
-        $objProucto=new ABMProducto();
-        $date=date('Y-m-d H:i:s');
-    ?>
+
+<?php
+    include_once('../control/ABMProducto.php');
+    $objProucto=new ABMProducto();
+    $date=date('Y-m-d H:i:s');
+?>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <?php include_once('estructura/menuPrincipal.php'); ?>

@@ -108,5 +108,27 @@ class ABMPassReset {
         }
         return $objPass;
     }
+
+    /** le paso un token y chequea si es válido
+     * @param STRING $token
+     * @return STRING devuellvo el error, si lleva texto algo salió mal, sino manda null
+     */
+    public function validaToken($token){
+        $error = null;
+        $abmPass=new ABMPassReset();
+        $objPass=$abmPass->buscar(['token'=>$token, 'usado'=>0]); //miro el estado del token ('usado'=0 => no fue usado, 'usado'=1 => ya está usado)
+
+        if ($objPass) {   
+            //Validamos el vencimiento (cuando armo el token le doy una hora)
+            $ahora = date("Y-m-d H:i:s"); //hora actual
+            if ($ahora > $objPass->getVencimiento()) { //la hora actual debe ser anterior a la del token
+                $error = "El enlace ha expirado. Los tokens duran solo 1 hora.";
+            }
+        } else {
+            // Si no encontró nada o ya fue usado
+            $error = "El enlace es inválido o ya fue utilizado previamente.";
+        }
+        return $error;
+    }
 }
 ?>

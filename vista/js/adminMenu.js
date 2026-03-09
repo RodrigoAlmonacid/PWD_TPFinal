@@ -40,18 +40,18 @@ function editMenu(){
 }
 
 function saveMenu(){
-            console.log("entra al save");
+            //console.log("entra al save");
             $('#fm').form('submit',{
                 url: url,
                 iframe: false,
                 onSubmit: function(){
-                    console.log("entra a validar");
+                    /* console.log("entra a validar");
                     if ($(this).form('validate')){
                         console.log("valida");
                     }
                     else {
                         console.log("no valida");
-                    }
+                    } */
                     return $(this).form('validate');
                 },
                 success: function(result){
@@ -113,7 +113,7 @@ function addRole() {
         $.post('accion/accionMenuRol.php?operacion=alta', 
             { idmenu: idMenuSeleccionado, idrol: idRol }, 
             function(result) {
-                            console.log(result);
+                //console.log(result);
                 if (result.success) {
                     $('#dg-roles').datagrid('reload'); // Recargamos la lista
                     $.messager.show({title: 'Éxito', msg: 'Rol asignado correctamente'});

@@ -131,4 +131,5 @@ function preparaPdf($compra, $usuario, $fecha){
 
     return $dompdf->output();
 }
+
 ?>
