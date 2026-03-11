@@ -97,7 +97,7 @@ class Compra{
      * */
     public function listar($where){
         $base=new BaseDatos();
-        $consulta="SELECT * FROM compra WHERE $where;";
+        $consulta="SELECT * FROM compra WHERE $where ORDER BY cofecha DESC;";
         $arregloCompras=[];
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){

@@ -1,6 +1,6 @@
 <?php
-require_once(__DIR__.'../../control/ABMusuario.php');
-require_once(__DIR__.'../../modelo/Usuario.php'); 
+require_once(__DIR__.'/../../control/ABMusuario.php');
+require_once(__DIR__.'/../../modelo/Usuario.php'); 
 require_once(__DIR__.'/../../utils/tipoMetodo.php');
 
 $datos = getSubmittedData();

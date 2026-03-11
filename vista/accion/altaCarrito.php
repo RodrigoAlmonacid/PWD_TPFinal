@@ -1,11 +1,11 @@
 <?php
 date_default_timezone_set('America/Argentina/Buenos_Aires');
-require_once(__DIR__.'../../control/ABMCompra.php');
-require_once(__DIR__.'../../control/ABMCompraItem.php');
-require_once(__DIR__.'../../control/ABMCompraEstado.php');
-require_once(__DIR__.'../../modelo/Usuario.php'); 
-require_once(__DIR__.'../../control/Session.php');
-include_once(__DIR__.'../../utils/funciones.php');
+require_once(__DIR__.'/../../control/ABMCompra.php');
+require_once(__DIR__.'/../../control/ABMCompraItem.php');
+require_once(__DIR__.'/../../control/ABMCompraEstado.php');
+require_once(__DIR__.'/../../modelo/Usuario.php'); 
+require_once(__DIR__.'/../../control/Session.php');
+include_once(__DIR__.'/../../utils/funciones.php');
 require_once(__DIR__.'/../../utils/tipoMetodo.php');
 
 $datos=getSubmittedData();

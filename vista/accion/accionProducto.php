@@ -1,6 +1,6 @@
 <?php
-require_once('../../control/ABMProducto.php');
-require_once('../../modelo/Producto.php'); 
+require_once(__DIR__.'/../../control/ABMProducto.php');
+require_once(__DIR__.'/../../modelo/Producto.php'); 
 require_once(__DIR__.'/../../utils/tipoMetodo.php');
 
 $datos = getSubmittedData(); //la operación viene por get, los demás datos por post

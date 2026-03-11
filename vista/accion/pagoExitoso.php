@@ -6,7 +6,7 @@ require_once (__DIR__.'/../../control/ABMCompra.php');
 require_once (__DIR__.'/../../utils/funciones.php');
 require_once(__DIR__.'/../../utils/tipoMetodo.php');
 require_once(__DIR__.'/../estructura/pass.php');
-$date=date('d-m-Y H:i:s');
+$date=date('d/m/Y H:i:s');
 $datos=getSubmittedData();
 
 //uso lo mismo que en paypal
@@ -34,7 +34,7 @@ try {
     $request->prefer('return=representation');
     $response = $client->execute($request);
 
-    // Si el estado es 'COMPLETED', el dinero ya es tuyo
+    // Si el estado es 'COMPLETED', es pagada
     if ($response->result->status == 'COMPLETED') {
         
         $objABMCompraEstado = new ABMCompraEstado();

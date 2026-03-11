@@ -126,7 +126,7 @@ class CompraEstado{
      * */
     public function listar($where){
         $base=new BaseDatos();
-        $consulta="SELECT * FROM compraestado WHERE $where;";
+        $consulta="SELECT * FROM compraestado WHERE $where ORDER BY cefechaini DESC;";
         $arregloCompraEstado=[];
         if($base->iniciar()){
             if($base->Ejecutar($consulta)){

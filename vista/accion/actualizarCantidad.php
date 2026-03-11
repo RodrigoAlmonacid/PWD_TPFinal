@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__.'../../control/ABMCompraItem.php');
+require_once(__DIR__.'/../../control/ABMCompraItem.php');
 require_once(__DIR__.'/../../utils/tipoMetodo.php');
 
 $datos=getSubmittedData();

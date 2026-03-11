@@ -17,7 +17,7 @@
                 <h2>Gestion de Productos</h2>
                 <p>Seleccione la acción que desea realizar</p>
 
-                <table id="dg" title="Mis Usuarios" class="easyui-datagrid" style="width:900px;height:250px alig"
+                <table id="dg" title="Mis Productos" class="easyui-datagrid" style="width:900px;height:250px alig"
                         url="accion/accionListaProductos.php"
                         toolbar="#toolbar" pagination="true"
                         rownumbers="true" fitColumns="true" singleSelect="true">

@@ -152,23 +152,3 @@ $jsonRolesMenu=json_encode($ejemplo);
         </div>
     </div>
 </div>
-<!-- ya no manejo los roles con js
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Inyectamos el array de roles
-            const misRoles = <?php /*echo $jsonRoles; */?>;
-            const RolesMenu = <?php /*echo $jsonRolesMenu; */?>;
-            console.log('roles de usuario', misRoles);
-            console.log('menuRol: ', RolesMenu);
-            // Roles permitidos (los puse a mano))
-            const rolesDeAdmin = ['Root', 'Administrador', 'Cliente'];
-                
-            // Verificamos coincidencia
-            const esAdmin = misRoles.some(rol => rolesDeAdmin.includes(rol));
-                
-            const adminBtn = document.getElementById('admin-menu-toggle');
-                
-
-        });
-    </script>
--->

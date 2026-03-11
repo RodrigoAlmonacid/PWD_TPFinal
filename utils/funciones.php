@@ -90,8 +90,8 @@ function preparaPdf($compra, $usuario, $fecha){
                 <td><img src='$base64Logo' class='logo'></td>
                 <td class='info-empresa'>
                     <strong>Ponete las Pilas S.A.</strong><br>
-                    Calle Falsa 123, Neuquén<br>
-                    contacto@ponetelas.com
+                    Fava 703, Neuquén<br>
+                    admin.ponetelaspilas@pwdfinal.com
                 </td>
             </tr>
         </table>
