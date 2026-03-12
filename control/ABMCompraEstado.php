@@ -114,9 +114,10 @@ public function buscar($param){
         if  (isset($param['idcompraestadotipo']))
             {$where.=" and idcompraestadotipo = ".$param['idcompraestadotipo'];}
         if (isset($param['cefechafin']) && $param['cefechafin'] == 'null') {
-            $where .= " AND cefechafin IS NULL";
+            $where .= " and cefechafin IS NULL";
         }
     }
+
     $objCompraEstado = new CompraEstado();
     $arreglo = $objCompraEstado->listar($where); 
     

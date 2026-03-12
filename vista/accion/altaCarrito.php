@@ -24,13 +24,13 @@ $objAbmCompraEstado = new AbmCompraEstado();
 //busco compra iniciada para añador a su carrito
 $objCompra = $objAbmCompra->obtenerCarritoActivo($idUsuario);
 if ($objCompra == null) {
-    
     // Si no tiene, creamos la compra
     $objAbmCompra->alta($idUsuario);
     // Obtenemos el objeto que acabamos de crear (podes buscar la última del usuario)
     $compras = $objAbmCompra->buscar(['idusuario' => $idUsuario]);
-    $objCompra = end($compras);
-
+    if(count($compras)>0){
+        $objCompra = $compras[0];
+    }
     // Y le creamos su estado inicial: 'iniciada' (ID 1)
     $objAbmCompraEstado->alta([
         'idcompra' => $objCompra->getIdcompra(),
